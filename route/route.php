@@ -15,6 +15,10 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
+Route::get('[:p]', 'index/index/index')->pattern(['p'=>'\d+'])->completeMatch();
+
+Route::get('user', 'index/user');
+
 return [
 
 ];

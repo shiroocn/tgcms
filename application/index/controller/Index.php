@@ -1,15 +1,75 @@
 <?php
 namespace app\index\controller;
 
-class Index
+use think\Db;
+use think\facade\Log;
+
+class Index extends Base
 {
     public function index()
     {
-        return '<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:) </h1><p> ThinkPHP V5.1<br/><span style="font-size:30px">12载初心不改（2006-2018） - 你值得信赖的PHP框架</span></p></div><script type="text/javascript" src="https://tajs.qq.com/stats?sId=64890268" charset="UTF-8"></script><script type="text/javascript" src="https://e.topthink.com/Public/static/client.js"></script><think id="eab4b9f840753f8e7"></think>';
-    }
+        //获取访问的落地页ID
+        $pageID=$this->request->param('p')?:0;
+        //获取当前的域名
+        $domain=$this->request->domain();
+        //去掉http://字符。
+        $domain=str_replace('http://','',$domain);
+        $domain=str_replace('https://','',$domain);
 
-    public function hello($name = 'ThinkPHP5')
-    {
-        return 'hello,' . $name;
+        //这里知道是访问哪个域名。然后这里应该是读取这个域名的落地页列表
+        //查询条件为域名与落地页ID
+        $where=array('page_id'=>$pageID,'domain_url'=>$domain);
+        try{
+            $page=Db::name('page')
+                ->join('domain','page_domain_id=domain_id')
+                ->join('model','page_model_id=model_id')
+                ->join('article','page_article_id=article_id')
+                ->join('user','page_user_id=user_id')
+                ->where($where)
+                ->find();
+            /*$pages=Db::name('page')
+                ->join('domain','domain_id=page_domain_id')
+                ->join('model','model_id=page_model_id')
+                ->select();*/
+        }catch (\Exception $exception){
+            Log::record('执行查询落地页数据库失败。'.$exception,'error');
+        }
+        if(empty($page)){
+            return '当前访问的页面不存在！';
+        }else{
+            //设置模板目录路径
+            $templatePath='/static/template/'.$page['model_name'];
+
+            dump($page);
+
+            //读取用户表里的自定义标签代码进行替换
+            $tagCode=json_decode($page['user_tag_code'],true);//true的话返回数组array格式。
+            dump($tagCode);
+
+            foreach ($tagCode as $key=>$value){
+                //循环替换自定义标签。自动替换标签代码里的{$template_path}
+                $value=str_replace('{$template_path}',$templatePath,$value);
+                $this->assign($key,$value);
+            }
+
+            //这里替换模板里的{$template_path}路径。模板存放于public/static/template目录下，模板目录名称要与数据库里model_name一样。
+            $this->assign('template_path',$templatePath);
+            //PC模板路径
+            $model_path_pc='./static/template/'.$page['model_name'].'/'.$page['model_pc_filename'];
+            //手机端模板路径
+            $model_path_mobile='./static/template/'.$page['model_name'].'/'.$page['model_mobile_filename'];
+
+            if($this->request->isMobile()){
+                if(file_exists($model_path_mobile)){
+                    //存在手机端文件。
+                    $model_path=$model_path_mobile;
+                }else{
+                    $model_path=$model_path_pc;
+                }
+            }else{
+                $model_path=$model_path_pc;
+            }
+            return $this->fetch($model_path);
+        }
     }
 }

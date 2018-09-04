@@ -13,11 +13,9 @@ Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });
 
-Route::get('hello/:name', 'index/hello');
+//Route::get('hello/:name', 'index/hello');
 
-Route::get('[:p]', 'index/index/index')->pattern(['p'=>'\d+'])->completeMatch();
-
-Route::get('user', 'index/user');
+//Route::get('user', 'index/user/index');
 
 return [
 

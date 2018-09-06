@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+<form>
+    <div class="form-group">
+        <label for="alias">落地页别名</label>
+        <input type="text" class="form-control" id="alias" name="alias">
+    </div>
+    <div class="form-group">
+        <label for="domainid">所属域名</label>
+        <select class="form-control" id="domainid" name="domainid">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="modelid">使用模板</label>
+        <select multiple class="form-control" id="modelid" name="modelid">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="userid">关联用户</label>
+        <select class="form-control" id="userid" name="userid">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

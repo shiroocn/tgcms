@@ -17,6 +17,41 @@ class Page extends Base
 
     }
     public function add(){
+        if(IS_POST){
+            $alias=$this->request->param('alias');
+            $modelID=$this->request->param('modelid');
+            $domainID=$this->request->param('domainid');
+            $userID=$this->request->param('userid');
+
+            $data=[
+                'page_alias'=>$alias,
+                'page_model_id'=>$modelID,
+                'page_domain_id'=>$domainID,
+                'page_user_id'=>$userID
+            ];
+            $row=Db::name('page')->insert($data);
+            if($row){
+                //成功
+                return '添加成功';
+            }else{
+                //失败
+                return '添加失败';
+            }
+        }else{
+            try{
+                $dataDomain=Db::name('domain')->select();
+                $dataModel=Db::name('model')->select();
+                $dataUser=Db::name('user')->select();
+            }catch (\Exception $e){
+                return '读取数据出现异常，请重新刷新页面。';
+            }
+            $this->assign('dataDomain',$dataDomain);
+            $this->assign('dataModel',$dataModel);
+            $this->assign('dataUser',$dataUser);
+            return $this->fetch();
+        }
+    }
+    public function batchAdd(){
 
     }
     public function del(){
@@ -35,7 +70,8 @@ class Page extends Base
         }catch (\Exception $e){
 
         }
-
+        //dump($pageDB);
+        $this->assign('pageData',$pageDB);
         return $this->fetch();
     }
 }

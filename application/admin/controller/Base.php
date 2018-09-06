@@ -15,6 +15,8 @@ class Base extends Controller
     public function __construct(App $app = null)
     {
         parent::__construct($app);
+        define('IS_POST',$this->request->isPost()?:false);
+
     }
 
 }

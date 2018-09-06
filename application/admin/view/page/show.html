@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/css" /}
 </head>
 <body>
-
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">编号</th>
+        <th scope="col">URL</th>
+        <th scope="col">模板(PC)</th>
+        <th scope="col">模板(移动端)</th>
+        <th scope="col">用户</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach pageData as $key=>$vo}
+    <tr>
+        <th scope="row">{$vo.page_id}</th>
+        <td>{$vo.domain_url}/{$vo.page_alias}</td>
+        <td>{$vo.model_name}/{$vo.model_pc_filename}</td>
+        <td>{$vo.model_name}/{$vo.model_mobile_filename}</td>
+        <td>{$vo.user_name}</td>
+        <td></td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
 </body>
 </html>

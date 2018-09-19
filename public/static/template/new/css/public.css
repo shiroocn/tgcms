@@ -1,0 +1,107 @@
+.s-content {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto; }
+  .s-content img {
+    width: 100%; }
+
+.s-footer {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem 0; }
+
+.wx-box {
+  width: auto;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  background: #64ab23;
+  color: #fcff19;
+  margin: 0 auto; }
+  .wx-box .a {
+    font-size: 1.2rem; }
+  .wx-box .b {
+    margin-top: 10px; }
+  .wx-box .c {
+    margin-top: 10px; }
+
+.touch_icon {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  cursor: pointer;
+  z-index: 999; }
+
+.fu_box {
+  width: 204px;
+  height: 328px;
+  position: fixed;
+  top: 150px;
+  right: 20px;
+  background: url(../img/fu_box.png) no-repeat center top;
+  background-size: 100%;
+  z-index: 8; }
+  .fu_box p {
+    margin: 0;
+    padding: 0;
+    text-align: center; }
+  .fu_box .p0 {
+    font-size: 16px;
+    color: white; }
+  .fu_box .p1 {
+    font-size: 18px;
+    padding-top: 40px;
+    color: white; }
+  .fu_box .fu_box_img {
+    width: 143px;
+    height: 143px;
+    display: block;
+    margin: 6px auto 0; }
+  .fu_box img {
+    vertical-align: middle;
+    border: 0; }
+  .fu_box .p2 {
+    font-size: 18px;
+    padding-top: 15px;
+    color: white; }
+  .fu_box .p3 {
+    font-size: 18px;
+    padding-top: 3px;
+    color: white; }
+
+.copy_wx_box {
+  width: 100%;
+  height: 50px;
+  background: #64ab23;
+  color: #fcff19;
+  font-size: 20px;
+  line-height: 50px;
+  font-weight: bold;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  z-index: 999; }
+  .copy_wx_box .copy_wx_btn {
+    font-size: 16px;
+    display: none; }
+
+.copy_wx_box_pc {
+  width: 100%;
+  height: 50px;
+  background: #f85b55;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 50px;
+  font-weight: bold;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  z-index: 999; }
+
+.copy_wx_btn {
+  font-size: 16px;
+  display: none; }
+
+/*# sourceMappingURL=public.css.map */

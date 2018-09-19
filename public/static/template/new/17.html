@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>投资圈</title>
+    {include file="new/public/css" /}
+    <style>
+        .btn-box{
+            position: relative;
+        }
+        .btn-box-a{
+            position: absolute;
+            display: block;
+            /*animation: tada 1s both infinite;
+            -webkit-animation: tada 1s both infinite;*/
+            top:55%;
+            left:23%;
+            right: 25%;
+        }
+        @-webkit-keyframes tada
+        {
+            0%
+            {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            10%, 20%
+            {
+                -webkit-transform: scale(0.9) rotate(-3deg);
+                transform: scale(0.9) rotate(-3deg);
+            }
+
+            30%, 50%, 70%, 90%
+            {
+                -webkit-transform: scale(1.1) rotate(3deg);
+                transform: scale(1.1) rotate(3deg);
+            }
+
+            40%, 60%, 80%
+            {
+                -webkit-transform: scale(1.1) rotate(-3deg);
+                transform: scale(1.1) rotate(-3deg);
+            }
+
+            100%
+            {
+                -webkit-transform: scale(1) rotate(0);
+                transform: scale(1) rotate(0);
+            }
+        }
+        @keyframes tada
+        {
+            0%
+            {
+                -webkit-transform: scale(1);
+                -ms-transform: scale(1);
+                transform: scale(1);
+            }
+
+            10%, 20%
+            {
+                -webkit-transform: scale(0.9) rotate(-3deg);
+                -ms-transform: scale(0.9) rotate(-3deg);
+                transform: scale(0.9) rotate(-3deg);
+            }
+
+            30%, 50%, 70%, 90%
+            {
+                -webkit-transform: scale(1.1) rotate(3deg);
+                -ms-transform: scale(1.1) rotate(3deg);
+                transform: scale(1.1) rotate(3deg);
+            }
+
+            40%, 60%, 80%
+            {
+                -webkit-transform: scale(1.1) rotate(-3deg);
+                -ms-transform: scale(1.1) rotate(-3deg);
+                transform: scale(1.1) rotate(-3deg);
+            }
+
+            100%
+            {
+                -webkit-transform: scale(1) rotate(0);
+                -ms-transform: scale(1) rotate(0);
+                transform: scale(1) rotate(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="s-content">
+    <img src="{$template_path}/img/17/1_01.png">
+    <div class="btn-box">
+        <img src="{$template_path}/img/17/1_08.png">
+        <a class="btn-box-a" href="javascript:void(0); " data-toggle="modal" data-target="#wx-box">
+            <img src="{$template_path}/img/17/wxhb_but.png" id="btn01">
+        </a>
+    </div>
+    <img src="{$template_path}/img/17/1_02.png">
+    <img src="{$template_path}/img/17/1_03.png">
+    <img src="{$template_path}/img/17/1_04.png">
+    <img src="{$template_path}/img/17/1_05.png">
+</div>
+
+{include file="new/public/footer" /}
+{include file="new/public/box" /}
+
+{include file="new/public/js" /}
+<!--监测代码监测代码start-->
+{:html_entity_decode($domain_count_code)}
+<!--监测代码监测代码end-->
+
+</body>
+</html>

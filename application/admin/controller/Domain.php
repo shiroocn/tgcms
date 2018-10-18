@@ -19,7 +19,7 @@ class Domain extends Base
             $postDate=$this->request->param();
 
             //进行数据的检验
-            $result=$this->validate($postDate,'app\admin\validate\Domain');
+            $result=$this->validate($postDate,'app\admin\validate\Domain.add');
             if($result!==true){
                 //如果检检验不过关，提示错误。
                 $this->error($result);
@@ -44,10 +44,28 @@ class Domain extends Base
         }
     }
     public function show(){
-
-
+        try{
+            $result=Db::name('domain')->select();
+        }catch (\Exception $e){
+            $this->error('读取数据异常。');
+            return false;
+        }
+        $this->assign('domain',$result);
+        return $this->fetch();
     }
     public function edit(){
+        $postData=$this->request->param();
+
+        //进行数据校验
+        $result=$this->validate($postData,'app\admin\validate\Domain.edit');
+        if($result!==true){
+            $this->error($result);
+            return false;
+        }
+        //查找相应的数据
+        $postID=$postData['id'];
+
+
 
     }
     public function delete(){

@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/css" /}
 </head>
 <body>
-
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">域名</th>
+        <th scope="col">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="domain" id="v"}
+    <tr>
+        <th scope="row">{$v['domain_id']}</th>
+        <td>{$v['domain_url']}</td>
+        <td>
+            <a href="#">编辑</a>&nbsp;&nbsp;
+            <a href="#">删除</a>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
 </body>
 </html>

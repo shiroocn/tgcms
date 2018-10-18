@@ -23,6 +23,7 @@ class Index extends Base
                 'size'=>1048576,
                 'ext'=>'jpg,png,gif'
             ])->rule('md5')->move('../uploads');
+            //这里采用MD5来给文件重命名，前两个字符是文件夹名称。
             if($info){
                 echo $info->getSaveName();
             }else{
@@ -32,6 +33,14 @@ class Index extends Base
         }else{
             return $this->fetch();
         }
+    }
+    public function login(){
+
+        return $this->fetch();
+
+    }
+    public function loginOut(){
+        return "退出成功";
     }
 
 }

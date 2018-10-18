@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+<form method="post" action="{:url('admin/domain/add')}">
+    <div class="form-group">
+        <label for="domain">域名(不带http与/)</label>
+        <input type="text" class="form-control" id="domain" name="domain" placeholder="如：www.xxx.com">
+    </div>
+    <div class="form-group">
+        <label for="copyright">版权所有</label>
+        <textarea class="form-control" id="copyright" name="copyright" rows="3"></textarea>
+    </div>
+    <div class="form-group
+">
+        <label for="countcode">统计代码</label>
+        <textarea class="form-control" id="countcode" name="countcode" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

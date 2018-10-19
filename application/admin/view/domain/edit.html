@@ -9,18 +9,18 @@
 <form method="post" action="{:url('admin/domain/add')}">
     <div class="form-group">
         <label for="domain">域名(不带http与/)</label>
-        <input type="text" class="form-control" id="domain" name="domain" placeholder="如：www.xxx.com">
+        <input type="text" class="form-control" id="domain" name="domain" placeholder="如：www.xxx.com" value="{$result['domain_url']}" disabled="disabled">
     </div>
     <div class="form-group">
         <label for="copyright">版权所有</label>
-        <textarea class="form-control" id="copyright" name="copyright" rows="3"></textarea>
+        <textarea class="form-control" id="copyright" name="copyright" rows="3">{$result['domain_copyright']}</textarea>
     </div>
     <div class="form-group
 ">
         <label for="countcode">统计代码</label>
-        <textarea class="form-control" id="countcode" name="countcode" rows="3"></textarea>
+        <textarea class="form-control" id="countcode" name="countcode" rows="3">{$result['domain_count_code']}</textarea>
     </div>
-    <button type="submit" class="btn btn-primary">确认添加</button>
+    <button type="submit" class="btn btn-primary">确认修改</button>
     <button type="button" class="btn btn-default" onclick="history.go(-1);">返回</button>
 </form>
 </body>

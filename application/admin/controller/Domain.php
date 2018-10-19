@@ -47,7 +47,7 @@ class Domain extends Base
         try{
             $result=Db::name('domain')->select();
         }catch (\Exception $e){
-            $this->error('读取数据异常。');
+            $this->error('读取数据异常,请重试。');
             return false;
         }
         $this->assign('domain',$result);
@@ -64,11 +64,36 @@ class Domain extends Base
         }
         //查找相应的数据
         $postID=$postData['id'];
-
-
-
+        //查询该ID的数据
+        try{
+            $result=Db::name('domain')->where('domain_id',$postID)->find();
+        }catch (\Exception $e){
+            $this->error('读取数据异常，请重试。');
+        }
+        $this->assign('result',$result);
+        return $this->fetch();
     }
     public function delete(){
+        $postData=$this->request->param();
+        //进行数据校验
+        $result=$this->validate($postData,'app\admin\validate\Domain.delete');
+        if($result!==true){
+            $this->error($result);
+            return false;
+        }
+        $postID=$postData['id'];
+        try{
+            $result=Db::name('domain')->where('domain_id',$postID)->delete();
+        }catch (\Exception $e){
+            $this->error('删除数据异常，请重试。');
+        }
 
+        if($result){
+            $this->success('删除成功。');
+            return true;
+        }else{
+            $this->error('删除失败。');
+            return false;
+        }
     }
 }

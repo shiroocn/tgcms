@@ -21,34 +21,32 @@
         <td>{$v['domain_url']}</td>
         <td>
             <a href="{:url('admin/domain/edit',['id'=>$v['domain_id']])}">编辑</a>&nbsp;&nbsp;
-            <a role="button" href="javascript:void (0);" data-toggle="modal" data-target="#exampleModal">删除</a>
+            <a role="button" href="javascript:void (0);" data-toggle="modal" data-target="#exampleModal-{$v['domain_id']}">删除</a>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal-{$v['domain_id']}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">确认删除</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            是否确认删除[<strong>{$v['domain_url']}</strong>]域名？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <a role="button" class="btn btn-primary" href="{:url('admin/domain/delete',['id'=>$v['domain_id']])}">确认删除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </td>
     </tr>
     {/volist}
     </tbody>
 </table>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">确认删除</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                是否确认删除[<strong>{$v['domain_url']}</strong>]域名？
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                <a role="button" class="btn btn-primary" href="{:url('admin/domain/delete',['id'=>$v['domain_id']])}">确认删除</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 {include file="public/js" /}
 </body>
 </html>

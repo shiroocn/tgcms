@@ -20,7 +20,7 @@ class Page extends Base
         if(IS_POST){
             $postData=$this->request->param();
 
-            $result=$this->validate($postData,'app\admin\validate\Page');
+            $result=$this->validate($postData,'app\admin\validate\Page.add');
             if($result!==true){
                 //如果检检验不过关，提示错误。
                 $this->error($result);
@@ -81,11 +81,27 @@ class Page extends Base
     public function batchAdd(){
 
     }
-    public function del(){
+    public function delete(){
+        $postData=$this->request->param();
+        //检验数据合法性
+        $result=$this->validate($postData,'app\admin\validate\Page.delete');
+        if($result!==true){
+            //如果检检验不过关，提示错误。
+            $this->error($result);
+            return false;
+        }
+        $this->success('删除成功。');
 
     }
     public function edit(){
-
+        $postData=$this->request->param();
+        //检验数据合法性
+        $result=$this->validate($postData,'app\admin\validate\Page.edit');
+        if($result!==true){
+            //如果检检验不过关，提示错误。
+            $this->error($result);
+            return false;
+        }
     }
     public function show(){
         try{

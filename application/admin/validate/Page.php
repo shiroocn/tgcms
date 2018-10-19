@@ -17,7 +17,8 @@ class Page extends Validate
         'alias'=>'require',
         'domain_id'=>'require|number',
         'model_id'=>'number',
-        'user_id'=>'number'
+        'user_id'=>'number',
+        'page_id'=>'require|number'
     ];
     protected $message=[
         'alias.require'=>'落地页别名不能为空。',
@@ -29,6 +30,8 @@ class Page extends Validate
         'user_id.number'=>'用户ID必须为数字。'
     ];
     protected $scene=[
-
+        'add'=>['alias','domain_id','model_id','user_id'],
+        'edit'=>['page_id'],
+        'delete'=>['page_id']
     ];
 }

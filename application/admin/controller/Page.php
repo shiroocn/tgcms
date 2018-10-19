@@ -29,25 +29,27 @@ class Page extends Base
                 'page_domain_id'=>$domainID,
                 'page_user_id'=>$userID
             ];
-            $row=Db::name('page')->insert($data);
-            if($row){
+            $result=Db::name('page')->insert($data);
+            if($result){
                 //成功
-                return '添加成功';
+                $this->success('添加成功。');
+                return true;
             }else{
                 //失败
-                return '添加失败';
+                $this->error('添加失败。');
+                return false;
             }
         }else{
             try{
-                $dataDomain=Db::name('domain')->select();
-                $dataModel=Db::name('model')->select();
-                $dataUser=Db::name('user')->select();
+                $domain=Db::name('domain')->field('domain_id,domain_url')->select();
+                $model=Db::name('model')->field('model_id,model_name,model_pc_filename')->select();
+                $user=Db::name('user')->field('user_id,user_name,user_weixin')->select();
             }catch (\Exception $e){
                 return '读取数据出现异常，请重新刷新页面。';
             }
-            $this->assign('dataDomain',$dataDomain);
-            $this->assign('dataModel',$dataModel);
-            $this->assign('dataUser',$dataUser);
+            $this->assign('domain',$domain);
+            $this->assign('model',$model);
+            $this->assign('user',$user);
             return $this->fetch();
         }
     }

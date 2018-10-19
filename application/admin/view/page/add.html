@@ -14,34 +14,28 @@
     <div class="form-group">
         <label for="domainid">所属域名</label>
         <select class="form-control" id="domainid" name="domainid">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            {volist name="domain" id="v"}
+            <option value="{$v['domain_id']}">{$v['domain_url']}</option>
+            {/volist}
         </select>
     </div>
     <div class="form-group">
         <label for="modelid">使用模板</label>
-        <select multiple class="form-control" id="modelid" name="modelid">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <select class="form-control" id="modelid" name="modelid">
+            {volist name="model" id="v"}
+            <option value="{$v['model_id']}">{$v['model_name']}/{$v['model_pc_filename']}</option>
+            {/volist}
         </select>
     </div>
     <div class="form-group">
         <label for="userid">关联用户</label>
         <select class="form-control" id="userid" name="userid">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            {volist name="user" id="v"}
+            <option value="{$v['user_id']}">{$v['user_name']}【{$v['user_weixin']}】</option>
+            {/volist}
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">确认添加</button>
 </form>
 </body>
 </html>

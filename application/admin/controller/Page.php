@@ -18,10 +18,19 @@ class Page extends Base
     }
     public function add(){
         if(IS_POST){
-            $alias=$this->request->param('alias');
-            $modelID=$this->request->param('modelid');
-            $domainID=$this->request->param('domainid');
-            $userID=$this->request->param('userid');
+            $postData=$this->request->param();
+
+            $result=$this->validate($postData,'app\admin\validate\Page');
+            if($result!==true){
+                //如果检检验不过关，提示错误。
+                $this->error($result);
+                return false;
+            }
+
+            $alias=$postData['alias'];
+            $modelID=$postData['model_id'];
+            $domainID=$postData['domain_id'];
+            $userID=$postData['user_id'];
 
             $data=[
                 'page_alias'=>$alias,
@@ -29,7 +38,23 @@ class Page extends Base
                 'page_domain_id'=>$domainID,
                 'page_user_id'=>$userID
             ];
-            $result=Db::name('page')->insert($data);
+            //这里先查询要新增的落地页是否已经存在。
+            try{
+                $result=Db::name('page')->where(['page_alias'=>$alias,'page_domain_id'=>$domainID])->find();
+            }catch (\Exception $e){
+                $this->error('新增落地页异常，请重试。0');
+                return false;
+            }
+            if(!is_null($result)){
+                $this->error('新增的落地页已经存在。');
+                return false;
+            }
+            try{
+                $result=Db::name('page')->insert($data);
+            }catch (\Exception $e){
+                $this->error('新增落地页异常，请重试。1');
+                return false;
+            }
             if($result){
                 //成功
                 $this->success('添加成功。');

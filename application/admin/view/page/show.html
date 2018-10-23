@@ -26,7 +26,7 @@
         <td>{$vo.model_name}/{$vo.model_mobile_filename}</td>
         <td>{$vo.user_name}</td>
         <td>
-            <a href="{:url('admin/page/edit',['id'=>$vo['page_id']])}">编辑</a>&nbsp;&nbsp;
+            <a href="{:url('admin/page/edit',['page_id'=>$vo['page_id']])}">编辑</a>&nbsp;&nbsp;
             <a role="button" href="javascript:void(0);" data-toggle="modal" data-target="#exampleModal-{$vo.page_id}">删除</a>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal-{$vo.page_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

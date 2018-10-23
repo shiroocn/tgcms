@@ -90,17 +90,58 @@ class Page extends Base
             $this->error($result);
             return false;
         }
-        $this->success('删除成功。');
-
+        $pageID=$postData['page_id'];
+        try{
+            $result=Db::name('page')->where('page_id',$pageID)->delete();
+        }catch (\Exception $e){
+            $this->error('删除异常，请重试。');
+            return false;
+        }
+        if($result){
+            $this->success('删除成功。');
+            return true;
+        }else{
+            $this->success('删除失败。');
+            return false;
+        }
     }
     public function edit(){
-        $postData=$this->request->param();
-        //检验数据合法性
-        $result=$this->validate($postData,'app\admin\validate\Page.edit');
-        if($result!==true){
-            //如果检检验不过关，提示错误。
-            $this->error($result);
-            return false;
+        if(IS_POST){
+            $this->success('修改成功。');
+
+            return true;
+        }else{
+            $postData=$this->request->param();
+            //检验数据合法性
+            $result=$this->validate($postData,'app\admin\validate\Page.edit');
+            if($result!==true){
+                //如果检检验不过关，提示错误。
+                $this->error($result);
+                return false;
+            }
+            $pageID=$postData['page_id'];
+            try{
+                $result=Db::name('page')->where('page_id',$pageID)->find();
+            }catch (\Exception $e){
+                $this->error('读取数据异常，请重试。');
+                return false;
+            }
+
+            //查询其它选项列表
+            try{
+                $domain=Db::name('domain')->field('domain_id,domain_url')->select();
+                $model=Db::name('model')->field('model_id,model_name,model_pc_filename')->select();
+                $user=Db::name('user')->field('user_id,user_name,user_weixin')->select();
+            }catch (\Exception $e){
+                return '读取数据出现异常，请重新刷新页面。';
+            }
+            $this->assign('domain',$domain);
+            $this->assign('model',$model);
+            $this->assign('user',$user);
+
+
+            $this->assign('result',$result);
+            return $this->fetch();
         }
     }
     public function show(){

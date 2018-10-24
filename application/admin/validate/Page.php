@@ -32,6 +32,7 @@ class Page extends Validate
     protected $scene=[
         'add'=>['alias','domain_id','model_id','user_id'],
         'edit'=>['page_id'],
+        'edit_post'=>['page_id','alias','domain_id','model_id','user_id'],
         'delete'=>['page_id']
     ];
 }

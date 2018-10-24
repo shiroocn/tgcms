@@ -107,9 +107,37 @@ class Page extends Base
     }
     public function edit(){
         if(IS_POST){
-            $this->success('修改成功。');
-
-            return true;
+            $postData=$this->request->param();
+            $result=$this->validate($postData,'app\admin\validate\Page.edit_post');
+            if($result!==true){
+                //如果检检验不过关，提示错误。
+                $this->error($result);
+                return false;
+            }
+            $pageID=$postData['page_id'];
+            $alias=$postData['alias'];
+            $modelID=$postData['model_id'];
+            $domainID=$postData['domain_id'];
+            $userID=$postData['user_id'];
+            try{
+                $result=Db::name('page')->where('page_id',$pageID)
+                    ->update([
+                        'page_alias'=>$alias,
+                        'page_model_id'=>$modelID,
+                        'page_domain_id'=>$domainID,
+                        'page_user_id'=>$userID
+                    ]);
+            }catch (\Exception $e){
+                $this->error('修改数据出现异常，请重试。');
+                return false;
+            }
+            if($result){
+                $this->success('修改成功。','admin/page/show');
+                return true;
+            }else{
+                $this->error('修改失败。');
+                return false;
+            }
         }else{
             $postData=$this->request->param();
             //检验数据合法性

@@ -7,6 +7,7 @@
 </head>
 <body>
 <form method="post" action="{:url('admin/page/edit')}">
+    <input type="hidden" id="page_id" name="page_id" value="{$result['page_id']}">
     <div class="form-group">
         <label for="alias">落地页别名</label>
         <input type="text" class="form-control" id="alias" name="alias" value="{$result['page_alias']}">

@@ -27,9 +27,9 @@ class Domain extends Base
             }
             //添加进数据库。
             $data=[
-                'domain_url'=>$postDate['domain'],
-                'domain_copyright'=>htmlentities($postDate['copyright']),
-                'domain_count_code'=>htmlentities($postDate['countcode'])
+                'domain_url'=>$postDate['domain_url'],
+                'domain_copyright'=>htmlentities($postDate['domain_copyright']),
+                'domain_count_code'=>htmlentities($postDate['domain_count_code'])
             ];
             $result=Db::name('domain')->insert($data);
             if($result){
@@ -54,24 +54,56 @@ class Domain extends Base
         return $this->fetch();
     }
     public function edit(){
-        $postData=$this->request->param();
+        if(IS_POST){
+            $postData=$this->request->param();
+            //进行数据校验
+            $result=$this->validate($postData,'app\admin\validate\Domain.edit.post');
+            if($result!==true){
+                $this->error($result);
+                return false;
+            }
+            $domainID=$postData['domain_id'];
+            //$domainURL=$postData['domain_url'];
+            $domainCopyright=htmlentities($postData['domain_copyright']);
+            $domainCountCode=htmlentities($postData['domain_count_code']);
+            try{
+                $result=Db::name('domain')->where('domain_id',$domainID)
+                    ->update([
+                        'domain_copyright'=>$domainCopyright,
+                        'domain_count_code'=>$domainCountCode
+                    ]);
+            }catch (\Exception $e){
+                $this->error('修改数据异常，请重试。');
+                return false;
+            }
+            if($result){
+                $this->success('修改成功。','admin/domain/show');
+                return true;
+            }else{
+                $this->error('修改失败。');
+                return false;
+            }
 
-        //进行数据校验
-        $result=$this->validate($postData,'app\admin\validate\Domain.edit');
-        if($result!==true){
-            $this->error($result);
-            return false;
+        }else{
+            $postData=$this->request->param();
+
+            //进行数据校验
+            $result=$this->validate($postData,'app\admin\validate\Domain.edit');
+            if($result!==true){
+                $this->error($result);
+                return false;
+            }
+            //查找相应的数据
+            $postID=$postData['domain_id'];
+            //查询该ID的数据
+            try{
+                $result=Db::name('domain')->where('domain_id',$postID)->find();
+            }catch (\Exception $e){
+                $this->error('读取数据异常，请重试。');
+            }
+            $this->assign('result',$result);
+            return $this->fetch();
         }
-        //查找相应的数据
-        $postID=$postData['id'];
-        //查询该ID的数据
-        try{
-            $result=Db::name('domain')->where('domain_id',$postID)->find();
-        }catch (\Exception $e){
-            $this->error('读取数据异常，请重试。');
-        }
-        $this->assign('result',$result);
-        return $this->fetch();
     }
     public function delete(){
         $postData=$this->request->param();
@@ -81,7 +113,7 @@ class Domain extends Base
             $this->error($result);
             return false;
         }
-        $postID=$postData['id'];
+        $postID=$postData['domain_id'];
         try{
             $result=Db::name('domain')->where('domain_id',$postID)->delete();
         }catch (\Exception $e){

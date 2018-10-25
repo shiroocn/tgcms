@@ -23,13 +23,20 @@ class File extends Base
             ])->rule('md5')->move('../uploads');
             //这里采用MD5来给文件重命名，前两个字符是文件夹名称。
             if($info){
+                //上传成功
                 echo $info->getSaveName();
+                return true;
             }else{
+                //上传失败
                 echo $file->getError();
+                return false;
             }
-            return'';
         }else{
             return $this->fetch();
         }
+    }
+    public function show(){
+
+
     }
 }

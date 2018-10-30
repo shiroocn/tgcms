@@ -32,4 +32,11 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
+    //模板渲染前替换
+    'tpl_replace_string'=>[
+        '__PUBLIC__'=>'/public',
+        '__UPLOADS__'=>'/static/uploads',
+        '__TEMPLATE__'=>'',
+        '__PLUGINS__'=>'/static/plugins'
+    ]
 ];

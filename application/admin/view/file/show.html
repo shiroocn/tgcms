@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+{volist name="files" id="v"}
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="__UPLOADS__/{$v['file_path']}" alt="">
+    <div class="card-body">
+        <p class="card-text">文件格式：{$v['file_type']}文件大小：{:round($v['file_size']/1024,2)}kb</p>
+    </div>
+</div>
+{/volist}
+</body>
+</html>

@@ -51,7 +51,12 @@ class File extends Base
         }
     }
     public function show(){
-
-
+        try{
+            $files=Db::name('file')->select();
+        }catch (\Exception $e){
+            $this->error('读取文件列表异常，请重试。');
+        }
+        $this->assign('files',$files);
+        return $this->fetch();
     }
 }

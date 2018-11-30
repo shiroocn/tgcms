@@ -18,5 +18,14 @@ class User extends Base
             return $this->fetch();
         }
     }
+    public function show(){
+
+    }
+    public function addDefine(){
+
+    }
+    public function showDefine(){
+
+    }
 
 }

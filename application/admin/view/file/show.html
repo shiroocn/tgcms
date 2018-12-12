@@ -8,10 +8,10 @@
 <body>
 <div class="clearfix">
 {volist name="files" id="v"}
-    <div class="card float-left" style="width: 16rem;height: 16rem;">
-        <img class="card-img-top" src="__UPLOADS__/{$v['file_path']}" alt="">
+    <div class="card float-left" style="width: 200px;">
+        <img class="card-img-top" height="200" src="__UPLOADS__/{$v['file_path']}" alt="">
         <div class="card-body">
-            <p class="card-text">文件格式：{$v['file_type']}文件大小：{:round($v['file_size']/1024,2)}kb</p>
+            <p class="card-text">文件格式：{$v['file_type']}<br>文件大小：{:round($v['file_size']/1024,2)}kb</p>
         </div>
     </div>
 {/volist}

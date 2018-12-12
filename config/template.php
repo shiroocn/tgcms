@@ -36,7 +36,7 @@ return [
     'tpl_replace_string'=>[
         '__PUBLIC__'=>'/public',
         '__UPLOADS__'=>'/static/uploads',
-        '__TEMPLATE__'=>'',
+        '__TEMPLATE__'=>'/static/template',
         '__PLUGINS__'=>'/static/plugins'
     ]
 ];

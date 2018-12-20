@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+<form method="post" action="{:url('admin/user/adddefine')}">
+    <div class="form-group">
+        <label for="define_name">字段名</label>
+        <input type="text" class="form-control" id="define_name" name="define_name" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <label for="define_note">描述</label>
+        <input type="text" class="form-control" id="define_note" name="define_note" autocomplete="off">
+    </div>
+    <button type="submit" class="btn btn-primary">确认添加</button>
+    <button type="button" class="btn btn-default" onclick="history.go(-1);">返回</button>
+</form>
+</body>
+</html>

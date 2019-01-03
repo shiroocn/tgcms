@@ -3,20 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
-<form method="post" action="{:url('admin/user/adddefine')}">
-    <div class="form-group">
-        <label for="define_name">字段名</label>
-        <input type="text" class="form-control" id="define_name" name="define_name" autocomplete="off">
+<form class="layui-form layui-form-pane" method="post" action="{:url('admin/user/adddefine')}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">字段名</label>
+        <div class="layui-input-block">
+            <input type="text" name="define_name" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
     </div>
-    <div class="form-group">
-        <label for="define_note">描述</label>
-        <input type="text" class="form-control" id="define_note" name="define_note" autocomplete="off">
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述文本</label>
+        <div class="layui-input-block">
+            <input type="text" name="define_note" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">确认添加</button>
-    <button type="button" class="btn btn-default" onclick="history.go(-1);">返回</button>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="form">确认新增</button>
+            <button type="reset" class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
 </form>
+{include file="public/js" /}
+<script>
+    layui.use('form',function () {
+        var form=layui.form;
+
+        form.on('submit(form)',function (data) {
+            return false;
+        });
+    });
+</script>
 </body>
 </html>

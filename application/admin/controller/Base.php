@@ -16,6 +16,11 @@ class Base extends Controller
     {
         parent::__construct($app);
         define('IS_POST',$this->request->isPost()?:false);
+        echo 'bbbbbbbbbbbb';
+
+    }
+    public function initialize(){
+        echo 'aaaaaaaaaaaaaa';
 
     }
 

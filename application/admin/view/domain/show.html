@@ -6,8 +6,16 @@
     {include file="public/css" /}
 </head>
 <body>
+<div class="layui-card">
+    <div class="layui-card-header">域名管理</div>
+    <div class="layui-card-body">
+        <div>
+            <a href="{:url('admin/domain/add')}" class="layui-btn layui-btn-normal">新增域名</a>
+        </div>
+        <table id="domain_list" lay-filter="domain"></table>
+    </div>
+</div>
 
-<table id="domain_list" lay-filter="domain"></table>
 
 {include file="public/js" /}
 <script>
@@ -32,7 +40,7 @@
                {field:'domain_id',title:'ID',width:'10%'},
                {field:'domain_url',title:'域名',width:'30%'},
                {field:'domain_copyright',title:'版权信息',width:'40%'},
-               {title:'操作',width:'20%',toolbar:'<div><a class="layui-btn layui-btn-normal layui-btn-xs" href="">编辑</a> <a class="layui-btn layui-btn-danger layui-btn-xs" href="{{d.domain_id}}">删除</a> </div>'}
+               {title:'操作',toolbar:'<div><a class="layui-btn layui-btn-normal layui-btn-sm" href="">编辑</a> <a class="layui-btn layui-btn-danger layui-btn-sm" href="{{d.domain_id}}">删除</a></div>',width:'20%'}
            ]]
        });
     });

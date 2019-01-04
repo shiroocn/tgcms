@@ -12,8 +12,8 @@
 //Route::get('hello/:name', 'index/hello');
 
 //Route::get('user', 'index/user/index');
-Route::get('admin','admin/index/index');
+//Route::get('admin','admin/index/index');
 
-Route::get('[:p]$','index/index/index');
+Route::get('[:p]$','index/index/index')->pattern(['p'=>'[^(admin)]']);
 
 

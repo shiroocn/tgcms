@@ -44,14 +44,20 @@ class Domain extends Base
         }
     }
     public function show(){
-        try{
-            $result=Db::name('domain')->select();
-        }catch (\Exception $e){
-            $this->error('读取数据异常,请重试。');
-            return false;
+        if(IS_POST){
+            try{
+                $result=Db::name('domain')->select();
+            }catch (\Exception $e){
+                json();
+                $this->error('读取数据异常,请重试。');
+                return false;
+            }
+            //$this->assign('domain',$result);
+            $arr=['code'=>0,'msg'=>'','count'=>count($result)];
+            return json(array_merge($arr,array('data'=>$result)),0);
+        }else{
+            return $this->fetch();
         }
-        $this->assign('domain',$result);
-        return $this->fetch();
     }
     public function edit(){
         if(IS_POST){

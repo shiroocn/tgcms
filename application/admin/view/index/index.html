@@ -46,7 +46,7 @@
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;">系统</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">域名管理</a></dd>
+                        <dd><a href="{:url('admin/domain/show')}">域名管理</a></dd>
                         <dd><a href="javascript:;">页面管理</a></dd>
                         <dd><a href="javascript:;">模板管理</a></dd>
                         <dd><a href="">推广管理</a></dd>
@@ -66,9 +66,14 @@
         </div>
     </div>
 
-    <div class="layui-body">
+    <div class="layui-body" style="background-color: #f2f2f2;">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">内容主体区域</div>
+        <div class="layui-card">
+            <div class="layui-card-body">
+                    <a lay-href="">主页</a><span lay-separator="">/</span>
+                    <a><cite>主页一</cite></a>
+            </div>
+        </div>
     </div>
 
     <div class="layui-footer">

@@ -6,8 +6,10 @@ use think\facade\Log;
 
 class Index extends Base
 {
+
     public function index()
     {
+
         //获取访问的落地页别名
         $pageAlias=$this->request->param('p')?:'index';
         //获取当前的域名

@@ -9,13 +9,44 @@
 <div class="layui-card">
     <div class="layui-card-header">站点管理</div>
     <div class="layui-card-body">
-        <div>
-            <a href="{:url('admin/domain/add')}" class="layui-btn layui-btn-normal">新增站点</a>
-            <a href="#" class="layui-btn layui-btn-normal">刷新</a>
+        <div class="domain_list_btn">
+            <a class="layui-btn layui-btn-normal" data-type="add">新增站点</a>
+            <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
         </div>
         <table id="domain_list" lay-filter="domain_list"></table>
 
     </div>
+</div>
+
+<!--新增与编辑站点HTML-->
+<div id="app" style="padding: 20px;display: none;">
+    <form id="add-form" class="layui-form layui-form-pane" method="post" v-bind:action="postURL">
+        <input type="hidden" id="domain_id" name="domain_id" v-bind:value="domainID">
+        <div class="layui-form-item">
+            <label class="layui-form-label">域名</label>
+            <div class="layui-input-block">
+                <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input" v-bind:value="domainURL">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">版权信息</label>
+            <div class="layui-input-block">
+                <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3">{{domainCopyright}}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">统计代码</label>
+            <div class="layui-input-block">
+                <textarea name="domain_count_code" class="layui-textarea" rows="3">{{domainCountCode}}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
+                <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+            </div>
+        </div>
+    </form>
 </div>
 
 {include file="public/js" /}
@@ -24,13 +55,21 @@
     layui.use(['layer','table'],function () {
        var layer=layui.layer,
            table=layui.table;
+       var openIndex;
 
-       window.del=function (id,url) {
-           layer.confirm('确认要删除'+url+'吗？',{icon:3,title:'提示'},function (index) {
-               console.log('确认删除'+id);
-               layer.close(index);
-           });
-       };
+        var app=new Vue({
+            el:"#app",
+            data:{
+                postURL:"",
+                domainID:0,
+                domainURL:"",
+                domainCopyright:"",
+                domainCountCode:"",
+                submitButtonString:""
+            }
+        });
+
+
 
        table.render({
            elem:'#domain_list',
@@ -55,16 +94,33 @@
             var data=obj.data;
             switch (obj.event){
                 case 'edit':
-                    table.reload('domain_list');
+                    console.log(data);
+                    app.postURL="{:url('admin/domain/edit')}";
+                    app.domainID=data.domain_id;
+                    app.domainURL=data.domain_url;
+                    app.domainCopyright=htmlDecode(data.domain_copyright);
+                    app.domainCountCode=htmlDecode(data.domain_count_code);
+                    app.submitButtonString="确认修改";
+                    openIndex=layer.open({
+                        type:1,
+                        title:"编辑站点",
+                        area:"460px",
+                        content:$("#app")
+                    });
                     break;
                 case 'del':
-                    $.post("{:url('admin/domain/del')}",{
-                        domain_id:data.domain_id
-                    },function (data,status) {
-                        //obj.del();
-                        //console.log(data.domain_id);
-                        console.log(data);
-                        console.log(status);
+                    layer.confirm('是否确定删除'+data.domain_url+'站点？',{icon:3,title:'提示'},function (index) {
+                        $.post("{:url('admin/domain/del')}",{
+                            domain_id:data.domain_id
+                        },function (data,status) {
+                            console.log(data);
+                            console.log(status);
+                            layer.msg(data.msg);
+                            if(data.code===0){
+                                obj.del();
+                            }
+                            layer.close(index);
+                        },'JSON');
                     });
                     break;
                 case 'page':
@@ -72,6 +128,45 @@
             }
        });
 
+        jQuery("#add-form").submit(function () {
+            var loadIndex=layer.load();
+            $(this).ajaxSubmit({
+                success:function (data,status) {
+                    layer.close(loadIndex);
+                    layer.msg(data.msg);
+                    if(data.code===0){
+                        layer.close(openIndex);
+                    }
+                }
+            });
+            return false;
+        });
+
+       var $=layui.$,active={
+           reload:function () {
+               table.reload('domain_list');
+           },
+           add:function () {
+               app.postURL="{:url('admin/domain/add')}";
+               app.domainURL="";
+               app.domainCopyright="";
+               app.domainCountCode="";
+               app.submitButtonString="确认新增";
+               openIndex=layer.open({
+                   type:1,
+                   title:"新增站点",
+                   area:"460px",
+                   content:$("#app")
+               });
+           },
+           close:function () {
+               layer.close(openIndex); //执行关闭
+           }
+       };
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
     });
 
 </script>

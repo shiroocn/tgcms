@@ -22,8 +22,7 @@ class Domain extends Base
             $result=$this->validate($postDate,'app\admin\validate\Domain.add');
             if($result!==true){
                 //如果检检验不过关，提示错误。
-                $this->error($result);
-                return false;
+                return json_shiroo('validate');
             }
             //添加进数据库。
             $data=[
@@ -33,11 +32,10 @@ class Domain extends Base
             ];
             $result=Db::name('domain')->insert($data);
             if($result){
-                $this->success('添加成功。');
+                return json_shiroo('add.success');
             }else{
-                $this->error('添加失败。');
+                return json_shiroo('add.error');
             }
-            return false;
         }else{
             //没有提交数据，直接显示添加页面
             return $this->fetch();
@@ -45,12 +43,19 @@ class Domain extends Base
     }
     public function show(){
         if(IS_POST){
+            $postData=$this->request->param();
+            $page=$postData['page']-1;
+            $limit=$postData['limit'];
             try{
-                $result=Db::name('domain')->select();
+                $result=Db::name('domain')
+                    ->limit($page*$limit,$limit)
+                    ->order('domain_id','asc')
+                    ->select();
+                $count=Db::name('domain')->count('domain_id');
             }catch (\Exception $e){
                 return json_shiroo(10,'没有获取到数据，可能是出错了。',0,[]);
             }
-            return json_shiroo(0,'',count($result),$result);
+            return json_shiroo(0,'page:'.$page.',limit:'.$limit,$count,$result);
         }else{
             return $this->fetch();
         }
@@ -61,8 +66,7 @@ class Domain extends Base
             //进行数据校验
             $result=$this->validate($postData,'app\admin\validate\Domain.edit.post');
             if($result!==true){
-                $this->error($result);
-                return false;
+                return json_shiroo('validate');
             }
             $domainID=$postData['domain_id'];
             //$domainURL=$postData['domain_url'];
@@ -75,17 +79,13 @@ class Domain extends Base
                         'domain_count_code'=>$domainCountCode
                     ]);
             }catch (\Exception $e){
-                $this->error('修改数据异常，请重试。');
-                return false;
+                return json_shiroo('database');
             }
             if($result){
-                $this->success('修改成功。','admin/domain/show');
-                return true;
+                return json_shiroo('edit.success');
             }else{
-                $this->error('修改失败。');
-                return false;
+                return json_shiroo('edit.error');
             }
-
         }else{
             $postData=$this->request->param();
 
@@ -101,34 +101,30 @@ class Domain extends Base
             try{
                 $result=Db::name('domain')->where('domain_id',$postID)->find();
             }catch (\Exception $e){
-                $this->error('读取数据异常，请重试。');
+                $this->error(err('database.msg'));
             }
             $this->assign('result',$result);
             return $this->fetch();
         }
     }
     public function del(){
-
-        return json_shiroo(err('validate.msg'));
+        return json_shiroo('del.success');
         $postData=$this->request->param();
         //进行数据校验
         $result=$this->validate($postData,'app\admin\validate\Domain.delete');
         if($result!==true){
-            return json_shiroo('err.validate');
+            return json_shiroo('validate');
         }
         $postID=$postData['domain_id'];
         try{
             $result=Db::name('domain')->where('domain_id',$postID)->delete();
         }catch (\Exception $e){
-            $this->error('删除数据异常，请重试。');
+            return json_shiroo('database');
         }
-
         if($result){
-            $this->success('删除成功。');
-            return true;
+            return json_shiroo('del.success',$result);
         }else{
-            $this->error('删除失败。');
-            return false;
+            return json_shiroo('del.error');
         }
     }
 }

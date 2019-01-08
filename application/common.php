@@ -9,48 +9,79 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // 应用公共文件
-function json_shiroo($code,$msg='',$count=0,$data=array()){
-    if($code!=0){
-        $arr=[
-            'code'=>config($code.'.code'),
-            'msg'=>config($code.'.msg'),
-            'count'=>0];
-    }else{
-        $arr=['code'=>$code,'msg'=>$msg,'count'=>$count];
+function json_shiroo($code, $msg = '', $count = 0, $data = array())
+{
+    if (!is_string($code)) {
+        $arr = ['code' => $code, 'msg' => $msg, 'count' => $count];
+    } else {
+        $arr =array_merge(err($code),['count' => $count > 0 ? $count : 0],array('data' => $data));
+        if(!empty($msg)){
+            $arr['msg']=$msg;
+        }
     }
-    return json(array_merge($arr,array('data'=>$data)));
+    return json(array_merge($arr, array('data' => $data)));
 }
-function err($name){
-    $n=explode('.',$name);
-    $err=[
+
+function err($name)
+{
+
+    //定义常用返回的数据内容。
+    $err = [
         'edit' => [
-            'code' => 10,
-            'msg' => ''
+            'success' => ['code' => 0, 'msg' => '编辑成功。'],
+            'error' => ['code' => 10, 'msg' => '编辑失败。']
         ],
         'del' => [
-
+            'success' => ['code' => 0, 'msg' => '删除成功。'],
+            'error' => ['code' => 11, 'msg' => '删除失败。']
         ],
         'add' => [
-
+            'success' => ['code' => 0, 'msg' => '新增成功。'],
+            'error' => ['code' => 12, 'msg' => '新增失败。']
         ],
         'validate' => [
             'code' => 14,
-            'msg' => '非法数据，请重试。'
+            'msg' => '提交参数非法。'
+        ],
+        'database' => [
+            'code' => 15, 'msg' => '数据库操作失败。。'
         ]
     ];
 
-    return $err[$n[0]][$n[1]];
 
-    if (is_string($name)) {
-        if ('.' == substr($name, -1)) {
-            return Config::pull(substr($name, 0, -1));
-        }
-
-        return 0 === strpos($name, '?') ? Config::has(substr($name, 1)) : Config::get($name);
-    } else {
-        return Config::set($name, $value);
+    //这里判断结尾有没有小数点，有的话就去掉。
+    if ('.' == substr($name, -1)) {
+        $name = substr($name, 0, -1);
     }
+    //这里进行分割传递进来的参数，参数格式：del.success
+    $expStr = explode('.', $name);
 
-
+    $result=0;//新建一个临时存放数据。
+    if(is_array($expStr)){
+        $n=count($expStr);//获取分割后的数组成员数。
+        for ($i = 0; $i < $n; $i++) {
+            if(is_array($result)){
+                //如果$result临时存放数据是数组数据，
+                if(isset($result[$expStr[$i]])){
+                    $result=$result[$expStr[$i]];
+                }else{
+                    $result=0;
+                    break;
+                }
+            }else{
+                //不是的话，表示第一次赋值，直接取$err一级数组。
+                if(isset($err[$expStr[$i]])){
+                    $result=$err[$expStr[$i]];
+                }else{
+                    $result=0;
+                    break;
+                }
+            }
+        }
+    }
+    if($result==0){
+        $result=['code'=>-1,'msg'=>$name.'不存在。'];
+    }
+    return $result;
 }
 

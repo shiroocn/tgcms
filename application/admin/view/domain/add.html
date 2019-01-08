@@ -6,38 +6,58 @@
     {include file="public/css" /}
 </head>
 <body>
-<div class="layui-card">
+<!--<div class="layui-card">
     <div class="layui-card-header">新增站点</div>
     <div class="layui-card-body">
-        <form class="layui-form layui-form-pane" method="post" action="{:url('admin/domain/add')}">
-            <div class="layui-form-item">
-                <label class="layui-form-label">域名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">版权信息</label>
-                <div class="layui-input-block">
-                    <textarea name="domain_copyright" required lay-verify="required" class="layui-textarea" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">统计代码</label>
-                <div class="layui-input-block">
-                    <textarea name="domain_count_code" required lay-verify="required" class="layui-textarea" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button type="submit" class="layui-btn layui-btn-normal">确认新增</button>
-                    <a type="button" href="{:url('admin/domain/show')}" class="layui-btn layui-btn-primary">返回</a>
-                </div>
-            </div>
 
-        </form>
     </div>
+</div>-->
+<div style="padding: 20px;">
+    <form id="add-form" class="layui-form layui-form-pane" method="post" action="{:url('admin/domain/add')}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">域名</label>
+            <div class="layui-input-block">
+                <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">版权信息</label>
+            <div class="layui-input-block">
+                <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">统计代码</label>
+            <div class="layui-input-block">
+                <textarea name="domain_count_code" class="layui-textarea" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn layui-btn-normal">确认新增</button>
+                <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+            </div>
+        </div>
+    </form>
 </div>
+{include file="public/js" /}
+<script>
+    layui.use(['layer','form'],function () {
+        var layer=layui.layer,form=layui.form;
+        var index=parent.layer.getFrameIndex(window.name);
 
+
+
+        var $=layui.$,active={
+            close:function () {
+                parent.layer.close(index); //执行关闭
+            }
+        };
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
 </body>
 </html>

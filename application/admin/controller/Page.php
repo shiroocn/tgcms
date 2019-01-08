@@ -173,17 +173,26 @@ class Page extends Base
         }
     }
     public function show(){
-        try{
-            $pageDB=Db::name('page')
-                ->join('domain','page_domain_id=domain_id')
-                ->join('model','page_model_id=model_id')
-                ->join('user','page_user_id=user_id')
-                ->select();
-        }catch (\Exception $e){
+        $postData=$this->request->param();
+        //检验数据有效性
+        $domain_id=$postData['domain_id'];
 
+        if(IS_POST){
+            try{
+                $result=Db::name('page')
+                    ->join('domain','page_domain_id=domain_id')
+                    ->join('model','page_model_id=model_id')
+                    ->join('user','page_user_id=user_id')
+                    ->where('page_domain_id',$domain_id)
+                    ->select();
+            }catch (\Exception $e){
+                return json_shiroo(10,'没有获取到数据，可能是出错了。',0,[]);
+            }
+            return json_shiroo(0,'',count($result),$result);
+        }else{
+            //这里传这个参数是提供给layui异步获取数据的。
+            $this->assign('domain_id',$domain_id);
+            return $this->fetch();
         }
-        //dump($pageDB);
-        $this->assign('pageData',$pageDB);
-        return $this->fetch();
     }
 }

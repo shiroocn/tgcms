@@ -16,5 +16,4 @@ class Base extends Controller
         define('IS_POST',$this->request->isPost()?:false);
 
     }
-
 }

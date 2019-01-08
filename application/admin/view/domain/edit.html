@@ -6,23 +6,39 @@
     {include file="public/css" /}
 </head>
 <body>
-<form method="post" action="{:url('admin/domain/edit')}">
-    <input type="hidden" id="domain_id" name="domain_id" value="{$result['domain_id']}">
-    <div class="form-group">
-        <label for="domain_url">域名(不带http与/)</label>
-        <input type="text" class="form-control" id="domain_url" name="domain_url" placeholder="如：www.xxx.com" value="{$result['domain_url']}" disabled="disabled">
+<div class="layui-card">
+    <div class="layui-card-header">编辑站点</div>
+    <div class="layui-card-body">
+        <form class="layui-form layui-form-pane" method="post" action="{:url('admin/domain/edit')}">
+            <input type="hidden" id="domain_id" name="domain_id" value="{$result['domain_id']}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">域名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="domain_url" required lay-verify="required"
+                           placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input"
+                           value="{$result['domain_url']}" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">版权信息</label>
+                <div class="layui-input-block">
+                    <textarea name="domain_copyright" required lay-verify="required" class="layui-textarea" rows="3">{:html_entity_decode($result['domain_copyright'])}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">统计代码</label>
+                <div class="layui-input-block">
+                    <textarea name="domain_count_code" required lay-verify="required" class="layui-textarea" rows="3">{:html_entity_decode($result['domain_count_code'])}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal">确认修改</button>
+                    <a type="button" href="{:url('admin/domain/show')}" class="layui-btn layui-btn-primary">返回</a>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="domain_copyright">版权所有</label>
-        <textarea class="form-control" id="domain_copyright" name="domain_copyright" rows="3">{:html_entity_decode($result['domain_copyright'])}</textarea>
-    </div>
-    <div class="form-group
-">
-        <label for="domain_count_code">统计代码</label>
-        <textarea class="form-control" id="domain_count_code" name="domain_count_code" rows="3">{:html_entity_decode($result['domain_count_code'])}</textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">确认修改</button>
-    <a role="button" class="btn btn-secondary" href="{:url('admin/domain/show')}">返回</a>
-</form>
+</div>
 </body>
 </html>

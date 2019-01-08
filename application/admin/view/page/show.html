@@ -6,53 +6,59 @@
     {include file="public/css" /}
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">编号</th>
-        <th scope="col">URL</th>
-        <th scope="col">模板(PC)</th>
-        <th scope="col">模板(移动端)</th>
-        <th scope="col">用户</th>
-        <th scope="col">操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    {foreach pageData as $key=>$vo}
-    <tr>
-        <th scope="row">{$vo.page_id}</th>
-        <td>{$vo.domain_url}/{$vo.page_alias}</td>
-        <td>{$vo.model_name}/{$vo.model_pc_filename}</td>
-        <td>{$vo.model_name}/{$vo.model_mobile_filename}</td>
-        <td>{$vo.user_name}</td>
-        <td>
-            <a href="{:url('admin/page/edit',['page_id'=>$vo['page_id']])}">编辑</a>&nbsp;&nbsp;
-            <a role="button" href="javascript:void(0);" data-toggle="modal" data-target="#exampleModal-{$vo.page_id}">删除</a>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal-{$vo.page_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">确认删除</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            是否确认删除[<strong>{$vo.domain_url}/{$vo.page_alias}</strong>]落地页？
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                            <a role="button" class="btn btn-primary" href="{:url('admin/page/delete',['page_id'=>$vo.page_id])}">确认删除</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </td>
-    </tr>
-    {/foreach}
-    </tbody>
-</table>
+<div class="layui-card">
+    <div class="layui-card-header">
+          <a href="{:url('admin/domain/show')}">站点管理</a> /
+          <a><cite>页面管理</cite></a>
+    </div>
+    <div class="layui-card-body">
+        <div>
+            <a href="{:url('admin/page/add')}" class="layui-btn layui-btn-normal">新增页面</a>
+            <a href="#" class="layui-btn layui-btn-normal">刷新</a>
+        </div>
+        <table id="pages" lay-filter="pages"></table>
+
+    </div>
+</div>
 {include file="public/js" /}
+<script>
+    layui.use(['layer', 'table'], function () {
+        var layer = layui.layer;
+        var table = layui.table;
+
+        window.del = function (id, url) {
+            layer.confirm('确认要删除' + url + '吗？', {icon: 3, title: '提示'}, function (index) {
+                console.log('确认删除' + id);
+                layer.close(index);
+            });
+        };
+
+        table.render({
+            elem: '#pages',
+            url: '{:url("admin/page/show")}',//数据接口
+            method: 'post',
+            where: {domain_id: {$domain_id}},
+            loading: true,
+            page: true,//开启分页
+            cols: [[
+                {field: 'page_id', title: 'ID',width:80},
+                {field: 'page_alias', title: '别名',width:100},
+                {field: 'domain_url', title: '域名',width:250},
+                {field: 'model_name', title: '模板目录',width:100},
+                {field: 'model_pc_filename', title: '模板文件',width:150},
+                {field: 'user_name', title: '推广信息',width:110},
+                {
+                    title: '操作',
+                    toolbar: '<div>' +
+                    '<a class="layui-btn layui-btn-normal layui-btn-sm" href="{:url(\'admin/page/edit\')}/domain_id/{{d.page_id}}">编辑</a>' +
+                    '<a class="layui-btn layui-btn-danger layui-btn-sm" href="{:url(\'admin/page/del\')}/domain_id/{{d.page_id}}">删除</a>' +
+                    '<a class="layui-btn layui-btn-normal layui-btn-sm" href="{:url(\'admin/page/show\')}/domain_id/{{d.domain_id}}">访问页面</a>' +
+                    '</div>'
+                }
+            ]]
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -48,13 +48,9 @@ class Domain extends Base
             try{
                 $result=Db::name('domain')->select();
             }catch (\Exception $e){
-                json();
-                $this->error('读取数据异常,请重试。');
-                return false;
+                return json_shiroo(10,'没有获取到数据，可能是出错了。',0,[]);
             }
-            //$this->assign('domain',$result);
-            $arr=['code'=>0,'msg'=>'','count'=>count($result)];
-            return json(array_merge($arr,array('data'=>$result)),0);
+            return json_shiroo(0,'',count($result),$result);
         }else{
             return $this->fetch();
         }
@@ -111,13 +107,14 @@ class Domain extends Base
             return $this->fetch();
         }
     }
-    public function delete(){
+    public function del(){
+
+        return json_shiroo(err('validate.msg'));
         $postData=$this->request->param();
         //进行数据校验
         $result=$this->validate($postData,'app\admin\validate\Domain.delete');
         if($result!==true){
-            $this->error($result);
-            return false;
+            return json_shiroo('err.validate');
         }
         $postID=$postData['domain_id'];
         try{

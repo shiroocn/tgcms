@@ -7,21 +7,23 @@
 </head>
 <body>
 <div class="layui-card">
-    <div class="layui-card-header">域名管理</div>
+    <div class="layui-card-header">站点管理</div>
     <div class="layui-card-body">
         <div>
-            <a href="{:url('admin/domain/add')}" class="layui-btn layui-btn-normal">新增域名</a>
+            <a href="{:url('admin/domain/add')}" class="layui-btn layui-btn-normal">新增站点</a>
+            <a href="#" class="layui-btn layui-btn-normal">刷新</a>
         </div>
-        <table id="domain_list" lay-filter="domain"></table>
+        <table id="domain_list" lay-filter="domain_list"></table>
+
     </div>
 </div>
 
-
 {include file="public/js" /}
+
 <script>
     layui.use(['layer','table'],function () {
-       var layer=layui.layer;
-       var table=layui.table;
+       var layer=layui.layer,
+           table=layui.table;
 
        window.del=function (id,url) {
            layer.confirm('确认要删除'+url+'吗？',{icon:3,title:'提示'},function (index) {
@@ -37,12 +39,39 @@
            loading:true,
            page:true,//开启分页
            cols:[[
-               {field:'domain_id',title:'ID',width:'10%'},
-               {field:'domain_url',title:'域名',width:'30%'},
-               {field:'domain_copyright',title:'版权信息',width:'40%'},
-               {title:'操作',toolbar:'<div><a class="layui-btn layui-btn-normal layui-btn-sm" href="">编辑</a> <a class="layui-btn layui-btn-danger layui-btn-sm" href="{{d.domain_id}}">删除</a></div>',width:'20%'}
+               {field:'domain_id',title:'ID',width:80},
+               {field:'domain_url',title:'域名',width:250},
+               {field:'domain_copyright',title:'版权信息',width:430},
+               {title:'操作',
+                   toolbar: '<div>' +
+                   '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                   '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                   '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="page">页面管理</a>' +
+                   '</div>'}
            ]]
        });
+
+       table.on('tool(domain_list)',function (obj) {
+            var data=obj.data;
+            switch (obj.event){
+                case 'edit':
+                    table.reload('domain_list');
+                    break;
+                case 'del':
+                    $.post("{:url('admin/domain/del')}",{
+                        domain_id:data.domain_id
+                    },function (data,status) {
+                        //obj.del();
+                        //console.log(data.domain_id);
+                        console.log(data);
+                        console.log(status);
+                    });
+                    break;
+                case 'page':
+                    break;
+            }
+       });
+
     });
 
 </script>

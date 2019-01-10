@@ -182,15 +182,23 @@ class Page extends Base
                 $result=Db::name('page')
                     ->join('domain','page_domain_id=domain_id')
                     ->join('model','page_model_id=model_id')
-                    ->join('user','page_user_id=user_id')
+                    ->join('model_dir','model_dir_id=m_model_dir_id')
+                    ->join('brand','page_brand_id=brand_id')
                     ->where('page_domain_id',$domain_id)
                     ->select();
             }catch (\Exception $e){
-                return json_shiroo(10,'没有获取到数据，可能是出错了。',0,[]);
+                return json_shiroo('database');
             }
             return json_shiroo(0,'',count($result),$result);
         }else{
-            //这里传这个参数是提供给layui异步获取数据的。
+            try{
+                $rand=Db::name('brand')->select();
+                $domain=Db::name('domain')->select();
+            }catch (\Exception $e){
+                $this->error(err('database')['msg']);
+            }
+            $this->assign('brand',$rand);
+            $this->assign('domain',$domain);
             $this->assign('domain_id',$domain_id);
             return $this->fetch();
         }

@@ -4,60 +4,232 @@
     <meta charset="UTF-8">
     <title>Title</title>
     {include file="public/css" /}
+    <style>
+        .layui-layer-page .layui-layer-content {
+            position: relative;
+            overflow: visible !important;
+        }
+    </style>
 </head>
 <body>
-<div class="layui-card">
-    <div class="layui-card-header">
-          <a href="{:url('admin/domain/show')}">站点管理</a> /
-          <a><cite>页面管理</cite></a>
-    </div>
-    <div class="layui-card-body">
-        <div>
-            <a href="{:url('admin/page/add')}" class="layui-btn layui-btn-normal">新增页面</a>
-            <a href="#" class="layui-btn layui-btn-normal">刷新</a>
+<div id="app">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <a href="{:url('admin/domain/show')}">站点管理</a> /
+            <a><cite>页面管理</cite></a>
         </div>
-        <table id="pages" lay-filter="pages"></table>
+        <div class="layui-card-body">
+            <div>
+                <a class="layui-btn layui-btn-normal" data-type="add">新增页面</a>
+                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+            </div>
+            <table id="pages" lay-filter="pages"></table>
 
+        </div>
+    </div>
+
+    <!--新增与编辑页面HTML-->
+    <div id="edit-box" style="padding:20px;display: none;">
+        <form class="layui-form layui-form-pane" method="post" action="">
+            <input type="hidden" name="page_id" value="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">新增方式</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="add_type" value="nan" title="单个新增" checked>
+                    <input type="radio" name="add_type" value="nv" title="批量新增">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">落地页名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="page_name" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">前缀名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="page_name_prefix" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">页面起始</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="page_name_suffix_min" placeholder="填写整数" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="page_name_suffix_max" placeholder="填写整数" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属站点</label>
+                <div class="layui-input-block">
+                    <select name="domain_id" lay-search="">
+                        <option value=""></option>
+                        {volist name="domain" id="v"}
+                        <option value="{$v['domain_id']}">{$v['domain_url']}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">使用模板</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline" style="width: 135px;">
+                        <select name="model_dir_id" lay-search="">
+                            <option value="">模板目录</option>
+                            <option value="1">layer</option>
+                            <option value="2">form</option>
+                            <option value="3">layim</option>
+                            <option value="4">element</option>
+                            <option value="5">laytpl</option>
+                            <option value="6">upload</option>
+                            <option value="7">laydate</option>
+                            <option value="8">laypage</option>
+                            <option value="9">flow</option>
+                            <option value="10">util</option>
+                            <option value="11">code</option>
+                            <option value="12">tree</option>
+                            <option value="13">layedit</option>
+                            <option value="14">nav</option>
+                            <option value="15">tab</option>
+                            <option value="16">table</option>
+                            <option value="17">select</option>
+                            <option value="18">checkbox</option>
+                            <option value="19">switch</option>
+                            <option value="20">radio</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline" style="width: 135px;">
+                        <select name="model_id" lay-search="">
+                            <option value="">模板文件</option>
+                            <option value="1">layer</option>
+                            <option value="2">form</option>
+                            <option value="3">layim</option>
+                            <option value="4">element</option>
+                            <option value="5">laytpl</option>
+                            <option value="6">upload</option>
+                            <option value="7">laydate</option>
+                            <option value="8">laypage</option>
+                            <option value="9">flow</option>
+                            <option value="10">util</option>
+                            <option value="11">code</option>
+                            <option value="12">tree</option>
+                            <option value="13">layedit</option>
+                            <option value="14">nav</option>
+                            <option value="15">tab</option>
+                            <option value="16">table</option>
+                            <option value="17">select</option>
+                            <option value="18">checkbox</option>
+                            <option value="19">switch</option>
+                            <option value="20">radio</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">推广信息</label>
+                <div class="layui-input-block">
+                    <select name="brand_id" lay-search="">
+                        <option value=""></option>
+                        {volist name="brand" id="v"}
+                        <option value="{$v['brand_id']}">{$v['brand_name']}【{$v['brand_weixin']}】</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal">确认新增</button>
+                    <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {include file="public/js" /}
 <script>
-    layui.use(['layer', 'table'], function () {
-        var layer = layui.layer;
-        var table = layui.table;
+    var app=new Vue({
+        el:"#app",
+        data:{
+            type:0
 
-        window.del = function (id, url) {
-            layer.confirm('确认要删除' + url + '吗？', {icon: 3, title: '提示'}, function (index) {
-                console.log('确认删除' + id);
-                layer.close(index);
+        },
+        created:function () {
+            layui.use(['layer','table','form'], function () {
+                var layer = layui.layer,
+                    table = layui.table,
+                    form=layer.form;
+                var openIndex;
+
+                table.render({
+                    elem: '#pages',
+                    url: '{:url("admin/page/show")}',//数据接口
+                    method: 'post',
+                    where: {domain_id: {$domain_id}},
+                    loading: true,
+                    page: true,//开启分页
+                    cols: [[
+                        {field: 'page_id', title: 'ID',width:80},
+                        {field: 'page_name', title: '落地页名',width:100},
+                        {field: 'domain_url', title: '域名',width:200},
+                        {field: 'model_dir_name', title: '模板目录',width:100},
+                        {field: 'model_name', title: '模板文件',width:120},
+                        {field: 'brand_name', title: '推广信息',width:200,templet:'<div>{{d.brand_name}}【{{d.brand_weixin}}】</div>'},
+                        {
+                            title: '操作',
+                            toolbar: '<div>' +
+                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="nav">访问页面</a>' +
+                            '</div>'
+                        }
+                    ]]
+                });
+                table.on("tool(pages)",function (obj) {
+                    var data=obj.data;
+                    switch (obj.event){
+                        case "edit":
+                            openIndex=layer.open({
+                                type:1,
+                                title:"编辑页面",
+                                area:"460px",
+                                content:$("#edit-box")
+                            });
+                            break;
+                        case "del":
+                            break;
+                        case "nav":
+                            break;
+                    }
+                });
+
+                var $=layui.$,active={
+                    reload:function () {
+                        table.reload('pages');
+                    },
+                    add:function () {
+                        openIndex=layer.open({
+                            type:1,
+                            title:"新增页面",
+                            area:"460px",
+                            content:$("#edit-box")
+                        });
+                    },
+                    close:function () {
+                        layer.close(openIndex); //执行关闭
+                    }
+                };
+                $('.layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
             });
-        };
-
-        table.render({
-            elem: '#pages',
-            url: '{:url("admin/page/show")}',//数据接口
-            method: 'post',
-            where: {domain_id: {$domain_id}},
-            loading: true,
-            page: true,//开启分页
-            cols: [[
-                {field: 'page_id', title: 'ID',width:80},
-                {field: 'page_alias', title: '别名',width:100},
-                {field: 'domain_url', title: '域名',width:250},
-                {field: 'model_name', title: '模板目录',width:100},
-                {field: 'model_pc_filename', title: '模板文件',width:150},
-                {field: 'user_name', title: '推广信息',width:110},
-                {
-                    title: '操作',
-                    toolbar: '<div>' +
-                    '<a class="layui-btn layui-btn-normal layui-btn-sm" href="{:url(\'admin/page/edit\')}/domain_id/{{d.page_id}}">编辑</a>' +
-                    '<a class="layui-btn layui-btn-danger layui-btn-sm" href="{:url(\'admin/page/del\')}/domain_id/{{d.page_id}}">删除</a>' +
-                    '<a class="layui-btn layui-btn-normal layui-btn-sm" href="{:url(\'admin/page/show\')}/domain_id/{{d.domain_id}}">访问页面</a>' +
-                    '</div>'
-                }
-            ]]
-        });
+        }
     });
+
 
 </script>
 </body>

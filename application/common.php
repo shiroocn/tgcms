@@ -44,7 +44,7 @@ function err($name)
             'msg' => '提交参数非法。'
         ],
         'database' => [
-            'code' => 15, 'msg' => '数据库操作失败。。'
+            'code' => 15, 'msg' => '数据库操作失败。'
         ]
     ];
 

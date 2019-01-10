@@ -21,23 +21,23 @@
 <!--新增与编辑站点HTML-->
 <div id="app" style="padding: 20px;display: none;">
     <form id="add-form" class="layui-form layui-form-pane" method="post" v-bind:action="postURL">
-        <input type="hidden" id="domain_id" name="domain_id" v-bind:value="domainID">
+        <input type="hidden" id="domain_id" name="domain_id" v-model="domainID">
         <div class="layui-form-item">
             <label class="layui-form-label">域名</label>
             <div class="layui-input-block">
-                <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input" v-bind:value="domainURL">
+                <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input" v-model="domainURL" :disabled="disabled">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">版权信息</label>
             <div class="layui-input-block">
-                <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3">{{domainCopyright}}</textarea>
+                <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3" v-model="domainCopyright"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">统计代码</label>
             <div class="layui-input-block">
-                <textarea name="domain_count_code" class="layui-textarea" rows="3">{{domainCountCode}}</textarea>
+                <textarea name="domain_count_code" class="layui-textarea" rows="3" v-model="domainCountCode"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -60,6 +60,7 @@
         var app=new Vue({
             el:"#app",
             data:{
+                disabled:false,
                 postURL:"",
                 domainID:0,
                 domainURL:"",
@@ -68,8 +69,6 @@
                 submitButtonString:""
             }
         });
-
-
 
        table.render({
            elem:'#domain_list',
@@ -94,7 +93,7 @@
             var data=obj.data;
             switch (obj.event){
                 case 'edit':
-                    console.log(data);
+                    app.disabled=true;
                     app.postURL="{:url('admin/domain/edit')}";
                     app.domainID=data.domain_id;
                     app.domainURL=data.domain_url;
@@ -124,6 +123,11 @@
                     });
                     break;
                 case 'page':
+                    layer.msg("页面管理。");
+                    var url="{:url('admin/page/show',['domain_id'=>-19880722])}";
+                    url=url.replace("-19880722",data.domain_id);
+                    console.log(url);
+                    location.href=url;
                     break;
             }
        });
@@ -136,6 +140,7 @@
                     layer.msg(data.msg);
                     if(data.code===0){
                         layer.close(openIndex);
+                        active.reload();
                     }
                 }
             });
@@ -147,6 +152,7 @@
                table.reload('domain_list');
            },
            add:function () {
+               app.disabled=false;
                app.postURL="{:url('admin/domain/add')}";
                app.domainURL="";
                app.domainCopyright="";

@@ -61,54 +61,32 @@ class Domain extends Base
         }
     }
     public function edit(){
-        if(IS_POST){
-            $postData=$this->request->param();
-            //进行数据校验
-            $result=$this->validate($postData,'app\admin\validate\Domain.edit.post');
-            if($result!==true){
-                return json_shiroo('validate');
-            }
-            $domainID=$postData['domain_id'];
-            //$domainURL=$postData['domain_url'];
-            $domainCopyright=htmlentities($postData['domain_copyright']);
-            $domainCountCode=htmlentities($postData['domain_count_code']);
-            try{
-                $result=Db::name('domain')->where('domain_id',$domainID)
-                    ->update([
-                        'domain_copyright'=>$domainCopyright,
-                        'domain_count_code'=>$domainCountCode
-                    ]);
-            }catch (\Exception $e){
-                return json_shiroo('database');
-            }
-            if($result){
-                return json_shiroo('edit.success');
-            }else{
-                return json_shiroo('edit.error');
-            }
+        $postData=$this->request->param();
+        //进行数据校验
+        $result=$this->validate($postData,'app\admin\validate\Domain.edit.post');
+        if($result!==true){
+            return json_shiroo('validate');
+        }
+        $domainID=$postData['domain_id'];
+        //$domainURL=$postData['domain_url'];
+        $domainCopyright=htmlentities($postData['domain_copyright']);
+        $domainCountCode=htmlentities($postData['domain_count_code']);
+        try{
+            $result=Db::name('domain')->where('domain_id',$domainID)
+                ->update([
+                    'domain_copyright'=>$domainCopyright,
+                    'domain_count_code'=>$domainCountCode
+                ]);
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result){
+            return json_shiroo('edit.success');
         }else{
-            $postData=$this->request->param();
-
-            //进行数据校验
-            $result=$this->validate($postData,'app\admin\validate\Domain.edit');
-            if($result!==true){
-                $this->error($result);
-                return false;
-            }
-            //查找相应的数据
-            $postID=$postData['domain_id'];
-            //查询该ID的数据
-            try{
-                $result=Db::name('domain')->where('domain_id',$postID)->find();
-            }catch (\Exception $e){
-                $this->error(err('database.msg'));
-            }
-            $this->assign('result',$result);
-            return $this->fetch();
+            return json_shiroo('edit.error');
         }
     }
     public function del(){
-        return json_shiroo('del.success');
         $postData=$this->request->param();
         //进行数据校验
         $result=$this->validate($postData,'app\admin\validate\Domain.delete');
@@ -122,7 +100,7 @@ class Domain extends Base
             return json_shiroo('database');
         }
         if($result){
-            return json_shiroo('del.success',$result);
+            return json_shiroo('del.success','',$result);
         }else{
             return json_shiroo('del.error');
         }

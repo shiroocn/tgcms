@@ -31,6 +31,7 @@
     <!--新增与编辑页面HTML-->
     <div id="edit-box" style="padding:20px;display: none;">
         <form id="page-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+            <input type="hidden" name="domain_id" :value="domainID">
             <input type="hidden" name="page_id" :value="pageID">
             <div class="layui-form-item" v-show="addTypeBox">
                 <label class="layui-form-label">新增方式</label>
@@ -232,7 +233,7 @@
                             vm.pageNameDisabled=true;
                             vm.modelDirID=data.model_dir_id;
                             vm.modelID=data.model_id;
-                            vm.brandID="";
+                            vm.brandID=data.brand_id;
                             vm.postURL = "{:url('admin/page/edit')}";
                             vm.submitButtonTitle = "确认修改";
                             vm.pageID = data.page_id;
@@ -256,10 +257,14 @@
                 form.on("radio(addTypeChecked)", function (data) {
                     if (data.value === "single") {
                         //单个新增
+                        console.log("单个新增");
+                        vm.postURL = "{:url('admin/page/add')}";
                         vm.singleBox = true;
                         vm.batchBox = false;
                     } else {
                         //批量新增
+                        console.log("批量新增");
+                        vm.postURL = "{:url('admin/page/batchadd')}";
                         vm.singleBox = false;
                         vm.batchBox = true;
                     }
@@ -275,11 +280,12 @@
                     var loadIndex = layer.load();
                     $(this).ajaxSubmit({
                         success: function (data, status) {
+                            console.log(data);
                             layer.close(loadIndex);
                             layer.msg(data.msg);
                             if (data.code === 0) {
                                 layer.close(openIndex);
-                                active.reload();
+                                vm.reload();
                             }
                         }
                     });

@@ -25,50 +25,53 @@ class Page extends Base
         $result = $this->validate($postData, 'app\admin\validate\Page.add');
         if ($result !== true) {
             //如果检检验不过关，提示错误。
-            return json_shiroo('validate');
+            return json_shiroo('validate','',0,$result);
         }
-
-        $alias = $postData['alias'];
-        $modelID = $postData['model_id'];
         $domainID = $postData['domain_id'];
-        $userID = $postData['user_id'];
+        $pageName = $postData['page_name'];
+        $modelID=$postData['model_id'];
+        $brandID=$postData['brand_id'];
 
         $data = [
-            'page_alias' => $alias,
+            'page_name' => $pageName,
             'page_model_id' => $modelID,
             'page_domain_id' => $domainID,
-            'page_user_id' => $userID
+            'page_brand_id' => $brandID
         ];
         //这里先查询要新增的落地页是否已经存在。
         try {
-            $result = Db::name('page')->where(['page_alias' => $alias, 'page_domain_id' => $domainID])->find();
+            $result = Db::name('page')->where(['page_name' => $pageName, 'page_domain_id' => $domainID])->find();
         } catch (\Exception $e) {
-            $this->error('新增落地页异常，请重试。0');
-            return false;
+            return json_shiroo('database');
         }
         if (!is_null($result)) {
-            $this->error('新增的落地页已经存在。');
-            return false;
+            return json_shiroo('exist');
         }
         try {
             $result = Db::name('page')->insert($data);
         } catch (\Exception $e) {
-            $this->error('新增落地页异常，请重试。1');
-            return false;
+            return json_shiroo('database');
         }
         if ($result) {
-            //成功
-            $this->success('添加成功。');
-            return true;
+            return json_shiroo('add.success');
         } else {
-            //失败
-            $this->error('添加失败。');
-            return false;
+            return json_shiroo('add.error');
         }
     }
 
     public function batchAdd()
     {
+        $postData = $this->request->param();
+
+        $domainID = $postData['domain_id'];
+        $pageNamePrefix = $postData['page_name_prefix'];
+        $pageNameSuffixMin=$postData['page_name_suffix_min'];
+        $pageNameSuffixMax=$postData['page_name_suffix_max'];
+        $modelID=$postData['model_id'];
+        $brandID=$postData['brand_id'];
+
+
+
 
     }
 

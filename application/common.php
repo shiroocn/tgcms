@@ -45,6 +45,9 @@ function err($name)
         ],
         'database' => [
             'code' => 15, 'msg' => '数据库操作失败。'
+        ],
+        'exist'=>[
+            'code'=>16,'msg'=>'已存在相同记录。'
         ]
     ];
 

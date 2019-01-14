@@ -14,23 +14,24 @@ use think\Validate;
 class Page extends Validate
 {
     protected $rule=[
-        'alias'=>'require',
+        'page_name'=>'require',
         'domain_id'=>'require|number',
         'model_id'=>'number',
-        'user_id'=>'number',
+        'model_dir_id'=>'number',
+        'brand_id'=>'number',
         'page_id'=>'require|number'
     ];
     protected $message=[
-        'alias.require'=>'落地页别名不能为空。',
+        'page_name.require'=>'落地页别名不能为空。',
         'domain_id.require'=>'请选择所属域名。',
         'domain_id.number'=>'域名ID必须为数字。',
         'model_id.require'=>'请选择使用的模板。',
         'model_id.number'=>'模板ID必须为数字。',
-        'user_id.require'=>'请选择关联的用户。',
-        'user_id.number'=>'用户ID必须为数字。'
+        'brand_id.require'=>'请选择关联的用户。',
+        'brand_id.number'=>'用户ID必须为数字。'
     ];
     protected $scene=[
-        'add'=>['alias','domain_id','model_id','user_id'],
+        'add'=>['page_name','domain_id','model_id','brand_id'],
         'edit'=>['page_id'],
         'edit_post'=>['page_id','alias','domain_id','model_id','user_id'],
         'delete'=>['page_id']

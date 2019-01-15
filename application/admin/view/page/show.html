@@ -71,23 +71,23 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">使用模板</label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline" style="width: 135px;">
-                        <select name="model_dir_id" lay-search="" v-model="modelDirID" lay-filter="modelDirID">
+                    <div class="layui-input-inline" style="width: 135px;" lay-filter="modelDirID">
+                        <select name="model_dir_id" lay-search="" v-model="modelDirID">
                             <option value="">模板目录</option>
                             {volist name="model_dir" id="v"}
                             <option value="{$v['model_dir_id']}">{$v['model_dir_name']}</option>
                             {/volist}
                         </select>
                     </div>
-                    <div class="layui-input-inline" style="width: 135px;">
-                        <select name="model_id" lay-search="" v-model="modelID" lay-filter="modelID">
+                    <div class="layui-input-inline" style="width: 135px; "lay-filter="modelID">
+                        <select name="model_id" lay-search="" v-model="modelID">
                             <option value="">模板文件</option>
                             <option :value="item.model_id" v-for="item in modelItems">{{item.model_name}}</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" lay-filter="brandID">
                 <label class="layui-form-label">推广信息</label>
                 <div class="layui-input-block">
                     <select name="brand_id" lay-search="" v-model="brandID">
@@ -249,8 +249,22 @@
 
                             break;
                         case "del":
+                            layer.confirm('是否确定删除'+data.page_name+'页面？',{icon:3,title:'提示'},function (index) {
+                                $.post("{:url('admin/page/del')}",{
+                                    page_id:data.page_id
+                                },function (data,status) {
+                                    console.log(data);
+                                    console.log(status);
+                                    layer.msg(data.msg);
+                                    if(data.code===0){
+                                        obj.del();
+                                    }
+                                    layer.close(index);
+                                },'JSON');
+                            });
                             break;
                         case "nav":
+                            window.open("//"+data.domain_url+"/"+data.page_name);
                             break;
                     }
                 });

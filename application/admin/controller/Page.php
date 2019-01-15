@@ -25,12 +25,12 @@ class Page extends Base
         $result = $this->validate($postData, 'app\admin\validate\Page.add');
         if ($result !== true) {
             //如果检检验不过关，提示错误。
-            return json_shiroo('validate','',0,$result);
+            return json_shiroo('validate', '', 0, $result);
         }
         $domainID = $postData['domain_id'];
         $pageName = $postData['page_name'];
-        $modelID=$postData['model_id'];
-        $brandID=$postData['brand_id'];
+        $modelID = $postData['model_id'];
+        $brandID = $postData['brand_id'];
 
         $data = [
             'page_name' => $pageName,
@@ -65,108 +65,72 @@ class Page extends Base
 
         $domainID = $postData['domain_id'];
         $pageNamePrefix = $postData['page_name_prefix'];
-        $pageNameSuffixMin=$postData['page_name_suffix_min'];
-        $pageNameSuffixMax=$postData['page_name_suffix_max'];
-        $modelID=$postData['model_id'];
-        $brandID=$postData['brand_id'];
+        $pageNameSuffixMin = $postData['page_name_suffix_min'];
+        $pageNameSuffixMax = $postData['page_name_suffix_max'];
+        $modelID = $postData['model_id'];
+        $brandID = $postData['brand_id'];
 
-
-
-
+        $data = [];
+        for ($i = $pageNameSuffixMin; $i <= $pageNameSuffixMax; $i++) {
+            array_push($data, array(
+                    'page_name' => $pageNamePrefix . $i,
+                    'page_model_id' => $modelID,
+                    'page_domain_id' => $domainID,
+                    'page_brand_id' => $brandID)
+            );
+        }
+        try {
+            $result = Db::name('page')->limit(100)->insertAll($data);
+        } catch (\Exception $e) {
+            return json_shiroo('add.error', '批量新增失败，可能存在重复。', 0);
+        }
+        return json_shiroo('add.success');
     }
 
-    public function delete()
+    public function del()
     {
         $postData = $this->request->param();
         //检验数据合法性
         $result = $this->validate($postData, 'app\admin\validate\Page.delete');
         if ($result !== true) {
-            //如果检检验不过关，提示错误。
-            $this->error($result);
-            return false;
+            return json_shiroo('validate');
         }
         $pageID = $postData['page_id'];
         try {
             $result = Db::name('page')->where('page_id', $pageID)->delete();
         } catch (\Exception $e) {
-            $this->error('删除异常，请重试。');
-            return false;
+            return json_shiroo('database');
         }
         if ($result) {
-            $this->success('删除成功。');
-            return true;
+            return json_shiroo('del.success');
         } else {
-            $this->success('删除失败。');
-            return false;
+            return json_shiroo('del.error');
         }
     }
 
     public function edit()
     {
-        if (IS_POST) {
-            $postData = $this->request->param();
-            $result = $this->validate($postData, 'app\admin\validate\Page.edit_post');
-            if ($result !== true) {
-                //如果检检验不过关，提示错误。
-                $this->error($result);
-                return false;
-            }
-            $pageID = $postData['page_id'];
-            $alias = $postData['alias'];
-            $modelID = $postData['model_id'];
-            $domainID = $postData['domain_id'];
-            $userID = $postData['user_id'];
-            try {
-                $result = Db::name('page')->where('page_id', $pageID)
-                    ->update([
-                        'page_alias' => $alias,
-                        'page_model_id' => $modelID,
-                        'page_domain_id' => $domainID,
-                        'page_user_id' => $userID
-                    ]);
-            } catch (\Exception $e) {
-                $this->error('修改数据出现异常，请重试。');
-                return false;
-            }
-            if ($result) {
-                $this->success('修改成功。', 'admin/page/show');
-                return true;
-            } else {
-                $this->error('修改失败。');
-                return false;
-            }
+        $postData = $this->request->param();
+        $result = $this->validate($postData, 'app\admin\validate\Page.edit');
+        if ($result != true) {
+            return json_shiroo('validate');
+        }
+        $pageID = $postData['page_id'];
+        $modelID = $postData['model_id'];
+        $brandID = $postData['brand_id'];
+        try {
+            $result = Db::name('page')->where('page_id', $pageID)
+                ->update([
+                    'page_model_id' => $modelID,
+                    'page_brand_id' => $brandID
+                ]);
+        } catch (\Exception $e) {
+            return json_shiroo('database');
+        }
+        if ($result) {
+            return json_shiroo('edit.success');
         } else {
-            $postData = $this->request->param();
-            //检验数据合法性
-            $result = $this->validate($postData, 'app\admin\validate\Page.edit');
-            if ($result !== true) {
-                //如果检检验不过关，提示错误。
-                $this->error($result);
-                return false;
-            }
-            $pageID = $postData['page_id'];
-            try {
-                $result = Db::name('page')->where('page_id', $pageID)->find();
-            } catch (\Exception $e) {
-                $this->error('读取数据异常，请重试。');
-                return false;
-            }
-
-            //查询其它选项列表
-            try {
-                $domain = Db::name('domain')->field('domain_id,domain_url')->select();
-                $model = Db::name('model')->field('model_id,model_name,model_pc_filename')->select();
-                $user = Db::name('user')->field('user_id,user_name,user_weixin')->select();
-            } catch (\Exception $e) {
-                return '读取数据出现异常，请重新刷新页面。';
-            }
-            $this->assign('domain', $domain);
-            $this->assign('model', $model);
-            $this->assign('user', $user);
-
-
-            $this->assign('result', $result);
-            return $this->fetch();
+            return json_shiroo('edit.error');
         }
     }
 
@@ -177,6 +141,8 @@ class Page extends Base
         $domain_id = $postData['domain_id'];
 
         if (IS_POST) {
+            $page = $postData['page'] - 1;
+            $limit = $postData['limit'];
             try {
                 $result = Db::name('page')
                     ->join('domain', 'page_domain_id=domain_id')
@@ -184,28 +150,33 @@ class Page extends Base
                     ->join('model_dir', 'model_dir_id=m_model_dir_id')
                     ->join('brand', 'page_brand_id=brand_id')
                     ->where('page_domain_id', $domain_id)
+                    ->limit($page * $limit, $limit)
+                    ->order('page_id', 'asc')
                     ->select();
+                $count = Db::name('page')->where('page_domain_id', $domain_id)->count('page_id');
             } catch (\Exception $e) {
                 return json_shiroo('database');
             }
-            return json_shiroo(0, '', count($result), $result);
+            return json_shiroo(0, '', $count ?: 0, $result);
         } else {
             try {
                 $brand = Db::name('brand')->select();
-                $modelDir=Db::name('model_dir')->select();
+                $modelDir = Db::name('model_dir')->select();
             } catch (\Exception $e) {
                 $this->error(err('database')['msg']);
             }
-            $this->assign('brand', $brand);
-            $this->assign('model_dir',$modelDir);
+            $this->assign('brand', isset($brand) ? $brand : []);
+            $this->assign('model_dir', isset($modelDir) ? $modelDir : []);
             $this->assign('domain_id', $domain_id);
             return $this->fetch();
         }
     }
-    public function getModel(){
-        $postData=$this->request->param();
-        $modelDirID=$postData['model_dir_id'];
-        $result=Db::name('model')->where('m_model_dir_id',$modelDirID)->select();
-        return json_shiroo(0,'',count($result),$result);
+
+    public function getModel()
+    {
+        $postData = $this->request->param();
+        $modelDirID = $postData['model_dir_id'];
+        $result = Db::name('model')->where('m_model_dir_id', $modelDirID)->select();
+        return json_shiroo(0, '', count($result), $result);
     }
 }

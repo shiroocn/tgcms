@@ -68,29 +68,29 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form layui-form-item"  lay-filter="modelBox">
                 <label class="layui-form-label">使用模板</label>
                 <div class="layui-input-block">
-                    <div class="layui-input-inline" style="width: 135px;" lay-filter="modelDirID">
-                        <select name="model_dir_id" lay-search="" v-model="modelDirID">
+                    <div class="layui-input-inline" style="width: 135px;">
+                        <select name="model_dir_id" lay-search="" v-model="modelDirID" lay-filter="modelDirID">
                             <option value="">模板目录</option>
                             {volist name="model_dir" id="v"}
                             <option value="{$v['model_dir_id']}">{$v['model_dir_name']}</option>
                             {/volist}
                         </select>
                     </div>
-                    <div class="layui-input-inline" style="width: 135px; "lay-filter="modelID">
-                        <select name="model_id" lay-search="" v-model="modelID">
+                    <div class="layui-input-inline" style="width: 135px;">
+                        <select name="model_id" lay-search="" v-model="modelID" lay-filter="modelID">
                             <option value="">模板文件</option>
                             <option :value="item.model_id" v-for="item in modelItems">{{item.model_name}}</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item" lay-filter="brandID">
+            <div class="layui-form-item">
                 <label class="layui-form-label">推广信息</label>
                 <div class="layui-input-block">
-                    <select name="brand_id" lay-search="" v-model="brandID">
+                    <select name="brand_id" lay-search="" v-model="brandID" lay-filter="brandID">
                         <option value=""></option>
                         {volist name="brand" id="v"}
                         <option value="{$v['brand_id']}">{$v['brand_name']}【{$v['brand_weixin']}】</option>
@@ -144,13 +144,13 @@
             },
             modelItems: function (newVal, oldVal) {
                 setTimeout(function () {
-                    form.render("select");
+                    form.render("select","modelBox");
                     //console.log("更新渲染模板文件选择项");
                 }, 10);
             },
             modelID: function (val, olaVal) {
                 setTimeout(function () {
-                    form.render("select");
+                    form.render("select","modelBox");
                 }, 10);
             }
         },
@@ -285,6 +285,9 @@
                 });
                 form.on("select(modelDirID)", function (data) {
                     vm.modelDirID = data.value;
+                });
+                form.on("select(brandID)", function (data) {
+                    vm.brandID = data.value;
                 });
                 form.on("select(modelID)", function (data) {
                     vm.modelID = data.value;

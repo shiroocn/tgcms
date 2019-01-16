@@ -41,7 +41,7 @@ function err($name)
         ],
         'validate' => [
             'code' => 14,
-            'msg' => '提交参数非法。'
+            'msg' => '提交参数格式不允许。'
         ],
         'database' => [
             'code' => 15, 'msg' => '数据库操作失败。'

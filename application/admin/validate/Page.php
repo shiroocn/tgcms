@@ -16,9 +16,9 @@ class Page extends Validate
     protected $rule=[
         'page_name'=>'require',
         'domain_id'=>'require|number',
-        'model_id'=>'number',
-        'model_dir_id'=>'number',
-        'brand_id'=>'number',
+        'model_id'=>'require|number',
+        'model_dir_id'=>'require|number',
+        'brand_id'=>'require|number',
         'page_id'=>'require|number'
     ];
     protected $message=[

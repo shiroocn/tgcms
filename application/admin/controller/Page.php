@@ -25,12 +25,14 @@ class Page extends Base
         $result = $this->validate($postData, 'app\admin\validate\Page.add');
         if ($result !== true) {
             //如果检检验不过关，提示错误。
-            return json_shiroo('validate', '', 0, $result);
+            return json_shiroo('validate');
         }
         $domainID = $postData['domain_id'];
         $pageName = $postData['page_name'];
         $modelID = $postData['model_id'];
         $brandID = $postData['brand_id'];
+
+        //这里当如果用户提交进来的是0，应该是可以成功提交并写入数据库的。
 
         $data = [
             'page_name' => $pageName,
@@ -79,12 +81,13 @@ class Page extends Base
                     'page_brand_id' => $brandID)
             );
         }
+        $result=0;
         try {
             $result = Db::name('page')->limit(100)->insertAll($data);
         } catch (\Exception $e) {
-            return json_shiroo('add.error', '批量新增失败，可能存在重复。', 0);
+            return json_shiroo('add.error', '批量新增失败，可能存在重复。', $result);
         }
-        return json_shiroo('add.success');
+        return json_shiroo('add.success','',$result);
     }
 
     public function del()
@@ -176,7 +179,11 @@ class Page extends Base
     {
         $postData = $this->request->param();
         $modelDirID = $postData['model_dir_id'];
-        $result = Db::name('model')->where('m_model_dir_id', $modelDirID)->select();
+        try{
+            $result = Db::name('model')->where('m_model_dir_id', $modelDirID)->select();
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
         return json_shiroo(0, '', count($result), $result);
     }
 }

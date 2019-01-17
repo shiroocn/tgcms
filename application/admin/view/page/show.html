@@ -68,21 +68,21 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form layui-form-item"  lay-filter="modelBox">
+            <div class="layui-form layui-form-item"  lay-filter="templateBox">
                 <label class="layui-form-label">使用模板</label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline" style="width: 135px;">
-                        <select name="model_dir_id" lay-search="" v-model="modelDirID" lay-filter="modelDirID">
+                        <select name="template_dir_id" lay-search="" v-model="templateDirID" lay-filter="templateDirID">
                             <option value="">模板目录</option>
-                            {volist name="model_dir" id="v"}
-                            <option value="{$v['model_dir_id']}">{$v['model_dir_name']}</option>
+                            {volist name="template_dir" id="v"}
+                            <option value="{$v['template_dir_id']}">{$v['template_dir_name']}</option>
                             {/volist}
                         </select>
                     </div>
                     <div class="layui-input-inline" style="width: 135px;">
-                        <select name="model_id" lay-search="" v-model="modelID" lay-filter="modelID">
+                        <select name="template_id" lay-search="" v-model="templateID" lay-filter="templateID">
                             <option value="">模板文件</option>
-                            <option :value="item.model_id" v-for="item in modelItems">{{item.model_name}}</option>
+                            <option :value="item.template_id" v-for="item in templateItems">{{item.template_name}}</option>
                         </select>
                     </div>
                 </div>
@@ -122,35 +122,35 @@
             pageNamePrefix: "",
             pageNameSuffixMin: "",
             pageNameSuffixMax: "",
-            modelDirID: "",
-            modelID: "",
+            templateDirID: "",
+            templateID: "",
             brandID: "",
             singleBox: true,
             batchBox: false,
-            modelItems: "",
+            templateItems: "",
             submitButtonTitle: ""
         },
         watch: {
-            modelDirID: function (newVal, oldVal) {
+            templateDirID: function (newVal, oldVal) {
                 //console.log("选择的模板目录ID为：" + newVal);
-                //这里其实就是modelDirID选择列表内容发生改变后的事件。
-                jQuery.post("{:url('admin/page/getmodel')}", {
-                    model_dir_id: newVal
+                //这里其实就是templateDirID选择列表内容发生改变后的事件。
+                jQuery.post("{:url('admin/page/gettemplate')}", {
+                    template_dir_id: newVal
                 }, function (data, status) {
-                    vm.modelItems = data.data;
+                    vm.templateItems = data.data;
                     console.log(data);
                 }, "JSON");
 
             },
-            modelItems: function (newVal, oldVal) {
+            templateItems: function (newVal, oldVal) {
                 setTimeout(function () {
-                    form.render("select","modelBox");
+                    form.render("select","templateBox");
                     //console.log("更新渲染模板文件选择项");
                 }, 10);
             },
-            modelID: function (val, olaVal) {
+            templateID: function (val, olaVal) {
                 setTimeout(function () {
-                    form.render("select","modelBox");
+                    form.render("select","templateBox");
                 }, 10);
             }
         },
@@ -162,8 +162,8 @@
                 vm.pageNamePrefix="";
                 vm.pageNameSuffixMin="";
                 vm.pageNameSuffixMax="";
-                vm.modelDirID="";
-                vm.modelID="";
+                vm.templateDirID="";
+                vm.templateID="";
                 vm.brandID="";
                 vm.submitButtonTitle = "确认新增";
                 vm.postURL = "{:url('admin/page/add')}";
@@ -203,8 +203,8 @@
                         {field: 'page_id', title: 'ID', width: 80},
                         {field: 'page_name', title: '落地页名', width: 100},
                         {field: 'domain_url', title: '域名', width: 200},
-                        {field: 'model_dir_name', title: '模板目录', width: 100},
-                        {field: 'model_name', title: '模板文件', width: 120},
+                        {field: 'template_dir_name', title: '模板目录', width: 100},
+                        {field: 'template_name', title: '模板文件', width: 120},
                         {
                             field: 'brand_name',
                             title: '推广信息',
@@ -231,8 +231,8 @@
                             vm.batchBox = false;
                             vm.pageName=data.page_name;
                             vm.pageNameDisabled=true;
-                            vm.modelDirID=data.model_dir_id;
-                            vm.modelID=data.model_id;
+                            vm.templateDirID=data.template_dir_id;
+                            vm.templateID=data.template_id;
                             vm.brandID=data.brand_id;
                             vm.postURL = "{:url('admin/page/edit')}";
                             vm.submitButtonTitle = "确认修改";
@@ -283,14 +283,14 @@
                         vm.batchBox = true;
                     }
                 });
-                form.on("select(modelDirID)", function (data) {
-                    vm.modelDirID = data.value;
+                form.on("select(templateDirID)", function (data) {
+                    vm.templateDirID = data.value;
                 });
                 form.on("select(brandID)", function (data) {
                     vm.brandID = data.value;
                 });
-                form.on("select(modelID)", function (data) {
-                    vm.modelID = data.value;
+                form.on("select(templateID)", function (data) {
+                    vm.templateID = data.value;
                 });
 
                 jQuery("#page-form").submit(function () {

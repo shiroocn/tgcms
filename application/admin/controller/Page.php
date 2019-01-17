@@ -29,14 +29,14 @@ class Page extends Base
         }
         $domainID = $postData['domain_id'];
         $pageName = $postData['page_name'];
-        $modelID = $postData['model_id'];
+        $templateID = $postData['template_id'];
         $brandID = $postData['brand_id'];
 
         //这里当如果用户提交进来的是0，应该是可以成功提交并写入数据库的。
 
         $data = [
             'page_name' => $pageName,
-            'page_model_id' => $modelID,
+            'page_template_id' => $templateID,
             'page_domain_id' => $domainID,
             'page_brand_id' => $brandID
         ];
@@ -69,14 +69,14 @@ class Page extends Base
         $pageNamePrefix = $postData['page_name_prefix'];
         $pageNameSuffixMin = $postData['page_name_suffix_min'];
         $pageNameSuffixMax = $postData['page_name_suffix_max'];
-        $modelID = $postData['model_id'];
+        $templateID = $postData['template_id'];
         $brandID = $postData['brand_id'];
 
         $data = [];
         for ($i = $pageNameSuffixMin; $i <= $pageNameSuffixMax; $i++) {
             array_push($data, array(
                     'page_name' => $pageNamePrefix . $i,
-                    'page_model_id' => $modelID,
+                    'page_template_id' => $templateID,
                     'page_domain_id' => $domainID,
                     'page_brand_id' => $brandID)
             );
@@ -119,12 +119,12 @@ class Page extends Base
             return json_shiroo('validate');
         }
         $pageID = $postData['page_id'];
-        $modelID = $postData['model_id'];
+        $templateID = $postData['template_id'];
         $brandID = $postData['brand_id'];
         try {
             $result = Db::name('page')->where('page_id', $pageID)
                 ->update([
-                    'page_model_id' => $modelID,
+                    'page_template_id' => $templateID,
                     'page_brand_id' => $brandID
                 ]);
         } catch (\Exception $e) {
@@ -149,8 +149,8 @@ class Page extends Base
             try {
                 $result = Db::name('page')
                     ->join('domain', 'page_domain_id=domain_id')
-                    ->join('model', 'page_model_id=model_id')
-                    ->join('model_dir', 'model_dir_id=m_model_dir_id')
+                    ->join('template', 'page_template_id=template_id')
+                    ->join('template_dir', 'template_dir_id=_template_dir_id')
                     ->join('brand', 'page_brand_id=brand_id')
                     ->where('page_domain_id', $domain_id)
                     ->limit($page * $limit, $limit)
@@ -164,23 +164,23 @@ class Page extends Base
         } else {
             try {
                 $brand = Db::name('brand')->select();
-                $modelDir = Db::name('model_dir')->select();
+                $templateDir = Db::name('template_dir')->select();
             } catch (\Exception $e) {
                 $this->error(err('database')['msg']);
             }
             $this->assign('brand', isset($brand) ? $brand : []);
-            $this->assign('model_dir', isset($modelDir) ? $modelDir : []);
+            $this->assign('template_dir', isset($templateDir) ? $templateDir : []);
             $this->assign('domain_id', $domain_id);
             return $this->fetch();
         }
     }
 
-    public function getModel()
+    public function getTemplate()
     {
         $postData = $this->request->param();
-        $modelDirID = $postData['model_dir_id'];
+        $templateDirID = $postData['template_dir_id'];
         try{
-            $result = Db::name('model')->where('m_model_dir_id', $modelDirID)->select();
+            $result = Db::name('template')->where('_template_dir_id', $templateDirID)->select();
         }catch (\Exception $e){
             return json_shiroo('database');
         }

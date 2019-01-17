@@ -73,7 +73,7 @@
                 <div class="layui-input-block">
                     <div class="layui-input-inline" style="width: 135px;">
                         <select name="template_dir_id" lay-search="" v-model="templateDirID" lay-filter="templateDirID">
-                            <option value="">模板目录</option>
+                            <option value="">模板主题</option>
                             {volist name="template_dir" id="v"}
                             <option value="{$v['template_dir_id']}">{$v['template_dir_name']}</option>
                             {/volist}
@@ -81,7 +81,7 @@
                     </div>
                     <div class="layui-input-inline" style="width: 135px;">
                         <select name="template_id" lay-search="" v-model="templateID" lay-filter="templateID">
-                            <option value="">模板文件</option>
+                            <option value="">模板风格</option>
                             <option :value="item.template_id" v-for="item in templateItems">{{item.template_name}}</option>
                         </select>
                     </div>

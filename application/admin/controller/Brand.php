@@ -14,7 +14,23 @@ use think\Db;
 class Brand extends Base
 {
     public function show(){
-
+        if(IS_POST){
+            $postData=$this->request->param();
+            $page=$postData['page']-1;
+            $limit=$postData['limit'];
+            try{
+                $result=Db::name('brand')
+                    ->limit($page*$limit,$limit)
+                    ->order('brand_id','asc')
+                    ->select();
+                $count=Db::name('brand')->count('brand_id');
+            }catch (\Exception $e){
+                return json_shiroo('database');
+            }
+            return json_shiroo(0,'page:'.$page.',limit:'.$limit,$count,$result);
+        }else{
+            return $this->fetch();
+        }
     }
     public function addDefine(){
         if(IS_POST){

@@ -54,18 +54,113 @@ class Template extends Base
             }
             return json_shiroo(0, '', $count ?: 0, $result);
         } else {
-            try {
-                $brand = Db::name('brand')->select();
-                $templateDir = Db::name('template_dir')->select();
-            } catch (\Exception $e) {
-                $this->error(err('database')['msg']);
-            }
-            $this->assign('brand', isset($brand) ? $brand : []);
-            $this->assign('template_dir', isset($templateDir) ? $templateDir : []);
             $this->assign('template_dir_id', $templateDirID);
             return $this->fetch();
         }
 
+    }
+    public function add(){
+        $postData=$this->request->param();
+
+        $templateDirName=$postData['template_dir_name'];
+        $data=[
+            'template_dir_name'=>$templateDirName
+        ];
+        $result=Db::name('template_dir')->insert($data);
+        if($result>0){
+            return json_shiroo('add.success');
+        }else{
+            return json_shiroo('add.error');
+        }
+    }
+    public function addStyle(){
+        $postData=$this->request->param();
+
+        $templateName=$postData['template_name'];
+        $templateDirID=$postData['template_dir_id'];
+        $data=[
+            'template_name'=>$templateName,
+            '_template_dir_id'=>$templateDirID
+        ];
+        $result=Db::name('template')->insert($data);
+        if($result>0){
+            return json_shiroo('add.success');
+        }else{
+            return json_shiroo('add.error');
+        }
+
+    }
+    public function edit(){
+        $postData=$this->request->param();
+
+        $templateDirID=$postData['template_dir_id'];
+        $templateDirName=$postData['template_dir_name'];
+        $data=[
+            'template_dir_name'=>$templateDirName
+        ];
+        try{
+            $result=Db::name('template_dir')
+                ->where('template_dir_id',$templateDirID)->update($data);
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>=0){
+            return json_shiroo('edit.success');
+        }else{
+            return json_shiroo('edit.error');
+        }
+    }
+    public function editStyle(){
+        $postData=$this->request->param();
+
+        $templateID=$postData['template_id'];
+        $templateName=$postData['template_name'];
+        $data=[
+            'template_name'=>$templateName
+        ];
+        try{
+            $result=Db::name('template')
+                ->where('template_id',$templateID)->update($data);
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>=0){
+            return json_shiroo('edit.success');
+        }else{
+            return json_shiroo('edit.error');
+        }
+    }
+    public function del(){
+        $postData=$this->request->param();
+
+        $templateDirID=$postData['template_dir_id'];
+        try{
+            $result=Db::name('template_dir')
+                ->where('template_dir_id',$templateDirID)->delete();
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>=0){
+            return json_shiroo('del.success');
+        }else{
+            return json_shiroo('del.error');
+        }
+    }
+    public function delStyle(){
+        $postData=$this->request->param();
+
+        $templateID=$postData['template_id'];
+        try{
+            $result=Db::name('template')
+                ->where('template_id',$templateID)->delete();
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>=0){
+            return json_shiroo('del.success');
+        }else{
+            return json_shiroo('del.error');
+        }
     }
 
 }

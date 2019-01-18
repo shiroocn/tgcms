@@ -8,37 +8,29 @@
 <body>
 <div id="app">
     <div class="layui-card">
-        <div class="layui-card-header">站点管理</div>
+        <div class="layui-card-header">
+            <a href="{:url('admin/template/show')}">模板管理</a> /
+            <a><cite>风格管理</cite></a>
+        </div>
         <div class="layui-card-body">
             <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" data-type="add">新增站点</a>
+                <a class="layui-btn layui-btn-normal" data-type="add">新增风格</a>
                 <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
             </div>
-            <table id="domain_list" lay-filter="domain_list"></table>
+            <table id="template_list" lay-filter="template_list"></table>
 
         </div>
     </div>
 
     <!--新增与编辑站点HTML-->
     <div id="edit-box" style="padding: 20px;display: none;">
-        <form id="add-form" class="layui-form layui-form-pane" method="post" :action="postURL">
-            <input type="hidden" id="domain_id" name="domain_id" v-model="domainID">
+        <form id="edit-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+            <input type="hidden" name="template_dir_id" v-model="templateDirID">
+            <input type="hidden" name="template_id" v-model="templateID">
             <div class="layui-form-item">
-                <label class="layui-form-label">域名</label>
+                <label class="layui-form-label">风格文件</label>
                 <div class="layui-input-block">
-                    <input type="text" name="domain_url" required lay-verify="required" placeholder="例如：www.xxx.com（不带http://）" autocomplete="off" class="layui-input" v-model="domainURL" :disabled="disabled">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">版权信息</label>
-                <div class="layui-input-block">
-                    <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3" v-model="domainCopyright"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">统计代码</label>
-                <div class="layui-input-block">
-                    <textarea name="domain_count_code" class="layui-textarea" rows="3" v-model="domainCountCode"></textarea>
+                    <input type="text" name="template_name" required lay-verify="required" autocomplete="off" class="layui-input" v-model="templateName">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -58,10 +50,9 @@
         data:{
             disabled:false,
             postURL:"",
-            domainID:0,
-            domainURL:"",
-            domainCopyright:"",
-            domainCountCode:"",
+            templateDirID:{$template_dir_id},
+            templateID:0,
+            templateName:"",
             submitButtonString:""
         },
         created:function () {
@@ -71,34 +62,31 @@
                 var openIndex;
 
                 table.render({
-                    elem:'#domain_list',
-                    url:'{:url("admin/domain/show")}',//数据接口
+                    elem:'#template_list',
+                    url:'{:url("admin/template/style")}',//数据接口
                     method:'post',
+                    where: {template_dir_id: app.templateDirID},
                     loading:true,
                     page:true,//开启分页
                     cols:[[
-                        {field:'domain_id',title:'ID',width:80},
-                        {field:'domain_url',title:'域名',width:250},
-                        {field:'domain_copyright',title:'版权信息',width:430},
+                        {field:'template_id',title:'ID',width:80},
+                        {field:'template_name',title:'模板风格',width:250},
+                        {field:'template_dir_name',title:'模板主题',width:250},
                         {title:'操作',
                             toolbar: '<div>' +
                             '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                             '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="page">页面管理</a>' +
                             '</div>'}
                     ]]
                 });
 
-                table.on('tool(domain_list)',function (obj) {
+                table.on('tool(template_list)',function (obj) {
                     var data=obj.data;
                     switch (obj.event){
                         case 'edit':
-                            app.disabled=true;
-                            app.postURL="{:url('admin/domain/edit')}";
-                            app.domainID=data.domain_id;
-                            app.domainURL=data.domain_url;
-                            app.domainCopyright=htmlDecode(data.domain_copyright);
-                            app.domainCountCode=htmlDecode(data.domain_count_code);
+                            app.postURL="{:url('admin/template/editstyle')}";
+                            app.templateID=data.template_id;
+                            app.templateName=data.template_name;
                             app.submitButtonString="确认修改";
                             openIndex=layer.open({
                                 type:1,
@@ -108,12 +96,10 @@
                             });
                             break;
                         case 'del':
-                            layer.confirm('是否确定删除'+data.domain_url+'站点？',{icon:3,title:'提示'},function (index) {
-                                $.post("{:url('admin/domain/del')}",{
-                                    domain_id:data.domain_id
+                            layer.confirm('是否确定删除'+data.template_name+'风格？',{icon:3,title:'提示'},function (index) {
+                                $.post("{:url('admin/template/delstyle')}",{
+                                    template_id:data.template_id
                                 },function (data,status) {
-                                    console.log(data);
-                                    console.log(status);
                                     layer.msg(data.msg);
                                     if(data.code===0){
                                         obj.del();
@@ -122,16 +108,10 @@
                                 },'JSON');
                             });
                             break;
-                        case 'page':
-                            var url="{:url('admin/page/show',['domain_id'=>-19880722])}";
-                            url=url.replace("-19880722",data.domain_id);
-                            console.log(url);
-                            location.href=url;
-                            break;
                     }
                 });
 
-                jQuery("#add-form").submit(function () {
+                jQuery("#edit-form").submit(function () {
                     var loadIndex=layer.load();
                     $(this).ajaxSubmit({
                         success:function (data,status) {
@@ -148,14 +128,11 @@
 
                 var $=layui.$,active={
                     reload:function () {
-                        table.reload('domain_list');
+                        table.reload('template_list');
                     },
                     add:function () {
-                        app.disabled=false;
-                        app.postURL="{:url('admin/domain/add')}";
-                        app.domainURL="";
-                        app.domainCopyright="";
-                        app.domainCountCode="";
+                        app.postURL="{:url('admin/template/addstyle')}";
+                        app.templateName="";
                         app.submitButtonString="确认新增";
                         openIndex=layer.open({
                             type:1,

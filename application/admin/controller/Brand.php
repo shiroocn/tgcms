@@ -11,15 +11,8 @@ namespace app\admin\controller;
 
 use think\Db;
 
-class User extends Base
+class Brand extends Base
 {
-    public function add(){
-        if(IS_POST){
-
-        }else{
-            return $this->fetch();
-        }
-    }
     public function show(){
 
     }

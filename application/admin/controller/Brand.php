@@ -113,7 +113,21 @@ class Brand extends Base
         $postData=$this->request->param();
         $brandID=$postData['brand_id'];
         if(IS_POST){
-
+            $page = $postData['page'] - 1;
+            $limit = $postData['limit'];
+            try {
+                $result = Db::name('brand_define_list')
+                    ->join('brand', 'brand_bdl_id=bdl_id')
+                    ->join('brand_define', 'bd_id=bdl_define_id')
+                    ->where('bdl_brand_id', $brandID)
+                    ->limit($page * $limit, $limit)
+                    ->order('page_id', 'asc')
+                    ->select();
+                $count = Db::name('brand_define_list')->where('bdl_brand_id', $brandID)->count('bdl_id');
+            } catch (\Exception $e) {
+                return json_shiroo('database');
+            }
+            return json_shiroo(0, '', $count ?: 0, $result);
 
         }else{
             return $this->fetch();

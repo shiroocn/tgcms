@@ -48,6 +48,10 @@ function err($name)
         ],
         'exist'=>[
             'code'=>16,'msg'=>'已存在相同记录。'
+        ],
+        'upload'=>[
+            'success'=>['code'=>0,'msg'=>'上传成功。'],
+            'error'=>['code'=>17,'msg'=>'上传失败。']
         ]
     ];
 

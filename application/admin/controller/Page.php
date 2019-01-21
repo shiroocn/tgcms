@@ -148,10 +148,10 @@ class Page extends Base
             $limit = $postData['limit'];
             try {
                 $result = Db::name('page')
-                    ->join('domain', 'page_domain_id=domain_id')
-                    ->join('template', 'page_template_id=template_id')
-                    ->join('template_dir', 'template_dir_id=_template_dir_id')
-                    ->join('brand', 'page_brand_id=brand_id')
+                    ->leftJoin('domain', 'page_domain_id=domain_id')
+                    ->leftJoin('template', 'page_template_id=template_id')
+                    ->leftJoin('template_dir', 'template_dir_id=_template_dir_id')
+                    ->leftJoin('brand', 'page_brand_id=brand_id')
                     ->where('page_domain_id', $domain_id)
                     ->limit($page * $limit, $limit)
                     ->order('page_id', 'asc')

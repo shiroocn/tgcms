@@ -18,7 +18,7 @@ class File extends Base
             $file=$this->request->file('file');
             $updateIP=$this->request->ip();
             if(empty($file)){
-                return '没有获取到上传文件。';
+                return json_shiroo('upload.error');
             }
             $info=$file->validate([
                 'size'=>1048576,
@@ -39,12 +39,10 @@ class File extends Base
                     'file_size'=>$info->getSize()
                 ];
                 Db::name('file')->insert($data);
-                var_dump($data);
-                //return true;
+                return json_shiroo('upload.success','',0,$data);
             }else{
                 //上传失败
-                echo $file->getError();
-                //return false;
+                return json_shiroo('upload.error');
             }
         }else{
             return $this->fetch();

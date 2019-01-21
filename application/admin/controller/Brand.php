@@ -32,6 +32,64 @@ class Brand extends Base
             return $this->fetch();
         }
     }
+    public function add(){
+        $postData=$this->request->param();
+
+        $data=[
+            'brand_name'=>$postData['brand_name'],
+            'brand_weixin'=>$postData['brand_weixin'],
+            'brand_weixinqr_path'=>$postData['brand_weixinqr_path'],
+            'brand_icon_path'=>$postData['brand_icon_path'],
+            'brand_bdl_id'=>0
+        ];
+        try{
+            $result=Db::name('brand')->insert($data);
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>0){
+            return json_shiroo('add.success');
+        }else{
+            return json_shiroo('add.error');
+        }
+    }
+    public function del(){
+        $postData=$this->request->param();
+        $brandID=$postData['brand_id'];
+        try{
+            $result=Db::name('brand')->where('brand_id',$brandID)->delete();
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>0){
+            return json_shiroo('del.success');
+        }else{
+            return json_shiroo('del.error');
+        }
+
+    }
+    public function edit(){
+        $postData=$this->request->param();
+
+        $brandID=$postData['brand_id'];
+        $data=[
+            'brand_name'=>$postData['brand_name'],
+            'brand_weixin'=>$postData['brand_weixin'],
+            'brand_weixinqr_path'=>$postData['brand_weixinqr_path'],
+            'brand_icon_path'=>$postData['brand_icon_path'],
+            'brand_bdl_id'=>0
+        ];
+        try{
+            $result=Db::name('brand')->where('brand_id',$brandID)->update($data);
+        }catch (\Exception $e){
+            return json_shiroo('database');
+        }
+        if($result>0){
+            return json_shiroo('edit.success');
+        }else{
+            return json_shiroo('edit.error');
+        }
+    }
     public function addDefine(){
         if(IS_POST){
             $postData=$this->request->param();
@@ -52,7 +110,14 @@ class Brand extends Base
         }
     }
     public function showDefine(){
+        $postData=$this->request->param();
+        $brandID=$postData['brand_id'];
+        if(IS_POST){
 
+
+        }else{
+            return $this->fetch();
+        }
     }
 
 }

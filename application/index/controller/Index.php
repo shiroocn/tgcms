@@ -10,7 +10,7 @@ class Index extends Base
     {
 
         //获取访问的落地页别名
-        $pageName=$this->request->param('p')?:'index';
+        $pageName=$this->request->param('p');
         //获取当前的域名
         $domain=$this->request->domain();
         //去掉http://字符。
@@ -24,8 +24,8 @@ class Index extends Base
             }
             $where=['page_domain_id'=>$domain['domain_id'],'page_name'=>$pageName];
             $page=Db::name('page')
-                ->join('model','page_model_id=model_id')
-                ->join('model_dir','model_dir_id=m_model_dir_id')
+                ->join('template','page_template_id=template_id')
+                ->join('template_dir','template_dir_id=_template_dir_id')
                 ->join('brand','page_brand_id=brand_id')
                 ->where($where)
                 ->find();
@@ -33,15 +33,15 @@ class Index extends Base
             return '查询数据库异常。';
            // Log::record('执行查询落地页数据库失败。'.$exception,'error');
         }
-        if(is_null($domain) && !is_array($domain)){
-            return '当前访问的页面不存在！';
+        if(is_null($page) && !is_array($page)){
+            return '【'.$pageName.'】着陆页不存在';
         }else{
             $this->assign('shiroo',$page);
             //这里只是去掉了文件后缀.html，因为带后缀会出错。
-            $str=$page['model_name'];
+            $str=$page['template_name'];
             $pos=strripos($str,'.');
             $str=substr($str,0,$pos);
-            return $this->fetch($page['model_dir_name'].'/'.$str);
+            return $this->fetch($page['template_dir_name'].'/'.$str);
         }
     }
     public function hello($name='aaa'){

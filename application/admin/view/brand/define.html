@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+<div id="app">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <a href="{:url('admin/brand/show')}">推广线索</a> /
+            <a><cite>参数管理</cite></a>
+        </div>
+        <div class="layui-card-body">
+            <div class="domain_list_btn">
+                <a class="layui-btn layui-btn-normal" data-type="add">新增参数</a>
+                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+            </div>
+            <table id="brand_define" lay-filter="brand_define"></table>
+
+        </div>
+    </div>
+
+    <!--新增与编辑站点HTML-->
+    <div id="edit-box" style="padding: 20px;display: none;">
+        <form id="add-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+            <input type="hidden" name="bd_id" v-model="bdID">
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bd_name" required lay-verify="required" autocomplete="off" class="layui-input" v-model="bdName">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数备注</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bd_note" required lay-verify="required" autocomplete="off" class="layui-input" v-model="bdNote">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="bd_type" value="text" title="文本" checked>
+                    <input type="radio" name="bd_type" value="images" title="图片">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
+                    <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            disabled:false,
+            postURL:"",
+            bdID:0,
+            bdName:"",
+            bdNote:"",
+            submitButtonString:""
+        },
+        created:function () {
+            layui.use(['layer','table'],function () {
+                var layer=layui.layer,
+                    table=layui.table;
+                var openIndex;
+
+                table.render({
+                    elem:'#brand_define',
+                    url:'{:url("admin/brand/define")}',//数据接口
+                    method:'post',
+                    loading:true,
+                    page:true,//开启分页
+                    cols:[[
+                        {field:'bd_id',title:'ID',width:80},
+                        {field:'bd_name',title:'参数名称',width:200},
+                        {field:'bd_note',title:'参数备注',width:350},
+                        {field:'bd_type',title:'参数类型',width:100},
+                        {title:'操作',
+                            toolbar: '<div>' +
+                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                            '</div>'}
+                    ]]
+                });
+                table.on('tool(brand_define)',function (obj) {
+                    var data=obj.data;
+                    switch (obj.event){
+                        case 'edit':
+                            app.bdID=data.bd_id;
+                            app.bdName=data.bd_name;
+                            app.bdNote=data.bd_note;
+                            app.postURL="{:url('admin/brand/defineedit')}";
+                            app.submitButtonString="确认修改";
+                            openIndex=layer.open({
+                                type:1,
+                                title:"编辑",
+                                area:"460px",
+                                content:$("#edit-box")
+                            });
+                            break;
+                        case 'del':
+                            layer.confirm('是否确定删除【'+data.bd_name+'】参数？',{icon:3,title:'提示'},function (index) {
+                                $.post("{:url('admin/brand/definedel')}",{
+                                    bd_id:data.bd_id
+                                },function (data,status) {
+                                    console.log(data);
+                                    console.log(status);
+                                    layer.msg(data.msg);
+                                    if(data.code===0){
+                                        obj.del();
+                                    }
+                                    layer.close(index);
+                                },'JSON');
+                            });
+                            break;
+                    }
+                });
+
+                jQuery("#add-form").submit(function () {
+                    var loadIndex=layer.load();
+                    $(this).ajaxSubmit({
+                        success:function (data,status) {
+                            layer.close(loadIndex);
+                            layer.msg(data.msg);
+                            if(data.code===0){
+                                layer.close(openIndex);
+                                active.reload();
+                            }
+                        }
+                    });
+                    return false;
+                });
+
+                var $=layui.$,active={
+                    reload:function () {
+                        table.reload('brand_define');
+                    },
+                    add:function () {
+                        app.postURL="{:url('admin/brand/defineadd')}";
+                        app.bdName="";
+                        app.bdNote="";
+                        app.submitButtonString="确认新增";
+                        openIndex=layer.open({
+                            type:1,
+                            title:"新增",
+                            area:"460px",
+                            content:$("#edit-box")
+                        });
+                    },
+                    close:function () {
+                        layer.close(openIndex); //执行关闭
+                    }
+                };
+                $('.layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

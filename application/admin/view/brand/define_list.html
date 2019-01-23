@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css" /}
+</head>
+<body>
+<div id="app">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <a href="{:url('admin/brand/show')}">推广线索</a> /
+            <a><cite>其它参数</cite></a>
+        </div>
+        <div class="layui-card-body">
+            <div class="domain_list_btn">
+                <a class="layui-btn layui-btn-normal" data-type="add">新增值</a>
+                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+            </div>
+            <table id="brand_define_list" lay-filter="brand_define_list"></table>
+
+        </div>
+    </div>
+
+    <!--新增与编辑站点HTML-->
+    <div id="edit-box" style="padding: 20px;display: none;">
+        <form id="add-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+            <input type="hidden" name="bdl_brand_id" v-model="bdlBrandID">
+            <input type="hidden" name="bdl_id" v-model="bdlID">
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数名称</label>
+                <div class="layui-input-block">
+                    <div v-show="isAdd">
+                        <select name="bdl_define_id" lay-search="" v-model="bdlDefineID" lay-filter="bdlDefineID">
+                            <option value=""></option>
+                            {volist name="defines" id="v"}
+                            <option value="{$v['bd_id']}">{$v['bd_name']}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div v-show="isAdd===false">
+                        <input type="text" autocomplete="off" class="layui-input" v-model="bdName" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bdl_define_var" required lay-verify="required" autocomplete="off" class="layui-input" v-model="bdlDefineVar">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
+                    <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+    var layer, table, form, openIndex;
+    var app=new Vue({
+        el:"#app",
+        data:{
+            isAdd:true,
+            uploadPath:"__UPLOADS__",
+            postURL:"",
+            bdlBrandID:{$brand_id},
+            bdlID:0,
+            bdlDefineID:0,
+            bdName:"",
+            bdlDefineVar:"",
+            submitButtonString:""
+        },
+        watch:{
+            bdlDefineID:function (oldVar,newVar) {
+                setTimeout(function () {
+                    form.render("select");
+                    //console.log("更新渲染模板文件选择项");
+                }, 10);
+            }
+        },
+        created:function () {
+            layui.use(['layer','table','form'],function () {
+                layer=layui.layer;
+                table=layui.table;
+                form=layui.form;
+
+                table.render({
+                    elem:'#brand_define_list',
+                    url:'{:url("admin/brand/definelist")}',//数据接口
+                    where:{brand_id:app.bdlBrandID},
+                    method:'post',
+                    loading:true,
+                    page:true,//开启分页
+                    cols:[[
+                        {field:'bdl_id',title:'ID',width:80},
+                        {field:'bd_name',title:'参数名称',width:200},
+                        {field:'bdl_define_var',title:'参数值',width:350},
+                        {title:'操作',
+                            toolbar: '<div>' +
+                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                            '</div>'}
+                    ]]
+                });
+                table.on('tool(brand_define_list)',function (obj) {
+                    var data=obj.data;
+                    switch (obj.event){
+                        case 'edit':
+                            app.isAdd=false;
+                            app.postURL="{:url('admin/brand/definelistedit')}";
+                            app.bdlID=data.bdl_id;
+                            app.bdlDefineID=data.bdl_define_id;
+                            app.bdlDefineVar=data.bdl_define_var;
+                            app.bdName=data.bd_name;
+                            app.submitButtonString="确认修改";
+                            openIndex=layer.open({
+                                type:1,
+                                title:"编辑",
+                                area:"460px",
+                                content:$("#edit-box")
+                            });
+                            break;
+                        case 'del':
+                            layer.confirm('是否确定删除【'+data.bd_name+'】线索？',{icon:3,title:'提示'},function (index) {
+                                $.post("{:url('admin/brand/definelistdel')}",{
+                                    bdl_id:data.bdl_id
+                                },function (data,status) {
+                                    console.log(data);
+                                    console.log(status);
+                                    layer.msg(data.msg);
+                                    if(data.code===0){
+                                        obj.del();
+                                    }
+                                    layer.close(index);
+                                },'JSON');
+                            });
+                            break;
+                        case 'other':
+                            var url="{:url('admin/brand/definelist',['brand_id'=>-19880722])}";
+                            url=url.replace("-19880722",data.brand_id);
+                            console.log(url);
+                            location.href=url;
+                            break;
+                    }
+                });
+
+                jQuery("#add-form").submit(function () {
+                    var loadIndex=layer.load();
+                    $(this).ajaxSubmit({
+                        success:function (data,status) {
+                            layer.close(loadIndex);
+                            layer.msg(data.msg);
+                            if(data.code===0){
+                                layer.close(openIndex);
+                                active.reload();
+                            }
+                        }
+                    });
+                    return false;
+                });
+
+                form.on("select(bdlDefineID)", function (data) {
+                    app.bdlDefineID = data.value;
+                });
+
+                var $=layui.$,active={
+                    reload:function () {
+                        table.reload('brand_define_list');
+                    },
+                    add:function () {
+                        app.isAdd=true;
+                        app.postURL="{:url('admin/brand/definelistadd')}";
+                        app.bdlDefineID="";//这里要设置为空文本，不能设置为0；否则不会默认选择的是“请选择”，而是最后一个项。
+                        app.bdlDefineVar="";
+                        app.submitButtonString="确认新增";
+                        openIndex=layer.open({
+                            type:1,
+                            title:"新增",
+                            area:"460px",
+                            content:$("#edit-box")
+                        });
+                    },
+                    close:function () {
+                        layer.close(openIndex); //执行关闭
+                    }
+                };
+                $('.layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

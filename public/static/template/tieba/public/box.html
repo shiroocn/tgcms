@@ -1,19 +1,19 @@
 <!--这里是侧边浮动-->
 {if $Request.ismobile}
 <div class='touch_icon' data-toggle="modal" data-target="#wx-box">
-    <img src='{$template_path}/img/wxa.gif' width='68' height='68'>
+    <img src='__TEMPLATE__/tieba/img/wxa.gif' width='68' height='68'>
 </div>
 {else}
 <div class='fu_box'>
     <p class='p1'>微信扫一扫</p>
     <p class='p0'>免费在线指导</p>
-    <img class='fu_box_img' src='{$user_wx_qr}'/>
+    <img class='fu_box_img' src='{$sh.brand_weixinqr_path}'/>
     <p class='p2'>手动添加微信号</p>
-    <p class='p3'>{$user_weixin}</p>
+    <p class='p3'>{$sh.brand_weixin}</p>
 </div>
 {/if}
 <!--这里是底部浮动-->
 <div class='{if $Request.ismobile}copy_wx_box{else}copy_wx_box_pc{/if}'>
-    微信号：<span class='user-wx'>{$user_weixin}</span>
-    <img src='{$template_path}/img/copy_wx_btn.png' style='margin-left: 10px;' width='120' height='40'  onclick='click_copy_wx()' />
+    微信号：<span class='user-wx'>{$sh.brand_weixin}</span>
+    <img src='__TEMPLATE__/tieba/img/copy_wx_btn.png' style='margin-left: 10px;' width='120' height='40'  onclick='click_copy_wx()' />
 </div>

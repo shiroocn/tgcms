@@ -96,10 +96,11 @@ class Domain extends Base
         $postID=$postData['domain_id'];
         try{
             $result=Db::name('domain')->where('domain_id',$postID)->delete();
+            $page=Db::name('page')->where('page_domain_id',$postID)->delete();
         }catch (\Exception $e){
             return json_shiroo('database');
         }
-        if($result){
+        if($result>0 && $page>=0){
             return json_shiroo('del.success','',$result);
         }else{
             return json_shiroo('del.error');

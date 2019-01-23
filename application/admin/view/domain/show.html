@@ -108,7 +108,7 @@
                             });
                             break;
                         case 'del':
-                            layer.confirm('是否确定删除'+data.domain_url+'站点？',{icon:3,title:'提示'},function (index) {
+                            layer.confirm('是否确定删除【'+data.domain_url+'】站点及其所有页面？',{icon:3,title:'提示'},function (index) {
                                 $.post("{:url('admin/domain/del')}",{
                                     domain_id:data.domain_id
                                 },function (data,status) {

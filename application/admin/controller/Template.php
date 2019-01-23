@@ -137,10 +137,12 @@ class Template extends Base
         try{
             $result=Db::name('template_dir')
                 ->where('template_dir_id',$templateDirID)->delete();
+            $template=Db::name('template')->where('_template_dir_id',$templateDirID)->delete();
+
         }catch (\Exception $e){
             return json_shiroo('database');
         }
-        if($result>=0){
+        if($result>0 && $template>=0){
             return json_shiroo('del.success');
         }else{
             return json_shiroo('del.error');

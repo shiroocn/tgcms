@@ -57,10 +57,11 @@ class Brand extends Base
         $brandID=$postData['brand_id'];
         try{
             $result=Db::name('brand')->where('brand_id',$brandID)->delete();
+            $define=Db::name('brand_define_list')->where('bdl_brand_id',$brandID)->delete();
         }catch (\Exception $e){
             return json_shiroo('database');
         }
-        if($result>0){
+        if($result>0 && $define>=0){
             return json_shiroo('del.success');
         }else{
             return json_shiroo('del.error');
@@ -114,6 +115,7 @@ class Brand extends Base
         $data=[
             'bd_name'=>$postData['bd_name'],
             'bd_note'=>$postData['bd_note'],
+            'bd_type'=>$postData['bd_type']
         ];
         try{
             $result=Db::name('brand_define')->insert($data);
@@ -167,8 +169,8 @@ class Brand extends Base
             $limit = $postData['limit'];
             try {
                 $result = Db::name('brand_define_list')
-                    ->join('brand', 'brand_id=bdl_brand_id')
-                    ->join('brand_define', 'bd_id=bdl_define_id')
+                    ->leftJoin('brand', 'brand_id=bdl_brand_id')
+                    ->leftJoin('brand_define', 'bd_id=bdl_define_id')
                     ->where('bdl_brand_id', $brandID)
                     ->limit($page * $limit, $limit)
                     ->order('bdl_id', 'asc')

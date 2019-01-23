@@ -90,7 +90,7 @@
                             });
                             break;
                         case 'del':
-                            layer.confirm('是否确定删除'+data.template_dir_name+'主题？',{icon:3,title:'提示'},function (index) {
+                            layer.confirm('是否确定删除'+data.template_dir_name+'主题及其所有风格？',{icon:3,title:'提示'},function (index) {
                                 $.post("{:url('admin/template/del')}",{
                                     template_dir_id:data.template_dir_id
                                 },function (data,status) {

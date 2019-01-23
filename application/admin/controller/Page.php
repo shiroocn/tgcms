@@ -22,11 +22,11 @@ class Page extends Base
     {
         $postData = $this->request->param();
 
-        $result = $this->validate($postData, 'app\admin\validate\Page.add');
+        /*$result = $this->validate($postData, 'app\admin\validate\Page.add');
         if ($result !== true) {
             //如果检检验不过关，提示错误。
             return json_shiroo('validate');
-        }
+        }*/
         $domainID = $postData['domain_id'];
         $pageName = $postData['page_name'];
         $templateID = $postData['template_id'];

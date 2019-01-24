@@ -1,0 +1,140 @@
+body {
+    min-width: 320px;
+    margin: 0 auto;
+    background-color: #f3f3f3;
+    font: 16px "Microsoft YaHei";
+    color: #333;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+#header_1 {
+    text-align: center;
+}
+
+#header_1 img {
+    width: 420px;
+}
+
+#content {
+    padding: 0 10px;
+    margin-top: 6px;
+    text-align: center;
+}
+
+#content .greeting {
+    background-color: #fff;
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 4px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    width: 100%;
+}
+
+#content .greeting p {
+    margin: 0 auto;
+    padding: 10px 6px 10px 10px;
+    max-width: 400px;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-size: 14.5px;
+}
+
+#content .tip {
+    text-align: center;
+    margin: 6px 0;
+    font-size: 15px;
+}
+
+.tip span {
+    color: #f9415a;
+}
+
+#content .wxh {
+    text-align: center;
+    background-color: #f9415a;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 0;
+    border-radius: 4px;
+    margin-bottom: 9px;
+    font-size: 20px;
+}
+
+#copyright {
+    color: #333;
+    margin: 15px auto 60px;
+    text-align: center;
+    width: 100%;
+}
+
+.wx_block {
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1001;
+    top: 32px;
+    right: 0;
+    float: right;
+    width: 75px;
+    height: 46px;
+    background: lightgreen;
+    line-height: 23px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+.fu_box {
+    width: 204px;
+    height: 328px;
+    position: fixed;
+    top: 150px;
+    right: 20px;
+    background: url(http://swkj.oss-cn-hangzhou.aliyuncs.com/tg2018/0428/185040/fu_box.png) no-repeat center top;
+    background-size: 100%;
+    z-index: 8;
+    p{
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    .p0{
+        font-size: 16px;
+        color: white;
+    }
+    .p1 {
+        font-size: 18px;
+        padding-top: 40px;
+        color: white;
+    }
+    .fu_box_img {
+        width: 143px;
+        height: 143px;
+        display: block;
+        margin: 6px auto 0;
+    }
+    img {
+        vertical-align: middle;
+        border: 0;
+    }
+    .p2 {
+        font-size: 18px;
+        padding-top: 15px;
+        color: white;
+    }
+    .p3 {
+        font-size: 18px;
+        padding-top: 3px;
+        color: white;
+    }
+}

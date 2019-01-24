@@ -14,22 +14,17 @@ class Base extends Controller
 {
     public function initialize(){
         define('IS_POST',$this->request->isPost()?:false);
-        define('ACTION',$action=$this->request->action()?:'');
-        echo ACTION;
-
+        define('ACTION_NAME',$action=$this->request->action()?:'');
 
         //过滤不需要登陆的行为
+        if(!in_array(ACTION_NAME,['login'])){
+            //如果访问的action不在这个数组里面，则需要登录才能继续。
+            if(isLogin()){
+                //已登录
 
-        /*if (!in_array($action, array('login', 'vertify'))) {
-            if (session('admin_id') > 0) {
-                $this->check_priv();//检查管理员菜单操作权限
-                $this->admin_id = session('admin_id');
-            }else {
-                (ACTION_NAME == 'index') && $this->redirect( U('Admin/Admin/login'));
-                $this->error('请先登录', U('Admin/Admin/login'), null, 1);
+            }else{
+                $this->error('请先登录','admin/admin/login');
             }
-        }*/
-
+        }
     }
-
 }

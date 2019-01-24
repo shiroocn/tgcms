@@ -91,4 +91,7 @@ function err($name)
     }
     return $result;
 }
+function isLogin(){
+    return true;
+}
 

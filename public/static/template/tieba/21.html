@@ -14,7 +14,7 @@
 
     {include file="tieba/public/user"}
 
-    <p class="pc_font_b" style="text-align: center;color:red; ">官方在线指导微信号【<span class="user-wx">{$user_weixin}</span>】（现货技巧/现货入门）</p>
+    <p class="pc_font_b" style="text-align: center;color:red; ">官方在线指导微信号【<span class="user-wx">{$sh.brand_weixin?:''}</span>】（现货技巧/现货入门）</p>
     <p class="pc_font_b" style="color:red;">有人说自己某些年份，投资市场的获利在100%以上，你信吗？我反正是信了，因为我知道他们是怎么玩的，100%一点也不难。</p>
     <p style="text-align: center;">
         <img src="./upload/39.png" onclick="viewImg(this)" width="100%" />
@@ -26,7 +26,7 @@
     <p><strong>二、期现套利的方法和计算公式</strong></p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先，记住期货的理论价格公式，接下来我们会经常用到它。</p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/40.png" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/40.png" onclick="viewImg(this)" width="80%" />
     </p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中，F（ t,T）=T时期到期的期货合约在t时期的价格；</p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S(t)=在t时期标的资产的现货价格；</p>
@@ -38,23 +38,23 @@
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;举个例子：</p>
     <p style="text-align: center;">沪金期货与 Au95价差</p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/41.jpg" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/41.jpg" onclick="viewImg(this)" width="80%" />
     </p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设沪金现货是V1元/克， 沪金期货是V2元/克</p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/42.png" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/42.png" onclick="viewImg(this)" width="80%" />
     </p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/43.png" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/43.png" onclick="viewImg(this)" width="80%" />
     </p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在正向市场里， 期货价格会大于现货价格， 但若在t日期货价格相比现货超出 F(t,T)-V1则出现无风险套利机会。</p>
     <p>2、反向套利：</p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在反向市场里， 期货价格会小于现货价格， 但若在t日现货价格相比期货超出F(t,T)-V1则出现无风险套利机会。</p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/44.png" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/44.png" onclick="viewImg(this)" width="80%" />
     </p>
     <p style="text-align: center;">
-        <img src="{$template_path}/upload/45.png" onclick="viewImg(this)" width="80%" />
+        <img src="__TEMPLATE__/tieba/upload/45.png" onclick="viewImg(this)" width="80%" />
     </p>
     <p><strong>三、实际套利中需要注意的风险及相应解决办法</strong></p>
     <p>1、价差不能回归正常时的风险（换月风险）</p>
@@ -70,8 +70,5 @@
 {include file="tieba/public/box" /}
 
 {include file="tieba/public/js" /}
-<!--监测代码start-->
-{:html_entity_decode($domain_count_code)}
-<!--监测代码end-->
 </body>
 </html>

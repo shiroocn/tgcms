@@ -1,9 +1,11 @@
-<p class="user-copyright"></p>
-<p>商品交易有风险 投资入市需谨慎</p>
+<p class="user-copyright">{$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}</p>
 <div style=" height:130px;"></div>
 
 <div style="position:fixed;background:#FFF;width:100%;left:0; bottom:0"><p class="tip"><span>↓↓</span>长按下方按钮复制并添加微信号免费咨询<span>↓↓</span>
 </p>
-    <p class="wxh"><span class="go user-wx"></span></p>
+    <p class="wxh"><span class="go user-wx">{$sh.brand_weixin?:''}</span></p>
     <span style="color:red;font-size: 16px;">注:凡同名"公众号"均属恶意仿冒，切勿关注</span>
 </div>
+<!--监测代码start-->
+{$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+<!--监测代码end-->

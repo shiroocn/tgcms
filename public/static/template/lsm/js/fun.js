@@ -20,7 +20,7 @@ $(function () {
     $(".user-portrait-banner").attr("src",userPortraitBanner);
     $(".user-wx-qr").attr("src",userWXQR);*/
 
-    if(IsPC()){
+   /* if(IsPC()){
         $("body").append("<div class='fu_box'><p class='p1'>微信扫一扫</p><p class='p0'>免费在线指导</p><img class='fu_box_img' src='"+userWXQR+"'/><p class='p2'>手动添加微信号</p><p class='p3'>"+userWX+"</p></div>");
-    }
+    }*/
 });

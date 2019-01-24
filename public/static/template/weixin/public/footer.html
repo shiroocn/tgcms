@@ -1,6 +1,6 @@
 <div class="s-wx-qr">
     <div class="a">长按下面二维码识别</div>
-    <img src="" />
+    <img src="{$sh.brand_weixinqr_path}?:''" width="80%" />
 </div>
 <div class="s-footer">
     <span>阅读 2860</span>
@@ -23,3 +23,7 @@
         </div>
     </div>
 </div>
+
+<!--监测代码start-->
+{$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+<!--监测代码end-->

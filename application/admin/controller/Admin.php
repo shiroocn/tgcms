@@ -12,7 +12,7 @@ namespace app\admin\controller;
 class Admin extends Base
 {
     public function login(){
-        return '这里是登录页面';
+        return $this->fetch();
     }
 
 }

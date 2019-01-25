@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录</title>
+    {include file="public/css" /}
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i> 账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="user_name" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i> 密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="user_password" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo"><i class="layui-icon layui-icon-auz"></i> 登录</button>
+        </div>
+    </div>
+</form>
+
+{include file="public/js" /}
+</body>
+</html>

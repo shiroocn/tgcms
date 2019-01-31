@@ -6,26 +6,58 @@
     {include file="public/css" /}
 </head>
 <body>
-<form class="layui-form layui-form-pane" action="">
-    <div class="layui-form-item">
-        <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i> 账号</label>
-        <div class="layui-input-block">
-            <input type="text" name="user_name" required  lay-verify="required" autocomplete="off" class="layui-input">
+<div id="app">
+    <form id="reg-form" method="post" class="layui-form layui-form-pane" :action="postURL">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i> 账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="user_name" required  lay-verify="required" autocomplete="off" class="layui-input" v-model="userName">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i> 密码</label>
-        <div class="layui-input-block">
-            <input type="text" name="user_password" required  lay-verify="required" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i> 密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="user_password" required  lay-verify="required" autocomplete="off" class="layui-input" v-model="userPassword">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo"><i class="layui-icon layui-icon-auz"></i> 登录</button>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit"><i class="layui-icon layui-icon-auz"></i> 登录</button>
+            </div>
         </div>
-    </div>
-</form>
-
+    </form>
+</div>
 {include file="public/js" /}
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            userName:"",
+            userPassword:"",
+            postURL:"{:url('admin/admin/login')}"
+        },
+        created:function () {
+            layui.use(['layer'], function () {
+
+                jQuery("#reg-form").submit(function () {
+                    //因为使用到了layui的组件，所以要写在layui.use内部。
+                    //确保layui渲染完成了。
+                    var loadIndex=layer.load();
+                    $(this).ajaxSubmit({
+                        success:function (data,status) {
+                            layer.close(loadIndex);
+                            layer.msg(data.msg);
+                            if(data.code===0){
+                                layer.close(openIndex);
+                                active.reload();
+                            }
+                        }
+                    });
+                    return false;
+                });
+            });
+        }
+    });
+</script>
 </body>
 </html>

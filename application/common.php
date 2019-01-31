@@ -52,6 +52,10 @@ function err($name)
         'upload'=>[
             'success'=>['code'=>0,'msg'=>'上传成功。'],
             'error'=>['code'=>17,'msg'=>'上传失败。']
+        ],
+        'login'=>[
+            'success'=>['code'=>0,'msg'=>'登录成功。'],
+            'error'=>['code'=>18,'msg'=>'登录失败。']
         ]
     ];
 

@@ -14,7 +14,7 @@
 //Route::get('user', 'index/user/index');
 //Route::get('admin','admin/index/index');
 Route::get('admin$','admin/index/index');
-Route::get('admin/login','admin/admin/login');
+//Route::get('admin/login','admin/admin/login');
 Route::get('[:p]$','index/index/index');
 
 

@@ -38,18 +38,17 @@
         },
         created:function () {
             layui.use(['layer'], function () {
-
                 jQuery("#reg-form").submit(function () {
                     //因为使用到了layui的组件，所以要写在layui.use内部。
                     //确保layui渲染完成了。
                     var loadIndex=layer.load();
                     $(this).ajaxSubmit({
                         success:function (data,status) {
+                            console.log(data);
                             layer.close(loadIndex);
                             layer.msg(data.msg);
                             if(data.code===0){
-                                layer.close(openIndex);
-                                active.reload();
+                                location.href="{:url('admin/index/index')}";
                             }
                         }
                     });

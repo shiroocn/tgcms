@@ -14,12 +14,19 @@ class Admin extends Base
     public function login(){
         if(IS_POST){
             $postData=$this->request->param();
-
-            return json_shiroo('login.success','',0,$postData);
-
+            $userName=$postData['user_name'];
+            $userPassword=$postData['user_password'];
+            if($userName=='a' && $userPassword=='a'){
+                session('uid',1);
+                return json_shiroo('login.success');
+            }else{
+                return json_shiroo('login.error');
+            }
         }else{
             return $this->fetch();
         }
     }
-
+    public function loginOut(){
+           session('uid',null);
+    }
 }

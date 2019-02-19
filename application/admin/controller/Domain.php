@@ -16,19 +16,19 @@ class Domain extends Base
     public function add(){
         if(IS_POST){
             //接收用户提交过来的POST数据，这里为一个数组数据
-            $postDate=$this->request->param();
+            $postData=$this->request->param();
 
             //进行数据的检验
-            $result=$this->validate($postDate,'app\admin\validate\Domain.add');
+            $result=$this->validate($postData,'app\admin\validate\Domain.add');
             if($result!==true){
                 //如果检检验不过关，提示错误。
                 return json_shiroo('validate');
             }
             //添加进数据库。
             $data=[
-                'domain_url'=>$postDate['domain_url'],
-                'domain_copyright'=>htmlentities($postDate['domain_copyright']),
-                'domain_count_code'=>htmlentities($postDate['domain_count_code'])
+                'domain_url'=>$postData['domain_url'],
+                'domain_copyright'=>htmlentities($postData['domain_copyright']),
+                'domain_count_code'=>htmlentities($postData['domain_count_code'])
             ];
             $result=Db::name('domain')->insert($data);
             if($result){

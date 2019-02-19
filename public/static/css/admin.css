@@ -1,3 +1,7 @@
-
+.admin .login {
+  padding-top: 200px; }
+  .admin .login .box {
+    width: 320px;
+    margin: 0 auto; }
 
 /*# sourceMappingURL=admin.css.map */

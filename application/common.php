@@ -96,8 +96,8 @@ function err($name)
     return $result;
 }
 function isLogin(){
-    $uid=(int)session('uid');
-    if(session('?uid') && $uid>0){
+    $uid=(int)session('user.user_id');
+    if(session('?user') && $uid>0){
         return true;
     }else{
         return false;

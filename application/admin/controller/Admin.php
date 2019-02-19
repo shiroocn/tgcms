@@ -17,6 +17,12 @@ class Admin extends Base
     {
         if (IS_POST) {
             $postData = $this->request->param();
+            //进行数据的检验
+            $validate=$this->validate($postData,'app\admin\validate\Admin.login');
+            if($validate!==true){
+                //如果检检验不过关，提示错误。
+                return json_shiroo('validate',$validate);
+            }
             $userName = $postData['user_name'];
             $userPassword = $postData['user_password'];
             $where = [
@@ -32,18 +38,23 @@ class Admin extends Base
             }
             if (is_array($result) && !is_null($result)) {
                 //验证成功
-                session('uid', $result['user_id']);
+                session('user',$result);
                 return json_shiroo('login.success');
             } else {
                 return json_shiroo('login.error');
             }
         } else {
-            return $this->fetch();
+            if(isLogin()){
+                $this->redirect('admin/index/index');
+            }else{
+                return $this->fetch();
+            }
         }
     }
 
     public function loginOut()
     {
-        session('uid', null);
+        session('user', null);
+        $this->redirect('admin/admin/login');
     }
 }

@@ -16,6 +16,13 @@ class Brand extends Base
     public function show(){
         if(IS_POST){
             $postData=$this->request->param();
+            //进行数据的检验
+            $validate=$this->validate($postData,'app\admin\validate\Brand.show');
+            if($validate!==true){
+                //如果检检验不过关，提示错误。
+                return json_shiroo('validate',$validate);
+            }
+            //获取POST过来的数据。
             $page=$postData['page']-1;
             $limit=$postData['limit'];
             try{
@@ -34,12 +41,23 @@ class Brand extends Base
     }
     public function add(){
         $postData=$this->request->param();
+        //进行数据的检验
+        $validate=$this->validate($postData,'app\admin\validate\Brand.show');
+        if($validate!==true){
+            //如果检检验不过关，提示错误。
+            return json_shiroo('validate',$validate);
+        }
+        //取出POST过来的参数
+        $brandName=$postData['brand_name'];
+        $brandWeiXin=$postData['brand_weixin'];
+        $brandWeiXinQRPath=$postData['brand_weixinqr_path'];
+        $brandIconPath=$postData['brand_icon_path'];
 
         $data=[
-            'brand_name'=>$postData['brand_name'],
-            'brand_weixin'=>$postData['brand_weixin'],
-            'brand_weixinqr_path'=>$postData['brand_weixinqr_path'],
-            'brand_icon_path'=>$postData['brand_icon_path']
+            'brand_name'=>$brandName,
+            'brand_weixin'=>$brandWeiXin,
+            'brand_weixinqr_path'=>$brandWeiXinQRPath,
+            'brand_icon_path'=>$brandIconPath
         ];
         try{
             $result=Db::name('brand')->insert($data);

@@ -118,15 +118,34 @@ class Page extends Base
         if ($result != true) {
             return json_shiroo('validate');
         }
+        $domainID=$postData['domain_id'];
         $pageID = $postData['page_id'];
         $templateID = $postData['template_id'];
         $brandID = $postData['brand_id'];
+        $applyAllTemplate=isset($postData['apply_all_template'])?$postData['apply_all_template']:'off';
+        $applyAllBrand=isset($postData['apply_all_brand'])?$postData['apply_all_brand']:'off';
+
         try {
+            //这里是编辑当前记录
             $result = Db::name('page')->where('page_id', $pageID)
                 ->update([
                     'page_template_id' => $templateID,
                     'page_brand_id' => $brandID
                 ]);
+            //如果客户选中了应用全部【模板】
+            if($applyAllTemplate=='on'){
+                Db::name('page')->where('page_domain_id', $domainID)
+                    ->update([
+                        'page_template_id' => $templateID
+                    ]);
+            }
+            //如果客户选中了应用全部【线索】
+            if($applyAllBrand=='on'){
+                Db::name('page')->where('page_domain_id', $domainID)
+                    ->update([
+                        'page_brand_id' => $brandID
+                    ]);
+            }
         } catch (\Exception $e) {
             return json_shiroo('database');
         }

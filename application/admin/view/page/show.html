@@ -24,7 +24,7 @@
 
     <!--新增与编辑页面HTML-->
     <div id="edit-box" style="padding:20px;display: none;">
-        <form id="page-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+        <form id="page-form" class="layui-form layui-form-pane" method="post" :action="postURL" lay-filter="page-form">
             <input type="hidden" name="domain_id" :value="domainID">
             <input type="hidden" name="page_id" :value="pageID">
             <div class="layui-form-item" v-show="addTypeBox">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">推广信息</label>
+                <label class="layui-form-label">推广线索</label>
                 <div class="layui-input-block">
                     <select name="brand_id" lay-search="" v-model="brandID" lay-filter="brandID">
                         <option value=""></option>
@@ -90,6 +90,13 @@
                         <option value="{$v['brand_id']}">{$v['brand_name']}【{$v['brand_weixin']}】</option>
                         {/volist}
                     </select>
+                </div>
+            </div>
+            <div class="layui-form-item" v-show="applyAllBox">
+                <label class="layui-form-label">应用全部</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="apply_all_template" title="模板" lay-skin="primary">
+                    <input type="checkbox" name="apply_all_brand" title="线索" lay-skin="primary">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -122,7 +129,10 @@
             singleBox: true,
             batchBox: false,
             templateItems: "",
-            submitButtonTitle: ""
+            submitButtonTitle: "",
+            applyAllTemplate:false,
+            applyAllBrand:false,
+            applyAllBox:false
         },
         watch: {
             templateDirID: function (newVal, oldVal) {
@@ -159,10 +169,12 @@
                 vm.templateDirID="";
                 vm.templateID="";
                 vm.brandID="";
+                vm.applyAllBox=false;
                 vm.submitButtonTitle = "确认新增";
                 vm.postURL = "{:url('admin/page/add')}";
                 setTimeout(function () {
                     form.render("select");
+                    form.render("checkbox");
                     openIndex = layer.open({
                         type: 1,
                         title: "新增",
@@ -231,6 +243,11 @@
                             vm.postURL = "{:url('admin/page/edit')}";
                             vm.submitButtonTitle = "确认修改";
                             vm.pageID = data.page_id;
+                            form.val("page-form",{
+                                "apply_all_template":false,
+                                "apply_all_brand":false
+                            });
+                            vm.applyAllBox=true;
                             setTimeout(function () {
                                 form.render("select");
                                 openIndex = layer.open({

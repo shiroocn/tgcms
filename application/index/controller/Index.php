@@ -16,7 +16,7 @@ class Index extends Base
         //去掉http://字符。
         $domain=str_replace('http://','',$domain);
         $domain=str_replace('https://','',$domain);
-
+        dump($domain);
         try{
             $domain=Db::name('domain')->where('domain_url',$domain)->find();
             if(is_null($domain) && !is_array($domain)){

@@ -17,7 +17,7 @@ return [
     // 数据库名
     'database'        => 'tgcms',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'xkq722',
     // 密码
     'password'        => 'xkq*147852',
     // 端口

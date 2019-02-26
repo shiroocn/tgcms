@@ -19,7 +19,7 @@ return [
     // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写 3 保持操作方法
     'auto_rule'    => 1,
     // 模板路径
-    'view_path'    => './static/template/',
+    'view_path'    => $_SERVER['DOCUMENT_ROOT'].'/public/static/template/',
     // 模板后缀
     'view_suffix'  => 'html',
     // 模板文件名分隔符
@@ -34,9 +34,9 @@ return [
     'taglib_end'   => '}',
     //模板渲染前替换
     'tpl_replace_string'=>[
-        '__STATIC__'=>'/static',
-        '__UPLOADS__'=>'/static/uploads',
-        '__TEMPLATE__'=>'/static/template',
-        '__PLUGINS__'=>'/static/plugins'
+        '__STATIC__'=>'/public/static',
+        '__UPLOADS__'=>'/public/static/uploads',
+        '__TEMPLATE__'=>'/public/static/template',
+        '__PLUGINS__'=>'/public/static/plugins'
     ]
 ];

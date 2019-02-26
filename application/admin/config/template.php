@@ -34,9 +34,9 @@ return [
     'taglib_end'   => '}',
     //模板渲染前替换
     'tpl_replace_string'=>[
-        '__STATIC__'=>'/static',
-        '__UPLOADS__'=>'/static/uploads',
-        '__TEMPLATE__'=>'/static/template',
-        '__PLUGINS__'=>'/static/plugins'
+        '__STATIC__'=>'/public/static',
+        '__UPLOADS__'=>'/public/static/uploads',
+        '__TEMPLATE__'=>'/public/static/template',
+        '__PLUGINS__'=>'/public/static/plugins'
     ]
 ];

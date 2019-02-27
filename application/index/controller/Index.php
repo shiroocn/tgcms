@@ -8,9 +8,8 @@ class Index extends Base
 
     public function index()
     {
-
         //获取访问的落地页别名
-        $pageName=$this->request->param('p');
+        $pageName=$this->request->param('p')?:'index';
         //获取当前的域名
         $domain=$this->request->domain();
         //去掉http://字符。

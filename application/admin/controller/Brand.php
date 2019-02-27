@@ -41,12 +41,12 @@ class Brand extends Base
     }
     public function add(){
         $postData=$this->request->param();
-        //进行数据的检验
-        $validate=$this->validate($postData,'app\admin\validate\Brand.show');
+        /*//进行数据的检验
+        $validate=$this->validate($postData,'app\admin\validate\Brand.add');
         if($validate!==true){
             //如果检检验不过关，提示错误。
             return json_shiroo('validate',$validate);
-        }
+        }*/
         //取出POST过来的参数
         $brandName=$postData['brand_name'];
         $brandWeiXin=$postData['brand_weixin'];

@@ -23,7 +23,7 @@ class File extends Base
             $info=$file->validate([
                 'size'=>1048576,
                 'ext'=>'jpg,png,gif'
-            ])->rule('md5')->move('./static/uploads');
+            ])->rule('md5')->move('./public/static/uploads');
             //这里采用MD5来给文件重命名，前两个字符是文件夹名称。
             if($info){
                 //上传成功
@@ -42,7 +42,7 @@ class File extends Base
                 return json_shiroo('upload.success','',0,$data);
             }else{
                 //上传失败
-                return json_shiroo('upload.error');
+                return json_shiroo('upload.error',$file->getError());
             }
         }else{
             return $this->fetch();

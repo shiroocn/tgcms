@@ -12,15 +12,25 @@ function IsPC(){
     }
     return flag;
 }
-$(function () {
-    /*$(".user-name").html(userName);
-    $(".user-portrait").attr("src",userPortrait);
-    $(".user-wx").html(userWX);
-    $(".user-copyright").html(userCopyright);
-    $(".user-portrait-banner").attr("src",userPortraitBanner);
-    $(".user-wx-qr").attr("src",userWXQR);*/
+$(document).ready(function () {
+    console.log("test");
 
-   /* if(IsPC()){
-        $("body").append("<div class='fu_box'><p class='p1'>微信扫一扫</p><p class='p0'>免费在线指导</p><img class='fu_box_img' src='"+userWXQR+"'/><p class='p2'>手动添加微信号</p><p class='p3'>"+userWX+"</p></div>");
-    }*/
+    //点击复制功能，必须是按钮button，而且不能隐藏，只能设置
+    var clipboard = new ClipboardJS('.copy_wx_btn');
+    clipboard.on('success', function(e) {
+        //
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        layer.alert("微信号复制成功，请添加朋友！",function (index) {
+            location.href="weixin://";
+            layer.close(index);
+        });
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+    });
 });

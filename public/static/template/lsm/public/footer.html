@@ -1,11 +1,16 @@
+<!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+<div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin}</div>
+
 <p class="user-copyright">{$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}</p>
 <div style=" height:130px;"></div>
 
 <div style="position:fixed;background:#FFF;width:100%;left:0; bottom:0"><p class="tip"><span>↓↓</span>长按下方按钮复制并添加微信号免费咨询<span>↓↓</span>
 </p>
+    <button type="button" class="copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制加微信</button>
     <p class="wxh"><span class="go user-wx">{$sh.brand_weixin?:''}</span></p>
     <span style="color:red;font-size: 16px;">注:凡同名"公众号"均属恶意仿冒，切勿关注</span>
 </div>
+
 <!--监测代码start-->
 {$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
 <!--监测代码end-->

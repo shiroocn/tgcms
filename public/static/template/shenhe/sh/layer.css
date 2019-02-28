@@ -1,0 +1,261 @@
+html #layui_layer_skinlayercss {
+	width: 1989px; display: none; position: absolute;
+}
+.layui-layer {
+	position: fixed; _position: absolute;
+}
+.layui-layer-shade {
+	position: fixed; _position: absolute;
+}
+.layui-layer-shade {
+	left: 0px; top: 0px; width: 100%; height: 100%;
+}
+.layui-layer {
+	margin: 0px; padding: 0px; left: 50%; top: 150px; box-shadow: 1px 1px 50px rgba(0,0,0,0.3); animation-duration: 0.3s; animation-fill-mode: both; background-color: rgb(255, 255, 255); -webkit-background-clip: content; -webkit-animation-fill-mode: both; -webkit-animation-duration: .3s;
+}
+.layui-layer-close {
+	position: absolute;
+}
+.layui-layer-content {
+	position: relative;
+}
+.layui-layer-border {
+	border: 1px solid rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+.layui-layer-moves {
+	border: 3px solid rgba(0, 0, 0, 0.5); position: absolute; cursor: move; background-color: rgba(255, 255, 255, 0.3);
+}
+.layui-layer-load {
+	background: url("../images/loading-0.gif") no-repeat center rgb(255, 255, 255);
+}
+.layui-layer-ico {
+	background: url("../images/icon.png") no-repeat;
+}
+.layui-layer-btn a {
+	vertical-align: top; display: inline-block;
+}
+.layui-layer-dialog .layui-layer-ico {
+	vertical-align: top; display: inline-block;
+}
+.layui-layer-setwin a {
+	vertical-align: top; display: inline-block;
+}
+.layui-anim {
+	animation-name: bounceIn; -webkit-animation-name: bounceIn;
+}
+.layui-anim-close {
+	animation-name: bounceOut; animation-duration: 0.2s; -webkit-animation-duration: .2s; -webkit-animation-name: bounceOut;
+}
+.layui-anim-01 {
+	animation-name: zoomInDown; -webkit-animation-name: zoomInDown;
+}
+.layui-anim-02 {
+	animation-name: fadeInUpBig; -webkit-animation-name: fadeInUpBig;
+}
+.layui-anim-03 {
+	animation-name: zoomInLeft; -webkit-animation-name: zoomInLeft;
+}
+.layui-anim-04 {
+	animation-name: rollIn; -webkit-animation-name: rollIn;
+}
+.layui-anim-05 {
+	animation-name: fadeIn; -webkit-animation-name: fadeIn;
+}
+.layui-anim-06 {
+	animation-name: shake; -webkit-animation-name: shake;
+}
+.layui-layer-title {
+	padding: 0px 80px 0px 10px; height: 35px; color: rgb(51, 51, 51); line-height: 35px; overflow: hidden; font-size: 14px; border-bottom-color: rgb(213, 213, 213); border-bottom-width: 1px; border-bottom-style: solid; white-space: nowrap; -ms-text-overflow: ellipsis; background-color: rgb(234, 234, 234);
+}
+.layui-layer-setwin {
+	top: 10px; right: 10px; font-size: 0px; position: absolute;
+}
+.layui-layer-setwin a {
+	width: 14px; height: 14px; font-size: 12px; margin-left: 10px; position: relative; _overflow: hidden;
+}
+.layui-layer-setwin .layui-layer-min cite {
+	left: 0px; top: 50%; width: 14px; height: 2px; margin-top: -1px; position: absolute; cursor: pointer; background-color: rgb(145, 145, 145); _overflow: hidden;
+}
+.layui-layer-setwin .layui-layer-min:hover cite {
+	background-color: rgb(45, 147, 202);
+}
+.layui-layer-setwin .layui-layer-max {
+	background-position: -45px -55px;
+}
+.layui-layer-setwin .layui-layer-max:hover {
+	background-position: -95px -55px;
+}
+.layui-layer-setwin .layui-layer-maxmin {
+	background-position: -68px -55px;
+}
+.layui-layer-setwin .layui-layer-maxmin:hover {
+	background-position: -118px -55px;
+}
+.layui-layer-setwin .layui-layer-close1 {
+	background-position: -5px -55px; width: 14px; height: 14px; cursor: pointer;
+}
+.layui-layer-setwin .layui-layer-close1:hover {
+	background-position: -25px -55px;
+}
+.layui-layer-setwin .layui-layer-close2 {
+	background-position: -149px -44px; top: -23px; width: 30px; height: 30px; right: -23px; margin-left: 0px; position: absolute; _right: -15px; _top: -23px; _width: 14px; _height: 14px; _background-position: -5px -55px;
+}
+.layui-layer-setwin .layui-layer-close2:hover {
+	background-position: -180px -44px; _background-position: -25px -55px;
+}
+.layui-layer-btn {
+	padding: 0px 30px 10px; text-align: center;
+}
+.layui-layer-btn a {
+	background: rgb(95, 191, 231); margin: 0px 8px; padding: 0px 20px; height: 30px; color: rgb(255, 255, 255); line-height: 30px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.layui-layer-btn a:hover {
+	text-decoration: none; opacity: 0.9;
+}
+.layui-layer-btn a:active {
+	opacity: 0.7;
+}
+.layui-layer-btn .layui-layer-btn1 {
+	background: rgb(166, 187, 206);
+}
+.layui-layer-dialog {
+	min-width: 240px;
+}
+.layui-layer-dialog .layui-layer-content {
+	padding: 20px; line-height: 24px; overflow: auto; font-size: 14px; position: relative; -ms-word-break: break-all;
+}
+.layui-layer-dialog .layui-layer-content .layui-layer-ico {
+	left: 15px; top: 15px; width: 39px; height: 39px; position: absolute; _left: -50px;
+}
+.layui-layer-ico1 {
+	background-position: -46px 0px;
+}
+.layui-layer-ico2 {
+	background-position: -93px 0px;
+}
+.layui-layer-ico3 {
+	background-position: -145px 0px;
+}
+.layui-layer-ico4 {
+	background-position: -191px 0px;
+}
+.layui-layer-ico5 {
+	background-position: -239px 0px;
+}
+.layui-layer-ico6 {
+	background-position: -287px 0px;
+}
+.layui-layer-rim {
+	border-radius: 5px; border: 6px solid rgba(0, 0, 0, 0.3); box-shadow: none;
+}
+.layui-layer-msg {
+	border-radius: 3px; border: 5px solid rgba(0, 0, 0, 0.4); min-width: 170px;
+}
+.layui-layer-msg .layui-layer-content .layui-layer-ico {
+	top: 10px;
+}
+.layui-layer-hui {
+	border: currentColor; color: rgb(255, 255, 255); min-width: 100px; background-color: rgba(0, 0, 0, 0.6);
+}
+.layui-layer-hui .layui-layer-content {
+	padding: 12px 25px; text-align: center;
+}
+.layui-layer-dialog .layui-layer-padding {
+	padding: 22px 20px 22px 65px; text-align: left;
+}
+.layui-layer-msg .layui-layer-padding {
+	padding: 17px 20px 17px 65px;
+}
+.layui-layer-page .layui-layer-content {
+	overflow: auto; position: relative;
+}
+.layui-layer-iframe .layui-layer-btn {
+	padding-top: 10px;
+}
+.layui-layer-page .layui-layer-btn {
+	padding-top: 10px;
+}
+.layui-layer-nobg {
+	
+}
+.layui-layer-iframe .layui-layer-content {
+	overflow: hidden;
+}
+.layui-layer-iframe iframe {
+	width: 100%; display: block;
+}
+.layui-layer-loading {
+	border-radius: 100%; box-shadow: none;
+}
+.layui-layer-loading .layui-layer-content {
+	background: url("../images/loading-0.gif") no-repeat; width: 60px; height: 24px;
+}
+.layui-layer-loading .layui-layer-loading1 {
+	background: url("../images/loading-1.gif") no-repeat; width: 37px; height: 37px;
+}
+.layui-layer-ico16 {
+	background: url("../images/loading-2.gif") no-repeat; width: 32px; height: 32px;
+}
+.layui-layer-loading .layui-layer-loading2 {
+	background: url("../images/loading-2.gif") no-repeat; width: 32px; height: 32px;
+}
+.layui-layer-tips {
+	box-shadow: none;
+}
+.layui-layer-tips .layui-layer-content {
+	padding: 5px 10px; border-radius: 3px; color: rgb(255, 255, 255); line-height: 22px; font-size: 12px; position: relative; min-width: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.3); background-color: rgb(255, 153, 0); _float: left;
+}
+.layui-layer-tips .layui-layer-close {
+	top: -1px; right: -2px;
+}
+.layui-layer-tips i.layui-layer-TipsG {
+	border: 8px dashed transparent; width: 0px; height: 0px; position: absolute;
+}
+.layui-layer-tips i.layui-layer-TipsB {
+	left: 5px; border-right-color: rgb(255, 153, 0); border-right-style: solid;
+}
+.layui-layer-tips i.layui-layer-TipsT {
+	left: 5px; border-right-color: rgb(255, 153, 0); border-right-style: solid;
+}
+.layui-layer-tips i.layui-layer-TipsT {
+	bottom: -8px;
+}
+.layui-layer-tips i.layui-layer-TipsB {
+	top: -8px;
+}
+.layui-layer-tips i.layui-layer-TipsL {
+	top: 1px; border-bottom-color: rgb(255, 153, 0); border-bottom-style: solid;
+}
+.layui-layer-tips i.layui-layer-TipsR {
+	top: 1px; border-bottom-color: rgb(255, 153, 0); border-bottom-style: solid;
+}
+.layui-layer-tips i.layui-layer-TipsR {
+	left: -8px;
+}
+.layui-layer-tips i.layui-layer-TipsL {
+	right: -8px;
+}
+[type=dialog].layui-layer-lan {
+	min-width: 280px;
+}
+.layui-layer-lan .layui-layer-title {
+	background: rgb(68, 118, 167); border: currentColor; color: rgb(255, 255, 255);
+}
+.layui-layer-lan .layui-layer-btn {
+	padding: 10px; text-align: right; border-top-color: rgb(233, 231, 231); border-top-width: 1px; border-top-style: solid;
+}
+.layui-layer-lan .layui-layer-btn a {
+	background: rgb(187, 181, 181);
+}
+.layui-layer-lan .layui-layer-btn .layui-layer-btn1 {
+	background: rgb(201, 197, 197);
+}
+.layui-layer-molv .layui-layer-title {
+	background: rgb(0, 159, 149); border: currentColor; color: rgb(255, 255, 255);
+}
+.layui-layer-molv .layui-layer-btn a {
+	background: rgb(0, 159, 149);
+}
+.layui-layer-molv .layui-layer-btn .layui-layer-btn1 {
+	background: rgb(146, 184, 177);
+}

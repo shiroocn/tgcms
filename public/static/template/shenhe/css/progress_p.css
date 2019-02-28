@@ -1,0 +1,72 @@
+﻿.loadBox {
+	height:100%;
+	width:100%;
+	position:fixed !important;
+	left:0;
+	top:0;
+	z-index:999;
+	color:#333;
+	display:none;
+	background:rgba(0,0,0,0.8);
+	filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#8F000000,endcolorstr=#8F000000);
+}
+.loadBox .load_content {
+	width:440px;
+	background:#fff;
+	border:solid #398de5  8px;
+	position:absolute;
+	top:40%;
+	left:50%;
+	margin-left:-228px;
+	margin-top:-74px;
+}
+.loadBox .load_close {
+	position:absolute;
+	right:10px;
+	top:10px;
+	z-index:1
+}
+.loadBox .load_title {
+	font-size:18px;
+	padding:40px 20px;
+	text-align:center;
+}
+.loadBox .load_close a {
+	display:block;
+	width:32px;
+	height:32px;
+	background:url(../images/cancel.png) no-repeat;
+}
+.loadBox .load_close a:hover {
+	opacity:0.7;
+}
+.load_discuss {
+	position:relative;
+	display:block;
+	color:#666;
+	font-size:21px;
+	width:385px;
+	height:27px;
+}
+.load_barbox {
+	height:16px;
+	margin-top:40px;
+}
+.load_discuss .spot {
+	display:inline-block;
+	width:26px;
+	height:27px;
+	text-align:left;
+}
+.load_barbox .load_barline {
+	width:262px;
+	background:#eee;
+	height:15px;
+	margin:auto;
+	border-radius:8px;
+}
+.load_barbox .load_charts {
+	height:15px;
+	background:#398de5;
+	border-radius:8px;
+}

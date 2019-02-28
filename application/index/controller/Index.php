@@ -26,7 +26,6 @@ class Index extends Base
             //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
             $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 
-            dump($previousURL);
             //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
             if(!is_null($domain['page_source_allow'])){
                 //设置了允许来源，进行限制访问

@@ -22,10 +22,8 @@ $(document).ready(function () {
         console.info('Action:', e.action);
         console.info('Text:', e.text);
         console.info('Trigger:', e.trigger);
-        layer.alert("微信号复制成功，请添加朋友！",function (index) {
-            location.href="weixin://";
-            layer.close(index);
-        });
+        alert("微信号复制成功，请添加朋友！");
+        location.href="weixin://";
         e.clearSelection();
     });
 

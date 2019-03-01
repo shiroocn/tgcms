@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'tgcms',
     // 用户名
-    'username'        => '',
+    'username'        => 'xkq722',
     // 密码
-    'password'        => '',
+    'password'        => 'xkq*147852',
     // 端口
     'hostport'        => '',
     // 连接dsn

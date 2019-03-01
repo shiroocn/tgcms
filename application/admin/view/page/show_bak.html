@@ -30,10 +30,8 @@
             <div class="layui-form-item" v-show="addTypeBox">
                 <label class="layui-form-label">新增方式</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="add_type" value="single" title="单个新增" lay-filter="addTypeChecked"
-                           v-model="addType">
-                    <input type="radio" name="add_type" value="batch" title="批量新增" lay-filter="addTypeChecked"
-                           v-model="addType">
+                    <input type="radio" name="add_type" value="single" title="单个新增" lay-filter="addTypeChecked" checked>
+                    <input type="radio" name="add_type" value="batch" title="批量新增" lay-filter="addTypeChecked">
                 </div>
             </div>
             <div class="layui-form-item" v-show="singleBox">
@@ -64,11 +62,11 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form layui-form-item" lay-filter="templateBox">
+            <div class="layui-form layui-form-item"  lay-filter="templateBox">
                 <label class="layui-form-label">使用模板</label>
                 <div class="layui-input-block">
                     <div class="layui-input-inline" style="width: 135px;">
-                        <select name="template_dir_id" lay-search="" lay-filter="templateDirID" v-model="templateDirID">
+                        <select name="template_dir_id" lay-search="" v-model="templateDirID" lay-filter="templateDirID">
                             <option value="">模板主题</option>
                             {volist name="template_dir" id="v"}
                             <option value="{$v['template_dir_id']}">{$v['template_dir_name']}</option>
@@ -76,10 +74,9 @@
                         </select>
                     </div>
                     <div class="layui-input-inline" style="width: 135px;">
-                        <select name="template_id" lay-search="" lay-filter="templateID" v-model="templateID">
+                        <select name="template_id" lay-search="" v-model="templateID" lay-filter="templateID">
                             <option value="">模板风格</option>
-                            <option :value="item.template_id" v-for="item in templateItems">{{item.template_name}}
-                            </option>
+                            <option :value="item.template_id" v-for="item in templateItems">{{item.template_name}}</option>
                         </select>
                     </div>
                 </div>
@@ -87,7 +84,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">推广线索</label>
                 <div class="layui-input-block">
-                    <select name="brand_id" lay-search="" lay-filter="brandID" v-model="brandID">
+                    <select name="brand_id" lay-search="" v-model="brandID" lay-filter="brandID">
                         <option value=""></option>
                         {volist name="brand" id="v"}
                         <option value="{$v['brand_id']}">{$v['brand_name']}【{$v['brand_weixin']}】</option>
@@ -98,8 +95,8 @@
             <div class="layui-form-item" v-show="applyAllBox">
                 <label class="layui-form-label">应用全部</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="apply_all_template" title="模板" lay-skin="primary" v-model="applyAllTemplate" lay-filter="applyAllTemplate">
-                    <input type="checkbox" name="apply_all_brand" title="线索" lay-skin="primary" v-model="applyAllBrand" lay-filter="applyAllBrand">
+                    <input type="checkbox" name="apply_all_template" title="模板" lay-skin="primary">
+                    <input type="checkbox" name="apply_all_brand" title="线索" lay-skin="primary">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -117,92 +114,83 @@
     var vm = new Vue({
         el: "#app",
         data: {
-            addTypeBox: true,//控制添加方式框显示或隐藏
-            addType: "single",//single|batch，选择的添加方式
-            domainID: {$domain_id},//当前站点的ID
-            pageID: 0,//当前页面的ID
-            postURL: "",//POST提交的地址
-            pageName: "",//落地页名称
-            pageNameDisabled: false,//控制落地页输入框的可用与禁用状态。
-            pageNamePrefix: "",//批量添加时落地页名称前缀
-            pageNameSuffixMin: "",//批量添加时落地页名称起始值
-            pageNameSuffixMax: "",//批量添加时落地页名称结束值
-            templateDirID: "",//模板目录的ID
-            templateID: "",//模板风格的ID
-            brandID: "",//推广线索的ID
-            singleBox: true,//添加方式为单个时为true
-            batchBox: false,//添加方式为批量时为true
-            templateItems: "",//选择模板时异步获取到的风格数据
-            submitButtonTitle: "",//提交按钮的名称
-            applyAllTemplate: "",//应用全部【模板】on
-            applyAllBrand: "",//应用全部【线索】on
-            applyAllBox: false//应用框可视状态
-        },
-        updated: function () {
-            //console.log("updated");
-            //组件 DOM 更新，
-            //因为Vue赋值之后，layui并没有渲染，值是变了。但是实际看到的样式没有改变。
-            form.render();//表单更新渲染。
+            addTypeBox: true,
+            domainID: {$domain_id},
+            pageID: 0,
+            postURL: "",
+            pageName: "",
+            pageNameDisabled:false,
+            pageNamePrefix: "",
+            pageNameSuffixMin: "",
+            pageNameSuffixMax: "",
+            templateDirID: "",
+            templateID: "",
+            brandID: "",
+            singleBox: true,
+            batchBox: false,
+            templateItems: "",
+            submitButtonTitle: "",
+            applyAllTemplate:false,
+            applyAllBrand:false,
+            applyAllBox:false
         },
         watch: {
-            addType: function (newValue, oldValue) {
-                //当添加方式改变后
-                switch (newValue) {
-                    case "single":
-                        vm.singleBox = true;
-                        vm.batchBox = false;
-                        vm.postURL = "{:url('admin/page/add')}";
-                        break;
-                    case "batch":
-                        vm.singleBox = false;
-                        vm.batchBox = true;
-                        vm.postURL = "{:url('admin/page/batchadd')}";
-                        break;
-                }
-            },
-            templateDirID: function (newValue, oldValue) {
-                //console.log(newValue);
-                //templateDirID改变时。
-                var loadIndex = layer.load();
+            templateDirID: function (newVal, oldVal) {
+                //console.log("选择的模板目录ID为：" + newVal);
+                //这里其实就是templateDirID选择列表内容发生改变后的事件。
                 jQuery.post("{:url('admin/page/gettemplate')}", {
-                    template_dir_id: newValue
+                    template_dir_id: newVal
                 }, function (data, status) {
-                    //console.log(data);
-                    layer.close(loadIndex);
-                    vm.templateItems = data.data;//赋值给二级选择框。
+                    vm.templateItems = data.data;
+                    console.log(data);
                 }, "JSON");
+
             },
+            templateItems: function (newVal, oldVal) {
+                setTimeout(function () {
+                    form.render("select","templateBox");
+                    //console.log("更新渲染模板文件选择项");
+                }, 10);
+            },
+            templateID: function (val, olaVal) {
+                setTimeout(function () {
+                    form.render("select","templateBox");
+                }, 10);
+            }
         },
         methods: {
             add: function () {
-                //新增初始化表单
-                vm.addType = "single";//新增方式为单个新增
-                vm.pageName = "";//落地页名称
-                vm.pageNamePrefix = "";//前缀名称
-                vm.pageNameSuffixMin = "";
-                vm.pageNameSuffixMax = "";
-                vm.templateDirID = "";
-                vm.templateID = "";
-                vm.brandID = "";
-                vm.addTypeBox = true;//新增，新增方式要显示出来。
-                vm.pageNameDisabled = false;//新增，落地页名输入框变为可用状态
-                vm.applyAllBox = false;//新增，应用全部选项要隐藏掉
-                vm.submitButtonTitle = "确认新增";//修改提交按钮标题
+                vm.addTypeBox = true;
+                vm.pageName="";
+                vm.pageNameDisabled=false;
+                vm.pageNamePrefix="";
+                vm.pageNameSuffixMin="";
+                vm.pageNameSuffixMax="";
+                vm.templateDirID="";
+                vm.templateID="";
+                vm.brandID="";
+                vm.applyAllBox=false;
+                vm.submitButtonTitle = "确认新增";
                 vm.postURL = "{:url('admin/page/add')}";
-                //以对话框形式弹出。
-                openIndex = layer.open({
-                    type: 1,
-                    title: "新增",
-                    area: "460px",
-                    content: $("#edit-box")
-                });
+                setTimeout(function () {
+                    form.render("select");
+                    form.render("checkbox");
+                    openIndex = layer.open({
+                        type: 1,
+                        title: "新增",
+                        area: "460px",
+                        content: $("#edit-box")
+                    });
+                },10);
             },
             reload: function () {
-                //刷新表格数据。
                 table.reload('pages');
             },
             close: function () {
-                layer.close(openIndex); //关闭新增和编辑窗口
+                layer.close(openIndex); //执行关闭
+            },
+            refresh: function () {
+
             }
         },
         created: function () {
@@ -210,8 +198,6 @@
                 layer = layui.layer;
                 table = layui.table;
                 form = layui.form;
-
-                //异步获取数据表
                 table.render({
                     elem: '#pages',
                     url: '{:url("admin/page/show")}',//数据接口
@@ -241,88 +227,83 @@
                         }
                     ]]
                 });
-                //绑定数据表工具栏toolbar（编辑，删除等）事件
                 table.on("tool(pages)", function (obj) {
                     var data = obj.data;
                     //console.log(data);
                     switch (obj.event) {
                         case "edit":
-                            //新增初始化表单
-                            vm.addType = "single";//新增方式为单个新增
-                            vm.pageName = data.page_name;//落地页名称
-                            vm.pageNamePrefix = "";//前缀名称
-                            vm.pageNameSuffixMin = "";
-                            vm.pageNameSuffixMax = "";
-                            vm.templateDirID = data.template_dir_id;
-                            vm.templateID = data.template_id;
-                            vm.brandID = data.brand_id;
-                            vm.applyAllTemplate = "";
-                            vm.applyAllBrand = "";
-                            vm.pageID = data.page_id;
-
-                            vm.addTypeBox = false;//编辑，新增方式要隐藏。
-                            vm.pageNameDisabled = true;//编辑，落地页名输入框变为禁用状态
-                            vm.applyAllBox = true;//编辑，应用全部选项要显示
-
+                            vm.addTypeBox = false;
+                            vm.singleBox = true;
+                            vm.batchBox = false;
+                            vm.pageName=data.page_name;
+                            vm.pageNameDisabled=true;
+                            vm.templateDirID=data.template_dir_id;
+                            vm.templateID=data.template_id;
+                            vm.brandID=data.brand_id;
                             vm.postURL = "{:url('admin/page/edit')}";
                             vm.submitButtonTitle = "确认修改";
-                            //赋值好后，弹出BOX显示给用户
-                            openIndex = layer.open({
-                                type: 1,
-                                title: "编辑",
-                                area: "460px",
-                                content: $("#edit-box")
+                            vm.pageID = data.page_id;
+                            form.val("page-form",{
+                                "apply_all_template":false,
+                                "apply_all_brand":false
                             });
+                            vm.applyAllBox=true;
+                            setTimeout(function () {
+                                form.render("select");
+                                openIndex = layer.open({
+                                    type: 1,
+                                    title: "编辑",
+                                    area: "460px",
+                                    content: $("#edit-box")
+                                });
+                            },10);
+
                             break;
                         case "del":
-                            layer.confirm('是否确定删除' + data.page_name + '页面？', {icon: 3, title: '提示'}, function (index) {
-                                $.post("{:url('admin/page/del')}", {
-                                    page_id: data.page_id
-                                }, function (data, status) {
+                            layer.confirm('是否确定删除'+data.page_name+'页面？',{icon:3,title:'提示'},function (index) {
+                                $.post("{:url('admin/page/del')}",{
+                                    page_id:data.page_id
+                                },function (data,status) {
                                     console.log(data);
                                     console.log(status);
                                     layer.msg(data.msg);
-                                    if (data.code === 0) {
+                                    if(data.code===0){
                                         obj.del();
                                     }
                                     layer.close(index);
-                                }, 'JSON');
+                                },'JSON');
                             });
                             break;
                         case "nav":
-                            window.open("//" + data.domain_url + "/" + data.page_name);
+                            window.open("//"+data.domain_url+"/"+data.page_name);
                             break;
                     }
                 });
-                //绑定新增方式（单个新增or批量新增）单选框事件
                 form.on("radio(addTypeChecked)", function (data) {
-                    //这里要绑定添加方式单选框的事件。然后再赋值给addType
-                    vm.addType = data.value;
+                    if (data.value === "single") {
+                        //单个新增
+                        console.log("单个新增");
+                        vm.postURL = "{:url('admin/page/add')}";
+                        vm.singleBox = true;
+                        vm.batchBox = false;
+                    } else {
+                        //批量新增
+                        console.log("批量新增");
+                        vm.postURL = "{:url('admin/page/batchadd')}";
+                        vm.singleBox = false;
+                        vm.batchBox = true;
+                    }
                 });
-                //绑定【模板主题】选择框事件
                 form.on("select(templateDirID)", function (data) {
-                    //把选的模板ID传递给Vue的变量，如果直接在这里写POST，会有BUG
-                    //赋值之后在watch侦听器里写异步提交
                     vm.templateDirID = data.value;
                 });
-                //绑定【推广线索】选择框事件
                 form.on("select(brandID)", function (data) {
                     vm.brandID = data.value;
                 });
-                //绑定【模板风格】选择框事件
                 form.on("select(templateID)", function (data) {
                     vm.templateID = data.value;
                 });
-                //绑定复选框事件
-                form.on("checkbox(applyAllTemplate)", function (data) {
-                    //console.log(data);
-                    vm.applyAllTemplate=data.value;
-                });
-                form.on("checkbox(applyAllBrand)", function (data) {
-                    //console.log(data);
-                    vm.applyAllBrand=data.value;
-                });
-                //提交表单事件
+
                 jQuery("#page-form").submit(function () {
                     var loadIndex = layer.load();
                     $(this).ajaxSubmit({

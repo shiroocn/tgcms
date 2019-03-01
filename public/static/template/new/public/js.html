@@ -1,8 +1,12 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="__PLUGINS__/jquery/clipboard.min.js"></script>
+<script src="__PLUGINS__/clipboard/clipboard.min.js"></script>
 <script src="__PLUGINS__/bootstrap/js/bootstrap.min.js"></script>
 <script src="__PLUGINS__/layer/layer.js"></script>
 
 <script src="__TEMPLATE__/new/js/fun.js"></script>
+
+<!--监测代码start-->
+{$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+<!--监测代码end-->

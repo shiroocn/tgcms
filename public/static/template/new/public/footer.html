@@ -3,11 +3,11 @@
 </div>-->
 
 <div class="s-footer">
-    {:html_entity_decode($domain_copyright)}
+    {$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}
 </div>
 
 <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
-<div id="user-wx" class="user-wx" style="opacity:0;">{$user_weixin}</div>
+<div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>
 <button type='button' class='copy_wx_btn' data-clipboard-action='copy' data-clipboard-target='#user-wx'>点击复制加微信</button>
 
 <!-- Modal -->
@@ -21,9 +21,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="a">微信号：{$user_weixin}</div>
+                <div class="a">微信号：{$sh.brand_weixin?:''}</div>
                 <div class="b">
-                    <img src="{$user_wx_qr}" width='60%' />
+                    <img src="{$sh.brand_weixinqr_path?:''}" width='60%' />
                 </div>
                 <div class='c'>
                     <img src='__TEMPLATE__/new/img/copy_wx_btn.png' width='120' height='40'  onclick='click_copy_wx()' />

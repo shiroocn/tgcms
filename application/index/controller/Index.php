@@ -27,7 +27,7 @@ class Index extends Base
             $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 
             //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
-            if(!is_null($domain['page_source_allow'])){
+            if(!empty($domain['page_source_allow'])){
                 //设置了允许来源，进行限制访问
                 try{
                     //设置的值格式为1,2,3  每个数字表示source_id

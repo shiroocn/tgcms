@@ -1,13 +1,22 @@
-安装
+##安装
+
 1. 克隆项目
-	`git clone https://github.com/ShirooM/tgcms.git`
+
+   `git clone https://github.com/ShirooM/tgcms.git`
 2. 进入项目目录
+
 	`cd tgcms`
+
 3. 克隆ThinkPHP框架(默认分支)
+
 	`git clone https://github.com/top-think/framework thinkphp`
+
 	- 指定分支克隆(例如分支5.1)
-	`git clone -b 5.1 https://github.com/top-think/framework thinkphp`
+
+		`git clone -b 5.1 https://github.com/top-think/framework thinkphp`
+
 4. 新建数据库连接参数文件（文件存放位置 config/database.php）
+
 	    <?php
     	return [
     	// 数据库类型
@@ -63,7 +72,10 @@
     	];
 
 	
-目录权限
-/runtime
+5. 目录权限
 
-/public/static/uploads
+	- /runtime
+
+	- /public/static/uploads
+
+6. URL重写设置

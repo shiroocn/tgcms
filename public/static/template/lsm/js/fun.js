@@ -22,7 +22,7 @@ $(document).ready(function () {
         console.info('Action:', e.action);
         console.info('Text:', e.text);
         console.info('Trigger:', e.trigger);
-        alert("微信号复制成功，请添加朋友！");
+        alert("微信号复制成功，确定跳至微信添加！");
         location.href="weixin://";
         e.clearSelection();
     });

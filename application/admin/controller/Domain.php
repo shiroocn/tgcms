@@ -55,8 +55,16 @@ class Domain extends Base
             }catch (\Exception $e){
                 return json_shiroo(10,'没有获取到数据，可能是出错了。',0,[]);
             }
+
             return json_shiroo(0,'page:'.$page.',limit:'.$limit,$count,$result);
         }else{
+            //查询允许来源列表数据，
+            try{
+                $sources=Db::name('source')->select();//如果不存在返回的是空数组。
+            }catch (\Exception $e){
+                $sources=[];
+            }
+            $this->assign('sources',$sources);
             return $this->fetch();
         }
     }
@@ -71,11 +79,13 @@ class Domain extends Base
         //$domainURL=$postData['domain_url'];
         $domainCopyright=htmlentities($postData['domain_copyright']);
         $domainCountCode=htmlentities($postData['domain_count_code']);
+        $domainSourceAllow=implode(',',$postData['sources']);
         try{
             $result=Db::name('domain')->where('domain_id',$domainID)
                 ->update([
                     'domain_copyright'=>$domainCopyright,
-                    'domain_count_code'=>$domainCountCode
+                    'domain_count_code'=>$domainCountCode,
+                    'domain_source_allow'=>$domainSourceAllow
                 ]);
         }catch (\Exception $e){
             return json_shiroo('database');

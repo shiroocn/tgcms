@@ -9,7 +9,16 @@ class Index extends Base
     public function index()
     {
         //获取访问的落地页别名
-        $pageName=$this->request->param('p')?:'index';
+        $postData=$this->request->param();
+        $postData['p']=!empty($postData['p'])?:'index';
+
+        //进行数据的检验
+        $validate=$this->validate($postData,'app\index\validate\Index.open');
+        if($validate!==true){
+            //如果检检验不过关，提示错误。
+            return json_shiroo('validate',$validate);
+        }
+        $pageName=$postData['p'];
         //获取当前的域名
         $domain=$this->request->domain();
         //去掉http://字符。
@@ -27,11 +36,11 @@ class Index extends Base
             $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 
             //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
-            if(!empty($domain['page_source_allow'])){
+            if(!empty($domain['domain_source_allow'])){
                 //设置了允许来源，进行限制访问
                 try{
                     //设置的值格式为1,2,3  每个数字表示source_id
-                    $sources=Db::name('source')->where('source_id','in',$domain['page_source_allow'])->select();
+                    $sources=Db::name('source')->where('source_id','in',$domain['domain_source_allow'])->select();
                     //上面按照ID进行查询
                 }catch (\Exception $e){
                     $sources=[];

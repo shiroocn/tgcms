@@ -18,11 +18,13 @@ class Base extends Controller
         //过滤不需要登陆的行为
         if(!in_array(ACTION_NAME,['login'])){
             //如果访问的action不在这个数组里面，则需要登录才能继续。
-            if(isLogin()){
-                //已登录
-
-            }else{
+            if(!isLogin()){
+                //没有登录的话是不允许访问，跳转登录页面
                 $this->error('请先登录','admin/admin/login');
+            }
+        }else{
+            if(isLogin()){
+                $this->redirect('admin/index/index');
             }
         }
     }

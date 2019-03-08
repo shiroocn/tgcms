@@ -29,33 +29,33 @@ function err($name)
     $err = [
         'edit' => [
             'success' => ['code' => 0, 'msg' => '编辑成功。'],
-            'error' => ['code' => 10, 'msg' => '编辑失败。']
+            'error' => ['code' => 100, 'msg' => '编辑失败。']
         ],
         'del' => [
             'success' => ['code' => 0, 'msg' => '删除成功。'],
-            'error' => ['code' => 11, 'msg' => '删除失败。']
+            'error' => ['code' => 101, 'msg' => '删除失败。']
         ],
         'add' => [
             'success' => ['code' => 0, 'msg' => '新增成功。'],
-            'error' => ['code' => 12, 'msg' => '新增失败。']
+            'error' => ['code' => 102, 'msg' => '新增失败。']
         ],
         'validate' => [
-            'code' => 14,
-            'msg' => '提交参数格式不允许。'
+            'code' => 104,
+            'msg' => '参数格式不合法。'
         ],
         'database' => [
-            'code' => 15, 'msg' => '数据库操作失败。'
+            'code' => 105, 'msg' => '数据库操作失败。'
         ],
         'exist'=>[
-            'code'=>16,'msg'=>'已存在相同记录。'
+            'code'=>106,'msg'=>'已存在相同记录。'
         ],
         'upload'=>[
             'success'=>['code'=>0,'msg'=>'上传成功。'],
-            'error'=>['code'=>17,'msg'=>'上传失败。']
+            'error'=>['code'=>107,'msg'=>'上传失败。']
         ],
         'login'=>[
             'success'=>['code'=>0,'msg'=>'登录成功。'],
-            'error'=>['code'=>18,'msg'=>'登录失败。']
+            'error'=>['code'=>108,'msg'=>'登录失败。']
         ]
     ];
 

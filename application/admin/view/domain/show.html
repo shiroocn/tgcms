@@ -12,7 +12,7 @@
         <div class="layui-card-body">
             <div class="domain_list_btn">
                 <a class="layui-btn layui-btn-normal" @click="add">新增站点</a>
-                <a class="layui-btn layui-btn-normal" data-type="reload">来源管理</a>
+                <a class="layui-btn layui-btn-normal" @click="sourceManage">来源管理</a>
                 <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
             </div>
             <table id="domain_list" lay-filter="domain_list"></table>
@@ -100,6 +100,11 @@
             },
             close:function () {
                 layer.close(openIndex); //关闭新增和编辑窗口
+            },
+            sourceManage:function () {
+                console.log("111111");
+                layer.alert("正在开发中...");
+                //location.href="";
             }
         },
         updated: function () {
@@ -217,7 +222,7 @@
                             layer.msg(data.msg);
                             if (data.code === 0) {
                                 layer.close(openIndex);
-                                app.reload();
+                                app.reload();//这里刷新数据保持最新。
                             }
                         }
                     });

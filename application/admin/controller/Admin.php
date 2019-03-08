@@ -27,28 +27,32 @@ class Admin extends Base
             $userPassword = $postData['user_password'];
             $where = [
                 'user_account' => $userName,
-                'user_password' => sha1($userPassword)
             ];
             try{
                 $result = Db::name('user')
-                    ->join('admin','admin_user_id=user_id')
+                    ->leftJoin('admin','admin_user_id=user_id')
                     ->where($where)->find();
             }catch (\Exception $e){
-                $result=null;
+                return json_shiroo('database','登录出现异常，请重试。');
             }
+
             if (is_array($result) && !is_null($result)) {
-                //验证成功
-                session('user',$result);
-                return json_shiroo('login.success');
+                //存在记录
+                if($result['user_password']!=sha1($userPassword)){
+                    return json_shiroo('login.error','登录密码不正确。');
+                }else{
+                    if($result['admin_id']>0){
+                        session('user',$result);
+                        return json_shiroo('login.success');
+                    }else{
+                        return json_shiroo('login.error','该账号非管理员账号。');
+                    }
+                }
             } else {
-                return json_shiroo('login.error');
+                return json_shiroo('login.error','账号不存在，请重新输入。');
             }
         } else {
-            if(isLogin()){
-                $this->redirect('admin/index/index');
-            }else{
-                return $this->fetch();
-            }
+            return $this->fetch();
         }
     }
 

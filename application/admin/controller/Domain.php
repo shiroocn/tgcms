@@ -17,7 +17,6 @@ class Domain extends Base
         if(IS_POST){
             //接收用户提交过来的POST数据，这里为一个数组数据
             $postData=$this->request->param();
-
             //进行数据的检验
             $result=$this->validate($postData,'app\admin\validate\Domain.add');
             if($result!==true){

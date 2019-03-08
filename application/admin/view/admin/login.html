@@ -46,11 +46,12 @@
                     var loadIndex=layer.load();
                     $(this).ajaxSubmit({
                         success:function (data,status) {
-                            console.log(data);
+                            //console.log(data);
                             layer.close(loadIndex);
-                            layer.msg(data.msg);
                             if(data.code===0){
                                 location.href="{:url('admin/index/index')}";
+                            }else{
+                                layer.msg(data.msg);
                             }
                         }
                     });

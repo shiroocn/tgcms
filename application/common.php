@@ -44,7 +44,7 @@ function err($name)
             'msg' => '参数格式不合法。'
         ],
         'database' => [
-            'code' => 105, 'msg' => '数据库操作失败。'
+            'code' => 105, 'msg' => '操作出现异常，请重试！'
         ],
         'exist'=>[
             'code'=>106,'msg'=>'已存在相同记录。'

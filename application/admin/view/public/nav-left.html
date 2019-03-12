@@ -2,13 +2,13 @@
     <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
             <li class="layui-nav-item">
                 <a class="" href="javascript:;">系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{:url('admin/domain/show')}">域名管理</a></dd>
-                    <dd><a href="javascript:;">页面管理</a></dd>
-                    <dd><a href="javascript:;">模板管理</a></dd>
-                    <dd><a href="">推广管理</a></dd>
+                    <dd><a href="{:url('admin/domain/show')}" target="body_iframe">站点管理</a></dd>
+                    <dd><a href="{:url('admin/brand/show')}" target="body_iframe">推广线索</a></dd>
+                    <dd><a href="{:url('admin/template/show')}" target="body_iframe">模板管理</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">

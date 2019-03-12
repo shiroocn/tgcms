@@ -2,13 +2,13 @@
     <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item">
-                <a class="" href="javascript:;">系统</a>
+            <li class="layui-nav-item {if (CONTROLLER_NAME=='Index')}layui-this{/if}"><a href="{:url('admin/index/index')}">控制台</a></li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{:url('admin/domain/show')}" target="body_iframe">站点管理</a></dd>
-                    <dd><a href="{:url('admin/brand/show')}" target="body_iframe">推广线索</a></dd>
-                    <dd><a href="{:url('admin/template/show')}" target="body_iframe">模板管理</a></dd>
+                    <dd class="{if (in_array(CONTROLLER_NAME,['Domain','Page']))}layui-this{/if}"><a href="{:url('admin/domain/show')}">站点管理</a></dd>
+                    <dd class="{if (CONTROLLER_NAME=='Brand')}layui-this{/if}"><a href="{:url('admin/brand/show')}">推广线索</a></dd>
+                    <dd class="{if (CONTROLLER_NAME=='Template')}layui-this{/if}"><a href="{:url('admin/template/show')}">模板管理</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">

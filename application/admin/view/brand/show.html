@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
     <style>
         .layui-table-cell{
@@ -13,17 +14,24 @@
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">推广线索</div>
-        <div class="layui-card-body">
-            <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" data-type="add">新增线索</a>
-                <a class="layui-btn layui-btn-normal" data-type="define">扩展参数</a>
-                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
-            </div>
-            <table id="brand_list" lay-filter="brand_list"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">推广线索</div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" data-type="add">新增线索</a>
+                        <a class="layui-btn layui-btn-normal" data-type="define">扩展参数</a>
+                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+                    </div>
+                    <table id="brand_list" lay-filter="brand_list"></table>
 
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑站点HTML-->
@@ -94,7 +102,7 @@
             submitButtonString:""
         },
         created:function () {
-            layui.use(['layer','table',"upload"],function () {
+            layui.use(['element','layer','table',"upload"],function () {
                 var layer=layui.layer,
                     table=layui.table,
                     upload=layui.upload;

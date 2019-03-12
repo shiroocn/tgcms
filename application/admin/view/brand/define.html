@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">
-            <a href="{:url('admin/brand/show')}">推广线索</a> /
-            <a><cite>参数管理</cite></a>
-        </div>
-        <div class="layui-card-body">
-            <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" data-type="add">新增参数</a>
-                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
-            </div>
-            <table id="brand_define" lay-filter="brand_define"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <a href="{:url('admin/brand/show')}">推广线索</a> /
+                    <a><cite>参数管理</cite></a>
+                </div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" data-type="add">新增参数</a>
+                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+                    </div>
+                    <table id="brand_define" lay-filter="brand_define"></table>
 
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑站点HTML-->
@@ -67,7 +75,7 @@
             submitButtonString:""
         },
         created:function () {
-            layui.use(['layer','table'],function () {
+            layui.use(['element','layer','table'],function () {
                 var layer=layui.layer,
                     table=layui.table;
                 var openIndex;

@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">模板管理</div>
-        <div class="layui-card-body">
-            <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" data-type="add">新增主题</a>
-                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
-            </div>
-            <table id="template_dir_list" lay-filter="template_dir_list"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">模板管理</div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" data-type="add">新增主题</a>
+                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+                    </div>
+                    <table id="template_dir_list" lay-filter="template_dir_list"></table>
 
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑站点HTML-->
@@ -26,7 +34,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">主题目录</label>
                 <div class="layui-input-block">
-                    <input type="text" name="template_dir_name" required lay-verify="required" autocomplete="off" class="layui-input" v-model="templateDirName">
+                    <input type="text" name="template_dir_name" required lay-verify="required" autocomplete="off"
+                           class="layui-input" v-model="templateDirName">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -41,83 +50,88 @@
 {include file="public/js" /}
 
 <script>
-    var app=new Vue({
-        el:"#app",
-        data:{
-            disabled:false,
-            postURL:"",
-            templateDirID:0,
-            templateDirName:"",
-            submitButtonString:""
+    var app = new Vue({
+        el: "#app",
+        data: {
+            disabled: false,
+            postURL: "",
+            templateDirID: 0,
+            templateDirName: "",
+            submitButtonString: ""
         },
-        created:function () {
-            layui.use(['layer','table'],function () {
-                var layer=layui.layer,
-                    table=layui.table;
+        created: function () {
+            layui.use(['element', 'layer', 'table'], function () {
+                var layer = layui.layer,
+                    table = layui.table;
                 var openIndex;
 
                 table.render({
-                    elem:'#template_dir_list',
-                    url:'{:url("admin/template/show")}',//数据接口
-                    method:'post',
-                    loading:true,
-                    page:true,//开启分页
-                    cols:[[
-                        {field:'template_dir_id',title:'ID',width:80},
-                        {field:'template_dir_name',title:'模板主题',width:250},
-                        {title:'操作',
+                    elem: '#template_dir_list',
+                    url: '{:url("admin/template/show")}',//数据接口
+                    method: 'post',
+                    loading: true,
+                    page: true,//开启分页
+                    cols: [[
+                        {field: 'template_dir_id', title: 'ID', width: 80},
+                        {field: 'template_dir_name', title: '模板主题', width: 250},
+                        {
+                            title: '操作',
                             toolbar: '<div>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
-                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="template">风格管理</a>' +
-                            '</div>'}
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                                '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="template">风格管理</a>' +
+                                '</div>'
+                        }
                     ]]
                 });
 
-                table.on('tool(template_dir_list)',function (obj) {
-                    var data=obj.data;
-                    switch (obj.event){
+                table.on('tool(template_dir_list)', function (obj) {
+                    var data = obj.data;
+                    switch (obj.event) {
                         case 'edit':
-                            app.postURL="{:url('admin/template/edit')}";
-                            app.templateDirID=data.template_dir_id;
-                            app.templateDirName=data.template_dir_name;
-                            app.submitButtonString="确认修改";
-                            openIndex=layer.open({
-                                type:1,
-                                title:"编辑",
-                                area:"460px",
-                                content:$("#edit-box")
+                            app.postURL = "{:url('admin/template/edit')}";
+                            app.templateDirID = data.template_dir_id;
+                            app.templateDirName = data.template_dir_name;
+                            app.submitButtonString = "确认修改";
+                            openIndex = layer.open({
+                                type: 1,
+                                title: "编辑",
+                                area: "460px",
+                                content: $("#edit-box")
                             });
                             break;
                         case 'del':
-                            layer.confirm('是否确定删除'+data.template_dir_name+'主题及其所有风格？',{icon:3,title:'提示'},function (index) {
-                                $.post("{:url('admin/template/del')}",{
-                                    template_dir_id:data.template_dir_id
-                                },function (data,status) {
+                            layer.confirm('是否确定删除' + data.template_dir_name + '主题及其所有风格？', {
+                                icon: 3,
+                                title: '提示'
+                            }, function (index) {
+                                $.post("{:url('admin/template/del')}", {
+                                    template_dir_id: data.template_dir_id
+                                }, function (data, status) {
                                     layer.msg(data.msg);
-                                    if(data.code===0){
+                                    if (data.code === 0) {
                                         obj.del();
                                     }
                                     layer.close(index);
-                                },'JSON');
+                                }, 'JSON');
                             });
                             break;
                         case 'template':
-                            var url="{:url('admin/template/style',['template_dir_id'=>-19880722])}";
-                            url=url.replace("-19880722",data.template_dir_id);
+                            var url = "{:url('admin/template/style',['template_dir_id'=>-19880722])}";
+                            url = url.replace("-19880722", data.template_dir_id);
                             console.log(url);
-                            location.href=url;
+                            location.href = url;
                             break;
                     }
                 });
 
                 jQuery("#edit-form").submit(function () {
-                    var loadIndex=layer.load();
+                    var loadIndex = layer.load();
                     $(this).ajaxSubmit({
-                        success:function (data,status) {
+                        success: function (data, status) {
                             layer.close(loadIndex);
                             layer.msg(data.msg);
-                            if(data.code===0){
+                            if (data.code === 0) {
                                 layer.close(openIndex);
                                 active.reload();
                             }
@@ -126,26 +140,26 @@
                     return false;
                 });
 
-                var $=layui.$,active={
-                    reload:function () {
+                var $ = layui.$, active = {
+                    reload: function () {
                         table.reload('template_dir_list');
                     },
-                    add:function () {
-                        app.postURL="{:url('admin/template/add')}";
-                        app.templateDirName="";
-                        app.submitButtonString="确认新增";
-                        openIndex=layer.open({
-                            type:1,
-                            title:"新增",
-                            area:"460px",
-                            content:$("#edit-box")
+                    add: function () {
+                        app.postURL = "{:url('admin/template/add')}";
+                        app.templateDirName = "";
+                        app.submitButtonString = "确认新增";
+                        openIndex = layer.open({
+                            type: 1,
+                            title: "新增",
+                            area: "460px",
+                            content: $("#edit-box")
                         });
                     },
-                    close:function () {
+                    close: function () {
                         layer.close(openIndex); //执行关闭
                     }
                 };
-                $('.layui-btn').on('click', function(){
+                $('.layui-btn').on('click', function () {
                     var type = $(this).data('type');
                     active[type] ? active[type].call(this) : '';
                 });

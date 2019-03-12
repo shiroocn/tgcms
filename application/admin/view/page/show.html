@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">
-            <a href="{:url('admin/domain/show')}">站点管理</a> /
-            <a><cite>页面管理</cite></a>
-        </div>
-        <div class="layui-card-body">
-            <div>
-                <a class="layui-btn layui-btn-normal" @click="add">新增页面</a>
-                <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
-            </div>
-            <table id="pages" lay-filter="pages"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <a href="{:url('admin/domain/show')}">站点管理</a> /
+                    <a><cite>页面管理</cite></a>
+                </div>
+                <div class="layui-card-body">
+                    <div>
+                        <a class="layui-btn layui-btn-normal" @click="add">新增页面</a>
+                        <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
+                    </div>
+                    <table id="pages" lay-filter="pages"></table>
 
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑页面HTML-->
@@ -206,7 +214,7 @@
             }
         },
         created: function () {
-            layui.use(['layer', 'table', 'form'], function () {
+            layui.use(['element','layer', 'table', 'form'], function () {
                 layer = layui.layer;
                 table = layui.table;
                 form = layui.form;

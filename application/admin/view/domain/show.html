@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">站点管理</div>
-        <div class="layui-card-body">
-            <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" @click="add">新增站点</a>
-                <a class="layui-btn layui-btn-normal" @click="sourceManage">来源管理</a>
-                <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
-            </div>
-            <table id="domain_list" lay-filter="domain_list"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
 
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+
+            <div class="layui-card">
+                <div class="layui-card-header">站点管理</div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" @click="add">新增站点</a>
+                        <a class="layui-btn layui-btn-normal" @click="sourceManage">来源管理</a>
+                        <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
+                    </div>
+                    <table id="domain_list" lay-filter="domain_list"></table>
+
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑站点HTML-->
@@ -50,7 +61,8 @@
                 <label class="layui-form-label">允许来源</label>
                 <div class="layui-input-block">
                     {volist name="sources" id="v"}
-                    <input type="checkbox" name="sources[{$v.source_id}]" value="{$v.source_id}" title="{$v.source_name}" lay-filter="sources" v-model="sources">
+                    <input type="checkbox" name="sources[{$v.source_id}]" value="{$v.source_id}"
+                           title="{$v.source_name}" lay-filter="sources" v-model="sources">
                     {/volist}
                 </div>
             </div>
@@ -63,10 +75,11 @@
         </form>
     </div>
 </div>
+
 {include file="public/js" /}
 
 <script>
-    var layer, form, table, openIndex;
+    var element, layer, form, table, openIndex;
     var app = new Vue({
         el: "#app",
         data: {
@@ -77,17 +90,17 @@
             domainCopyright: "",
             domainCountCode: "",
             submitButtonString: "",
-            sources:[]
+            sources: []
         },
         methods: {
-            add:function () {
+            add: function () {
                 app.domainURLDisabled = false;
                 app.postURL = "{:url('admin/domain/add')}";
                 app.domainURL = "";
                 app.domainCopyright = "";
                 app.domainCountCode = "";
                 app.submitButtonString = "确认新增";
-                app.sources=[];
+                app.sources = [];
                 openIndex = layer.open({
                     type: 1,
                     title: "新增",
@@ -95,13 +108,13 @@
                     content: $("#edit-box")
                 });
             },
-            reload:function () {
+            reload: function () {
                 table.reload('domain_list');
             },
-            close:function () {
+            close: function () {
                 layer.close(openIndex); //关闭新增和编辑窗口
             },
-            sourceManage:function () {
+            sourceManage: function () {
                 console.log("111111");
                 layer.alert("正在开发中...");
                 //location.href="";
@@ -111,7 +124,8 @@
             form.render();//表单更新渲染。
         },
         created: function () {
-            layui.use(["layer", "table", "form"], function () {
+            layui.use(["element", "layer", "table", "form"], function () {
+                element = layui.element;
                 layer = layui.layer;
                 form = layui.form;
                 table = layui.table;
@@ -129,10 +143,10 @@
                         {
                             title: '操作',
                             toolbar: '<div>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
-                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="page">页面管理</a>' +
-                            '</div>'
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                                '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="page">页面管理</a>' +
+                                '</div>'
                         }
                     ]]
                 });
@@ -141,11 +155,11 @@
                     var data = obj.data;
                     switch (obj.event) {
                         case 'edit':
-                            var str=data.domain_source_allow;
-                            if(str===null || str===""){
-                                app.sources=[];
-                            }else{
-                                app.sources=str.split(",");
+                            var str = data.domain_source_allow;
+                            if (str === null || str === "") {
+                                app.sources = [];
+                            } else {
+                                app.sources = str.split(",");
                             }
                             app.domainURLDisabled = true;
                             app.postURL = "{:url('admin/domain/edit')}";
@@ -187,27 +201,27 @@
                             break;
                     }
                 });
-                form.on("checkbox(sources)",function (data) {
-                    var checked=data.elem.checked;//获取当前点击的复选框选中状态
-                    var value=data.value;//获取当前点击的复选框的值
-                    var isEx=false;//用于判断当前值是否存在于sources数组中。
-                    for(var i=0;i<app.sources.length;i++){
+                form.on("checkbox(sources)", function (data) {
+                    var checked = data.elem.checked;//获取当前点击的复选框选中状态
+                    var value = data.value;//获取当前点击的复选框的值
+                    var isEx = false;//用于判断当前值是否存在于sources数组中。
+                    for (var i = 0; i < app.sources.length; i++) {
                         //循环sources数组
-                        if(app.sources[i]===value){
+                        if (app.sources[i] === value) {
                             //如果有相同的值，设置isEx为true,并跳出循环。
-                            isEx=true;
+                            isEx = true;
                             break;
                         }
                     }
-                    if(isEx){
+                    if (isEx) {
                         //如果存在
-                        if(!checked){
+                        if (!checked) {
                             //已经存在，再次选中不管。这里为不选中的话
-                            app.sources.splice(i,1);
+                            app.sources.splice(i, 1);
                         }
-                    }else{
+                    } else {
                         //如果不存在
-                        if(checked){
+                        if (checked) {
                             //不存在，也没有选中就不管，这里为选中
                             app.sources.push(value);
                         }

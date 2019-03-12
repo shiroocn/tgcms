@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {include file="public/head" /}
     {include file="public/css" /}
 </head>
 <body>
 <div id="app">
-    <div class="layui-card">
-        <div class="layui-card-header">
-            <a href="{:url('admin/brand/show')}">推广线索</a> /
-            <a><cite>其它参数</cite></a>
-        </div>
-        <div class="layui-card-body">
-            <div class="domain_list_btn">
-                <a class="layui-btn layui-btn-normal" data-type="add">新增值</a>
-                <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
-            </div>
-            <table id="brand_define_list" lay-filter="brand_define_list"></table>
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <a href="{:url('admin/brand/show')}">推广线索</a> /
+                    <a><cite>其它参数</cite></a>
+                </div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" data-type="add">新增值</a>
+                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+                    </div>
+                    <table id="brand_define_list" lay-filter="brand_define_list"></table>
 
+                </div>
+            </div>
         </div>
+        {include file="public/footer" /}
     </div>
 
     <!--新增与编辑站点HTML-->
@@ -31,7 +39,8 @@
                 <label class="layui-form-label">参数名称</label>
                 <div class="layui-input-block">
                     <div v-show="isAdd">
-                        <select id="bdl_define_id" name="bdl_define_id" lay-search="" v-model="bdlDefineID" lay-filter="bdlDefineID">
+                        <select id="bdl_define_id" name="bdl_define_id" lay-search="" v-model="bdlDefineID"
+                                lay-filter="bdlDefineID">
                             <option value=""></option>
                             {volist name="defines" id="v"}
                             <option value="{$v['bd_id']}" data="{$v['bd_type']}">{$v['bd_name']}</option>
@@ -46,13 +55,14 @@
             <div class="layui-form-item" v-show="bdlDefineType==='text'">
                 <label class="layui-form-label">参数值</label>
                 <div class="layui-input-block">
-                    <input type="text" name="bdl_define_var" required lay-verify="required" autocomplete="off" class="layui-input" v-model="bdlDefineVar">
+                    <input type="text" name="bdl_define_var" required lay-verify="required" autocomplete="off"
+                           class="layui-input" v-model="bdlDefineVar">
                 </div>
             </div>
             <div class="layui-form-item" v-show="bdlDefineType==='images'">
                 <label class="layui-form-label">参数值</label>
                 <div class="layui-input-block">
-                    <img :src="defineImagesPath" width="120"  height="100" /><br>
+                    <img :src="defineImagesPath" width="120" height="100"/><br>
                     <button type="button" class="layui-btn" style="width: 120px;" id="uploadDefineImagesBtn">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
@@ -69,26 +79,26 @@
 </div>
 {include file="public/js" /}
 <script>
-    var layer, table, form,upload, openIndex;
-    var app=new Vue({
-        el:"#app",
-        data:{
-            isAdd:true,
-            uploadPath:"__UPLOADS__",
-            postURL:"",
-            bdlBrandID:{$brand_id},
-            bdlID:0,
-            bdlDefineID:0,
-            bdlDefineType:"",
-            bdName:"",
-            bdlDefineVar:"",
-            defineImagesPath:"",
-            submitButtonString:""
+    var layer, table, form, upload, openIndex;
+    var app = new Vue({
+        el: "#app",
+        data: {
+            isAdd: true,
+            uploadPath: "__UPLOADS__",
+            postURL: "",
+            bdlBrandID: {$brand_id},
+            bdlID: 0,
+            bdlDefineID: 0,
+            bdlDefineType: "",
+            bdName: "",
+            bdlDefineVar: "",
+            defineImagesPath: "",
+            submitButtonString: ""
         },
-        watch:{
-            bdlDefineID:function (oldVar,newVar) {
+        watch: {
+            bdlDefineID: function (oldVar, newVar) {
                 //当选项改变之后。判断该字段风格是images还是text类型，
-                switch(app.bdlDefineType){
+                switch (app.bdlDefineType) {
                     case "text":
                         console.log("选择的参数类型为：text");
                         break;
@@ -103,101 +113,103 @@
                 }, 10);
             }
         },
-        created:function () {
-            layui.use(['layer','table','form','upload'],function () {
-                layer=layui.layer;
-                table=layui.table;
-                form=layui.form;
-                upload=layui.upload;
+        created: function () {
+            layui.use(['element', 'layer', 'table', 'form', 'upload'], function () {
+                layer = layui.layer;
+                table = layui.table;
+                form = layui.form;
+                upload = layui.upload;
 
                 table.render({
-                    elem:'#brand_define_list',
-                    url:'{:url("admin/brand/definelist")}',//数据接口
-                    where:{brand_id:app.bdlBrandID},
-                    method:'post',
-                    loading:true,
-                    page:true,//开启分页
-                    cols:[[
-                        {field:'bdl_id',title:'ID',width:80},
-                        {field:'bd_name',title:'参数名称',width:200},
-                        {field:'bdl_define_var',title:'参数值',width:350},
-                        {title:'操作',
+                    elem: '#brand_define_list',
+                    url: '{:url("admin/brand/definelist")}',//数据接口
+                    where: {brand_id: app.bdlBrandID},
+                    method: 'post',
+                    loading: true,
+                    page: true,//开启分页
+                    cols: [[
+                        {field: 'bdl_id', title: 'ID', width: 80},
+                        {field: 'bd_name', title: '参数名称', width: 200},
+                        {field: 'bdl_define_var', title: '参数值', width: 350},
+                        {
+                            title: '操作',
                             toolbar: '<div>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
-                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
-                            '</div>'}
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                                '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                                '</div>'
+                        }
                     ]]
                 });
-                table.on('tool(brand_define_list)',function (obj) {
-                    var data=obj.data;
-                    switch (obj.event){
+                table.on('tool(brand_define_list)', function (obj) {
+                    var data = obj.data;
+                    switch (obj.event) {
                         case 'edit':
-                            app.isAdd=false;
-                            app.postURL="{:url('admin/brand/definelistedit')}";
-                            app.bdlID=data.bdl_id;
-                            app.bdlDefineID=data.bdl_define_id;
-                            app.bdlDefineVar=data.bdl_define_var;
-                            app.bdName=data.bd_name;
-                            app.submitButtonString="确认修改";
-                            app.bdlDefineType=data.bd_type;
-                            app.defineImagesPath=data.bdl_define_var;
-                            openIndex=layer.open({
-                                type:1,
-                                title:"编辑",
-                                area:"460px",
-                                content:$("#edit-box")
+                            app.isAdd = false;
+                            app.postURL = "{:url('admin/brand/definelistedit')}";
+                            app.bdlID = data.bdl_id;
+                            app.bdlDefineID = data.bdl_define_id;
+                            app.bdlDefineVar = data.bdl_define_var;
+                            app.bdName = data.bd_name;
+                            app.submitButtonString = "确认修改";
+                            app.bdlDefineType = data.bd_type;
+                            app.defineImagesPath = data.bdl_define_var;
+                            openIndex = layer.open({
+                                type: 1,
+                                title: "编辑",
+                                area: "460px",
+                                content: $("#edit-box")
                             });
                             break;
                         case 'del':
-                            layer.confirm('是否确定删除【'+data.bd_name+'】线索？',{icon:3,title:'提示'},function (index) {
-                                $.post("{:url('admin/brand/definelistdel')}",{
-                                    bdl_id:data.bdl_id
-                                },function (data,status) {
+                            layer.confirm('是否确定删除【' + data.bd_name + '】线索？', {icon: 3, title: '提示'}, function (index) {
+                                $.post("{:url('admin/brand/definelistdel')}", {
+                                    bdl_id: data.bdl_id
+                                }, function (data, status) {
                                     console.log(data);
                                     console.log(status);
                                     layer.msg(data.msg);
-                                    if(data.code===0){
+                                    if (data.code === 0) {
                                         obj.del();
                                     }
                                     layer.close(index);
-                                },'JSON');
+                                }, 'JSON');
                             });
                             break;
                         case 'other':
-                            var url="{:url('admin/brand/definelist',['brand_id'=>-19880722])}";
-                            url=url.replace("-19880722",data.brand_id);
+                            var url = "{:url('admin/brand/definelist',['brand_id'=>-19880722])}";
+                            url = url.replace("-19880722", data.brand_id);
                             console.log(url);
-                            location.href=url;
+                            location.href = url;
                             break;
                     }
                 });
                 upload.render({
                     elem: '#uploadDefineImagesBtn'
-                    ,url: "{:url('admin/file/upload')}"
-                    ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                    , url: "{:url('admin/file/upload')}"
+                    , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                         layer.load(); //上传loading
                     }
-                    ,done: function(res, index, upload){ //上传后的回调
+                    , done: function (res, index, upload) { //上传后的回调
                         console.log(res);
-                        var data=res.data;
-                        app.defineImagesPath=app.uploadPath+"/"+data.file_path;
-                        app.bdlDefineVar=app.defineImagesPath;
+                        var data = res.data;
+                        app.defineImagesPath = app.uploadPath + "/" + data.file_path;
+                        app.bdlDefineVar = app.defineImagesPath;
                         layer.closeAll('loading'); //关闭loading
                     }
-                    ,error: function(index, upload){
+                    , error: function (index, upload) {
                         layer.closeAll('loading'); //关闭loading
                     }
-                    ,accept: 'images' //允许上传的文件类型
-                    ,size: 2048 //最大允许上传的文件大小
+                    , accept: 'images' //允许上传的文件类型
+                    , size: 2048 //最大允许上传的文件大小
                 });
 
                 jQuery("#add-form").submit(function () {
-                    var loadIndex=layer.load();
+                    var loadIndex = layer.load();
                     $(this).ajaxSubmit({
-                        success:function (data,status) {
+                        success: function (data, status) {
                             layer.close(loadIndex);
                             layer.msg(data.msg);
-                            if(data.code===0){
+                            if (data.code === 0) {
                                 layer.close(openIndex);
                                 active.reload();
                             }
@@ -208,35 +220,35 @@
 
                 form.on("select(bdlDefineID)", function (data) {
                     //获取option的data属性的值，即bdType
-                    var t=$(data.elem).find("option:selected").attr("data");
+                    var t = $(data.elem).find("option:selected").attr("data");
                     app.bdlDefineID = data.value;
-                    app.bdlDefineType=t;
+                    app.bdlDefineType = t;
                 });
 
-                var $=layui.$,active={
-                    reload:function () {
+                var $ = layui.$, active = {
+                    reload: function () {
                         table.reload('brand_define_list');
                     },
-                    add:function () {
-                        app.isAdd=true;
-                        app.postURL="{:url('admin/brand/definelistadd')}";
-                        app.bdlDefineID="";//这里要设置为空文本，不能设置为0；否则不会默认选择的是“请选择”，而是最后一个项。
-                        app.defineImagesPath="";
-                        app.bdlDefineType="";
-                        app.bdlDefineVar="";
-                        app.submitButtonString="确认新增";
-                        openIndex=layer.open({
-                            type:1,
-                            title:"新增",
-                            area:"460px",
-                            content:$("#edit-box")
+                    add: function () {
+                        app.isAdd = true;
+                        app.postURL = "{:url('admin/brand/definelistadd')}";
+                        app.bdlDefineID = "";//这里要设置为空文本，不能设置为0；否则不会默认选择的是“请选择”，而是最后一个项。
+                        app.defineImagesPath = "";
+                        app.bdlDefineType = "";
+                        app.bdlDefineVar = "";
+                        app.submitButtonString = "确认新增";
+                        openIndex = layer.open({
+                            type: 1,
+                            title: "新增",
+                            area: "460px",
+                            content: $("#edit-box")
                         });
                     },
-                    close:function () {
+                    close: function () {
                         layer.close(openIndex); //执行关闭
                     }
                 };
-                $('.layui-btn').on('click', function(){
+                $('.layui-btn').on('click', function () {
                     var type = $(this).data('type');
                     active[type] ? active[type].call(this) : '';
                 });

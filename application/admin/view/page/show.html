@@ -228,19 +228,20 @@
                     loading: true,
                     page: true,//开启分页
                     cols: [[
-                        {field: 'page_id', title: 'ID', width: 80},
+                        /*{field: 'page_id', title: 'ID', width: '8%'},*/
                         {field: 'page_name', title: '落地页名', width: 100},
-                        {field: 'domain_url', title: '域名', width: 200},
-                        {field: 'template_dir_name', title: '模板目录', width: 100},
-                        {field: 'template_name', title: '模板文件', width: 120},
+                        {field: 'domain_url', title: '域名', minWidth: 220},
+                        {field: 'template_dir_name', title: '模板目录', minWidth: 120},
+                        {field: 'template_name', title: '模板文件', minWidth: 120},
                         {
                             field: 'brand_name',
                             title: '推广信息',
-                            width: 200,
+                            minWidth: 220,
                             templet: '<div>{{d.brand_name}}【{{d.brand_weixin}}】</div>'
                         },
                         {
                             title: '操作',
+                            minWidth:220,
                             toolbar: '<div>' +
                             '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                             '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +

@@ -79,10 +79,11 @@
                     page: true,//开启分页
                     cols: [[
                         {field: 'template_id', title: 'ID', width: 80},
-                        {field: 'template_name', title: '模板风格', width: 250},
-                        {field: 'template_dir_name', title: '模板主题', width: 250},
+                        {field: 'template_name', title: '模板风格', minWidth: 250},
+                        {field: 'template_dir_name', title: '模板主题', minWidth: 250},
                         {
                             title: '操作',
+                            minWidth: 220,
                             toolbar: '<div>' +
                                 '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                                 '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +

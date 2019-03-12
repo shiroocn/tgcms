@@ -87,11 +87,11 @@
                     loading:true,
                     page:true,//开启分页
                     cols:[[
-                        {field:'bd_id',title:'ID',width:80},
-                        {field:'bd_name',title:'参数名称',width:200},
-                        {field:'bd_note',title:'参数备注',width:350},
+                        /*{field:'bd_id',title:'ID',width:80},*/
+                        {field:'bd_name',title:'参数名称',minWidth:200},
+                        {field:'bd_note',title:'参数备注',minWidth:350},
                         {field:'bd_type',title:'参数类型',width:100},
-                        {title:'操作',
+                        {title:'操作',minWidth:220,
                             toolbar: '<div>' +
                             '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                             '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +

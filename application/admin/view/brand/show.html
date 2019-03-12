@@ -115,12 +115,12 @@
                     loading:true,
                     page:true,//开启分页
                     cols:[[
-                        {field:'brand_id',title:'ID',width:80},
-                        {field:'brand_name',title:'线索名称',width:150},
-                        {field:'brand_weixin',title:'微信号',width:200},
+                        /*{field:'brand_id',title:'ID',width:80},*/
+                        {field:'brand_name',title:'线索名称',minWidth:150},
+                        {field:'brand_weixin',title:'微信号',minWidth:200},
                         {field:'brand_icon_path',title:'线索头像',width:150,templet:'#brand_icon_img'},
                         {field:'brand_weixinqr_path',title:'二维码',width:150,templet:'#brand_weixinqr_img'},
-                        {title:'操作',
+                        {title:'操作',minWidth:220,
                             toolbar: '<div>' +
                             '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                             '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +

@@ -137,11 +137,12 @@
                     loading: true,
                     page: true,//开启分页
                     cols: [[
-                        {field: 'domain_id', title: 'ID', width: 80},
-                        {field: 'domain_url', title: '域名', width: 250},
-                        {field: 'domain_copyright', title: '版权信息', width: 430},
+                        {field: 'domain_id', title: 'ID', width: 100},
+                        {field: 'domain_url', title: '域名', width: 220},
+                        {field: 'domain_copyright', title: '版权信息', minWidth: 300},
                         {
                             title: '操作',
+                            minWidth: 220,
                             toolbar: '<div>' +
                                 '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
                                 '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +

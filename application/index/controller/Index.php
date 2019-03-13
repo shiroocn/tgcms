@@ -30,7 +30,7 @@ class Index extends Base
             $domainDB=Db::name('domain')->where('domain_url',$domain)->find();
             if(is_null($domainDB) && !is_array($domainDB)){
                 //查询结果没有绑定的话，返回错误提示
-                return '域名：'.$domain.'没有绑定。';
+                return '域名【'.$domain.'】没有绑定。';
             }
             //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
             $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';

@@ -44,11 +44,11 @@ class Index extends Base
             $host='';
         }
         //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
-        if(!empty($domain['domain_source_allow'])){
+        if(!empty($domainDB['domain_source_allow'])){
             //设置了允许来源，进行限制访问
             try{
                 //设置的值格式为1,2,3  每个数字表示source_id
-                $sources=Db::name('source')->where('source_id','in',$domain['domain_source_allow'])->select();
+                $sources=Db::name('source')->where('source_id','in',$domainDB['domain_source_allow'])->select();
                 //上面按照ID进行查询
             }catch (\Exception $e){
                 $sources=[];
@@ -71,7 +71,7 @@ class Index extends Base
 
         try{
             //查询落地页，
-            $where=['page_domain_id'=>$domain['domain_id'],'page_name'=>$pageName];
+            $where=['page_domain_id'=>$domainDB['domain_id'],'page_name'=>$pageName];
             $page=Db::name('page')
                 ->join('domain','page_domain_id=domain_id')
                 ->join('template','page_template_id=template_id')

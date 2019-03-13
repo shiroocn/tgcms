@@ -28,44 +28,48 @@ class Index extends Base
         try{
             //首页查询访问落地页的域名是否已在后台绑定
             $domainDB=Db::name('domain')->where('domain_url',$domain)->find();
-            if(is_null($domainDB) && !is_array($domainDB)){
-                //查询结果没有绑定的话，返回错误提示
-                return '域名【'.$domain.'】没有绑定。';
-            }
-            //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
-            $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-            if(!empty($previousURL)){
-                $host=parse_url($previousURL,PHP_URL_HOST);//获取域名部分
-            }else{
-                $host='';
-            }
+        }catch (\Exception $e){
+            return '查询域名数据异常';
+        }
+        if(is_null($domainDB) && !is_array($domainDB)){
+            //查询结果没有绑定的话，返回错误提示
+            return '域名【'.$domain.'】没有绑定。';
+        }
 
-            //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
-            if(!empty($domain['domain_source_allow'])){
-                //设置了允许来源，进行限制访问
-                try{
-                    //设置的值格式为1,2,3  每个数字表示source_id
-                    $sources=Db::name('source')->where('source_id','in',$domain['domain_source_allow'])->select();
-                    //上面按照ID进行查询
-                }catch (\Exception $e){
-                    $sources=[];
-                }
-                $allow=false;
-                foreach ($sources as $source){
-                    //判断来源的特征码是否存在于URL中。
-                    $allow=strpos($host,$source['source_feature']);
-                    if($allow!==false){
-                        //存在，表示允许来源访问，否则跳到默认页面
-                        //跳出循环
-                        break;
-                    }
-                }
-                if($allow===false){
-                    //不允许访问，跳转默认设置页面
-                    $pageName='ex';
+        //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
+        $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+        if(!empty($previousURL)){
+            $host=parse_url($previousURL,PHP_URL_HOST);//获取域名部分
+        }else{
+            $host='';
+        }
+        //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
+        if(!empty($domain['domain_source_allow'])){
+            //设置了允许来源，进行限制访问
+            try{
+                //设置的值格式为1,2,3  每个数字表示source_id
+                $sources=Db::name('source')->where('source_id','in',$domain['domain_source_allow'])->select();
+                //上面按照ID进行查询
+            }catch (\Exception $e){
+                $sources=[];
+            }
+            $allow=false;
+            foreach ($sources as $source){
+                //判断来源的特征码是否存在于URL中。
+                $allow=strpos($host,$source['source_feature']);
+                if($allow!==false){
+                    //存在，表示允许来源访问，否则跳到默认页面
+                    //跳出循环
+                    break;
                 }
             }
+            if($allow===false){
+                //不允许访问，跳转默认设置页面
+                $pageName='ex';
+            }
+        }
 
+        try{
             //查询落地页，
             $where=['page_domain_id'=>$domain['domain_id'],'page_name'=>$pageName];
             $page=Db::name('page')
@@ -81,7 +85,7 @@ class Index extends Base
                 ->where('bdl_brand_id',$page['brand_id'])->select();
 
         }catch (\Exception $exception){
-            return '查询数据库异常。';
+            return '查询页面数据库异常';
            // Log::record('执行查询落地页数据库失败。'.$exception,'error');
         }
         if(is_null($page) && !is_array($page)){

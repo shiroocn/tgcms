@@ -27,8 +27,8 @@ class Index extends Base
 
         try{
             //首页查询访问落地页的域名是否已在后台绑定
-            $domain=Db::name('domain')->where('domain_url',$domain)->find();
-            if(is_null($domain) && !is_array($domain)){
+            $domainDB=Db::name('domain')->where('domain_url',$domain)->find();
+            if(is_null($domainDB) && !is_array($domainDB)){
                 //查询结果没有绑定的话，返回错误提示
                 return '域名：'.$domain.'没有绑定。';
             }

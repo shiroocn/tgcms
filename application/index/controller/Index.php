@@ -10,7 +10,7 @@ class Index extends Base
     {
         //获取访问的落地页别名
         $postData=$this->request->param();
-        $postData['p']=!empty($postData['p'])?:'index';
+        $postData['p']=!empty($postData['p'])?$postData['p']:'index';
 
         //进行数据的检验
         $validate=$this->validate($postData,'app\index\validate\Index.open');
@@ -34,6 +34,11 @@ class Index extends Base
             }
             //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
             $previousURL=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+            if(!empty($previousURL)){
+                $host=parse_url($previousURL,PHP_URL_HOST);//获取域名部分
+            }else{
+                $host='';
+            }
 
             //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
             if(!empty($domain['domain_source_allow'])){
@@ -48,7 +53,7 @@ class Index extends Base
                 $allow=false;
                 foreach ($sources as $source){
                     //判断来源的特征码是否存在于URL中。
-                    $allow=strpos($previousURL,$source['source_feature']);
+                    $allow=strpos($host,$source['source_feature']);
                     if($allow!==false){
                         //存在，表示允许来源访问，否则跳到默认页面
                         //跳出循环
@@ -103,8 +108,5 @@ class Index extends Base
             $str=substr($str,0,$pos);
             return $this->fetch($page['template_dir_name'].'/'.$str);
         }
-    }
-    public function hello($name='aaa'){
-        return 'hello'.$name;
     }
 }

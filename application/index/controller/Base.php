@@ -15,4 +15,7 @@ class Base extends Controller{
     {
 
     }
+    public function errorPage($title='',$content=''){
+        return $this->fetch('public/error',['title'=>$title,'content'=>$content]);
+    }
 }

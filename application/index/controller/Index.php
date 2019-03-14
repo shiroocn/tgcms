@@ -29,11 +29,11 @@ class Index extends Base
             //首页查询访问落地页的域名是否已在后台绑定
             $domainDB=Db::name('domain')->where('domain_url',$domain)->find();
         }catch (\Exception $e){
-            return '查询域名数据异常';
+            return $this->errorPage('查询域名数据异常');
         }
         if(is_null($domainDB) && !is_array($domainDB)){
             //查询结果没有绑定的话，返回错误提示
-            return '域名【'.$domain.'】没有绑定。';
+            return $this->errorPage('访问的域名没有绑定');
         }
 
         //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
@@ -85,12 +85,12 @@ class Index extends Base
                 ->where('bdl_brand_id',$page['brand_id'])->select();
 
         }catch (\Exception $exception){
-            return '查询页面数据库异常';
+            return $this->errorPage('查询页面数据异常');
            // Log::record('执行查询落地页数据库失败。'.$exception,'error');
         }
         if(is_null($page) && !is_array($page)){
             //访问的落地页不存在的话，返回错误
-            return '【'.$pageName.'】页面不存在';
+            return $this->errorPage('访问的页面不存在');
         }else{
             //落地页存在
             $def=[];//定义一个空的数组，用于储存循环读取到的扩展参数。
@@ -110,6 +110,9 @@ class Index extends Base
             $str=$page['template_name'];
             $pos=strripos($str,'.');
             $str=substr($str,0,$pos);
+            //动态改变一下模板路径。
+            $this->view->config('view_path',$_SERVER['DOCUMENT_ROOT'].'/public/static/template/');
+            //输出相应的模板视图
             return $this->fetch($page['template_dir_name'].'/'.$str);
         }
     }

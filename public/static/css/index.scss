@@ -1,0 +1,27 @@
+.index{
+    .error-404{
+        text-align: center;
+        padding-top: 2rem;
+        .img-box{
+            img{
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        .text-box{
+            max-width: 400px;
+            margin: 0 auto;
+            .a{
+                font-size: 2rem;
+                font-weight: bold;
+                color: #4b4b4b;
+                padding-bottom: 10px;
+            }
+            .b{
+                padding: 10px;
+                text-align: left;
+                font-size: 1rem;
+            }
+        }
+    }
+}

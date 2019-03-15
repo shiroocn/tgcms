@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="lsm/public/head"}
+    <meta name="description" content="投资达人">
+    <meta name="keywords" content="投资达人">
+    <title>投资达人</title>
+    {include file="lsm/public/css"}
+</head>
+<body>
+{include file="lsm/public/top"}
+<div id="header_1">
+    <img class="user-portrait-banner" src="{$sh.defines.banner_old?:''}"/>
+</div>
+<div id="content">
+    <div class="greeting">
+        <p style="text-indent:2em;padding-bottom:0;">
+            投资绝对是门技术活，只有弄清其中的奥秘才能稳赚不赔，作为投资领域中小有成就的专家，对于全民投资我持保留态度。投资不是盲目跟风，选对理财产品
+            非常重要。</p>
+        <p style="text-indent:2em;padding-top:0;">目前，我会在微信<span style="color:red;font-size: 16px;">（<span
+                class="go user-wx">{$sh.brand_weixin?:''}</span>）</span>（←长按可以复制/拷贝，去微信添加好友）上分享一些投资要领，这些方法
+            已经帮助了很多投资者找到人生的第一桶金，甚至可以说达到“人生的小巅峰”！同时也避免大部分亏损。希望对大家有用，分享是福，感谢大家长久以来的信任！
+        </p>
+    </div>
+
+    {include file="lsm/public/comments"}
+    {include file="lsm/public/footer1"}
+    {include file="lsm/public/js"}
+</div>
+</body>
+</html>

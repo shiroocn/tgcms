@@ -1,0 +1,43 @@
+<!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+<div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin}</div>
+
+<p class="user-copyright">{$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}</p>
+<div style=" height:130px;"></div>
+
+<div style="position:fixed;background:#262b42;width:100%;left:0; bottom:0">
+    <p class="tip" style="font-size: 16px;padding: 6px 0">
+        <span style="font-weight: bold;">↓↓点击下方按钮复制微信号并跳转微信↓↓</span>
+    </p>
+    <div>
+        <button type="button" id="copy_wx_btn" class="btn btn-danger btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制微信号({$sh.brand_weixin?:''})</button>
+    </div>
+    <!--<button type="button" class="btn btn-danger btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制加微信</button>-->
+    <!--<p class="wxh">
+        <span class="go user-wx">{$sh.brand_weixin?:''}</span>
+    </p>-->
+    <div style="padding: 12px 0;"></div>
+    <!--<p style="color:red;font-size: 16px;padding: 6px 0;">注:凡同名"公众号"均属恶意仿冒，切勿关注</p>-->
+</div>
+
+<!--<div style="position:fixed;background:#FFF;width:100%;left:0; bottom:0"><p class="tip"><span>↓↓</span>长按下方按钮复制并添加微信号免费咨询<span>↓↓</span>
+</p>
+    <p class="wxh"><span class="go user-wx">{$sh.brand_weixin?:''}</span></p>
+    <span style="color:red;font-size: 16px;">注:凡同名"公众号"均属恶意仿冒，切勿关注</span>
+</div>-->
+
+
+{if $Request.ismobile}
+
+{else}
+<div class="fu_box">
+    <p class="p1">微信扫一扫</p>
+    <p class="p0">免费在线指导</p>
+    <img class="fu_box_img" src="{$sh.brand_weixinqr_path?:''}"/>
+    <p class="p2">手动添加微信号</p>
+    <p class="p3">{$sh.brand_weixin?:''}</p>
+</div>
+{/if}
+
+<!--监测代码start-->
+{$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+<!--监测代码end-->

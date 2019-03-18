@@ -29,9 +29,7 @@
         期货新手入门知识 0基础交易指南 期货品种点评
 
     </p>
-    <div class="pcwxh dong open">
-        <div>炒期战法领取</div>
-    </div>
+
 </div>
 <div class="part1-box ydd">
     <h3 class="m-tit-h3 f-fs0 f-tac wow fadeInDown  animated" data-wow-duration=".6s" style="visibility: visible; animation-duration: 0.6s; animation-name: fadeInDown;"> <span class="f-dib f-vam">期货投资如何做到稳</span> </h3>
@@ -41,7 +39,7 @@
     </p>
 </div>
 <div class="ydwxh">
-    <div onclick="modalshow()">炒期战法领取</div>
+    <div onclick="modalshow();">点击领取炒期战法</div>
 </div>
 <div class="part1-box">
     <h3 class="m-tit-h3 f-fs0 f-tac wow fadeInDown" data-wow-duration=".6s" style="visibility: visible; animation-duration: 0.6s; animation-name: fadeInDown;"> <span class="f-dib f-vam">期货投资优势盘点</span> </h3>
@@ -130,12 +128,12 @@
 
 
         <div class="pcwxh dong open">
-            <div>炒期战法领取</div>
+            <div>点击领取炒期战法</div>
         </div>
     </div>
 
     <div class="ydwxh">
-        <div onclick="modalshow()">炒期战法领取</div>
+        <div onclick="modalshow()">点击领取炒期战法</div>
     </div>
     <!--  <div class="ydwxt">
     长按复制添加微信 操作策略免费送
@@ -162,6 +160,12 @@
         </div>
     </div>
 
+</div>
+<div class="tc" style="display: none;">
+    <img src="__TEMPLATE__/dome/images/tc1.png" class="pic">
+    <div class="wxh">{$sh.brand_weixin?:''}</div>
+    <a class="zi" href="weixin://" style="color:#fff6e4">点击去微信邀您进群</a>
+    <p class="close"></p>
 </div>
 
 <script src="__TEMPLATE__/dome/js/wow.min.js" type="text/javascript"></script>
@@ -191,7 +195,7 @@
                 // 6 7  8.10
 
             });
-        })
+        });
 
         var starNum = 0;
         var length = $(".m-list-month p").length;
@@ -219,7 +223,14 @@
         <!-- <span class="jlq" style="color: red;">期货交流圈 实时互动</span> -->
     </div>
 </div>
-
+<script>
+    function modalshow() {
+        $(".tc").show();
+    }
+    $(".tc .close").click(function () {
+        $(".tc").hide();
+    })
+</script>
 <style type="text/css">
     .weixin-ewm img {
         display: block;

@@ -4,6 +4,7 @@
     <meta charset=utf-8>
     <title>国内期货高手交流圈</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__PLUGINS__/bootstrap/css/bootstrap.min.css">
     {include file="dome/public/css"}
 </head>
 <body>
@@ -12,13 +13,35 @@
     remCompute(750, true)
 </script>
 <!-- header begin -->
-<script src="__TEMPLATE__/dome/js/jquery.min.js" type="text/javascript"></script>
+<script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
+<script src="__PLUGINS__/clipboard/clipboard.min.js"></script>
 <!-- </div> -->
 <style>
     .active a {
         border-bottom: solid 3px #333;
         padding-bottom: 10px;
         color: #702328
+    }
+    .wx-btn-box{
+        text-align: center;
+    }
+    .wx-btn-box button{
+        width: 80%;
+        height: 1.2rem;
+        margin: 0 auto;
+        /* font-size: 1rem; */
+        padding: 0;
+        font-size: 0.4rem;
+    }
+    .wx-btn-box .a{
+        font-size: 0.5rem;
+        padding-bottom: 0.2rem;
+
+    }
+    .wx-btn-box .a span{
+        font-weight: bold;
+        color: #ff0000;
+
     }
 </style>
 <div class="banner"></div>
@@ -27,7 +50,6 @@
     <p class="wow fadeInDown  animated animated" data-wow-duration=".6s" style="visibility: visible; animation-duration: 0.6s; animation-name: fadeInDown;">
         <i class="tit">做单、行情、技巧、交流</i><br>
         期货新手入门知识 0基础交易指南 期货品种点评
-
     </p>
 
 </div>
@@ -38,8 +60,13 @@
         <i class="ydtt">〔期货新手入门知识 0基础交易指南 大咖在线解套指导〕</i>
     </p>
 </div>
-<div class="ydwxh">
-    <div onclick="modalshow();">点击领取炒期战法</div>
+<div class="wx-btn-box">
+    <div class="a">微信号：<span>{$sh.brand_weixin?:''}</span></div>
+
+    <button type="button" id="copy_wx_btn" class="btn btn-danger btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制添加微信好友</button>
+    <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+
+    <div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin}</div>
 </div>
 <div class="part1-box">
     <h3 class="m-tit-h3 f-fs0 f-tac wow fadeInDown" data-wow-duration=".6s" style="visibility: visible; animation-duration: 0.6s; animation-name: fadeInDown;"> <span class="f-dib f-vam">期货投资优势盘点</span> </h3>
@@ -124,17 +151,7 @@
             </ul>
         </div>
     </div>
-    <div class="part1-box pcd">
 
-
-        <div class="pcwxh dong open">
-            <div>点击领取炒期战法</div>
-        </div>
-    </div>
-
-    <div class="ydwxh">
-        <div onclick="modalshow()">点击领取炒期战法</div>
-    </div>
     <!--  <div class="ydwxt">
     长按复制添加微信 操作策略免费送
     <br>
@@ -352,6 +369,28 @@
     }
 </style>
 
+<script>
+    $(document).ready(function () {
+        console.log("test");
+
+        //点击复制功能，必须是按钮button，而且不能隐藏，只能设置
+        var clipboard = new ClipboardJS('.copy_wx_btn');
+        clipboard.on('success', function(e) {
+            //
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            alert("微信号复制成功，请在微信添加好友！");
+            location.href="weixin://";
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+    });
+</script>
 <!--监测代码start-->
 {$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
 <!--监测代码end-->

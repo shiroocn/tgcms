@@ -1,3 +1,36 @@
-
+.id-2 {
+  background-color: #f1e2d1;
+  max-width: 1080px;
+  margin: 0 auto; }
+  .id-2 .banner img {
+    width: 100%; }
+  .id-2 .a p {
+    margin: 0;
+    text-align: center;
+    color: #FF0000;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem 0 1rem; }
+  .id-2 .a .a-a {
+    font-weight: normal;
+    font-size: 1rem;
+    color: #714432; }
+  .id-2 .a .a-b {
+    font-size: 1.2rem; }
+  .id-2 .b p {
+    margin: 0;
+    text-align: center;
+    color: #421919;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem 0 1rem; }
+  .id-2 .b .b-a {
+    font-size: 1rem;
+    font-weight: normal; }
+  .id-2 .wx-btn-box {
+    width: 100%;
+    text-align: center; }
+    .id-2 .wx-btn-box button {
+      margin: 1rem 0; }
 
 /*# sourceMappingURL=public.css.map */

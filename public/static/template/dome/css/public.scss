@@ -1,0 +1,50 @@
+.id-2 {
+    background-color: #f1e2d1;
+    max-width: 1080px;
+    margin: 0 auto;
+    .banner {
+        img {
+            width: 100%;
+        }
+    }
+
+    .a {
+        p {
+            margin: 0;
+            text-align: center;
+            color: #FF0000;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem 0 1rem;
+        }
+        .a-a{
+            font-weight: normal;
+            font-size: 1rem;
+            color: #714432;
+        }
+        .a-b{
+            font-size: 1.2rem;
+        }
+    }
+    .b{
+        p{
+            margin: 0;
+            text-align: center;
+            color: #421919;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem 0 1rem;
+        }
+        .b-a{
+            font-size: 1rem;
+            font-weight: normal;
+        }
+    }
+    .wx-btn-box{
+        width: 100%;
+        text-align: center;
+        button{
+            margin: 1rem 0;
+        }
+    }
+}

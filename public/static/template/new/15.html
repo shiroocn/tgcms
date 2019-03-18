@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>投资圈</title>
+
+    {include file="new/public/css" /}
+
+</head>
+<body>
+<div class="s-content">
+    <div>
+        <img src="__TEMPLATE__/new/img/16/1_01.png">
+    </div>
+    <div style="background-color: #0d7ab3;margin: 0;padding: 20px 0;">
+        <!--预约信息已提交成功，谢谢！-->
+        <img src="__TEMPLATE__/new/img/16/1_08.png">
+        <div style="width: 60%;margin: 0 auto;padding: 20px 0 10px 0;">
+            <div class="form-group">
+                <input type="text" id="name" class="form-control form-control-lg " aria-describedby="emailHelp" placeholder="您的姓名">
+            </div>
+            <div class="form-group">
+                <input type="tel" id="phone" class="form-control form-control-lg " placeholder="您的手机号码">
+            </div>
+        </div>
+        <div style="width: 60%;margin: 0 auto;">
+            <!--<span class="user-wx" style="color:#ffffff;font-size: 36px;font-weight: bold;"></span>-->
+            <img src="__TEMPLATE__/new/img/16/1_07.png" onclick='lingqu()' />
+        </div>
+    </div>
+
+    <div>
+        <img src="__TEMPLATE__/new/img/16/1_02.png">
+    </div>
+    <div>
+        <img src="__TEMPLATE__/new/img/16/1_03.png">
+    </div>
+    <div>
+        <img src="__TEMPLATE__/new/img/16/1_04.png">
+    </div>
+    <div>
+        <img src="__TEMPLATE__/new/img/16/1_05.png">
+    </div>
+
+</div>
+
+{include file="new/public/footer" /}
+{include file="new/public/js" /}
+
+<script>
+    function lingqu() {
+        var name=$("#name").val();
+        var phone=$("#phone").val();
+        console.log(name);
+        console.log(phone);
+        if(name==="" || phone===""){
+            layer.alert("姓名或手机号码不能为空。");
+            return false;
+        }else{
+            layer.alert("预约信息已提交成功，谢谢！");
+        }
+    }
+</script>
+</body>
+</html>

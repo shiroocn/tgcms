@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <link rel="stylesheet" href="__PLUGINS__/bootstrap/css/bootstrap.min.css">
     {include file="dome/public/css"}
+    <!--监测代码start-->
+    {$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+    <!--监测代码end-->
 </head>
 <body>
 <script src="__TEMPLATE__/dome/js/rem.js" type="text/javascript"></script>
@@ -391,9 +394,6 @@
         });
     });
 </script>
-<!--监测代码start-->
-{$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
-<!--监测代码end-->
 
 </body>
 </html>

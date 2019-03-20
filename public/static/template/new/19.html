@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>期货行情走势分析系统</title>
+    <link href="__PLUGINS__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__TEMPLATE__/new/css/19.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="__PLUGINS__/clipboard/clipboard.min.js"></script>
+    <script src="__PLUGINS__/bootstrap/js/bootstrap.min.js"></script>
+    <script src="__PLUGINS__/layer/layer.js"></script>
+
+    <script src="__TEMPLATE__/new/js/fun.js"></script>
+
+    <!--监测代码start-->
+    {$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+    <!--监测代码end-->
+    <script src="__TEMPLATE__/new/js/rem.js" type="text/javascript"></script>
+</head>
+<body>
+<div style="max-width: 750px;margin: 0 auto;">
+    <div class="top">
+        <img src="__TEMPLATE__/new/img/19/banner1.png" />
+    </div>
+    <div class="wx-box">
+        <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+        <div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>
+
+        <div class="title"><strong>添加导师微信号免费领取</strong></div>
+        <div class="wx">微信号：<span style="color:#FF0000;">{$sh.brand_weixin?:''}</span>（长按复制）</div>
+        <div class="wx-btn">
+            <button type="button" id="copy_wx_btn" class="btn btn-primary btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击按钮自动复制微信号</button>
+        </div>
+        <div class="note">（如遇到点击失效，请长按微信号手动复制）</div>
+    </div>
+    <div class="a-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="b clearfix">
+                        <div class="icon float-left">
+                            <img src="__TEMPLATE__/new/img/19/1_25.png">
+                        </div>
+                        <div class="float-left">
+                            <div class="title">全面揭秘多空分布</div>
+                            <div class="content">随时洞悉市场走向</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="b clearfix">
+                        <div class="icon float-left">
+                            <img src="__TEMPLATE__/new/img/19/1_19.png">
+                        </div>
+                        <div class="float-left">
+                            <div class="title">专业导师在线指导</div>
+                            <div class="content">一对一教导飞速成长</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="b clearfix">
+                        <div class="icon float-left">
+                            <img src="__TEMPLATE__/new/img/19/1_14.png">
+                        </div>
+                        <div class="float-left">
+                            <div class="title">专业客服全天在线</div>
+                            <div class="content">即时资讯解答疑惑</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="b clearfix">
+                        <div class="icon float-left">
+                            <img src="__TEMPLATE__/new/img/19/1_20.png">
+                        </div>
+                        <div class="float-left">
+                            <div class="title">行情资讯相关消息</div>
+                            <div class="content">时刻了解最新行情信息</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="b-box">
+        <div class="t">专注交易分析服务 祝您轻松体验！</div>
+        <div class="h">
+            <div class="s-li a clearfix">
+                <div class="l float-left">
+                    <div class="title" style="color: #ffb133;">实时数据</div>
+                    <div class="content">交易所授权实时数据，24小时提供市场行情报价，保证数据及时准确。</div>
+                </div>
+                <div class="r float-left">
+                    <img src="__TEMPLATE__/new/img/19/img_1.png">
+                </div>
+            </div>
+            <div class="s-li b clearfix">
+                <div class="l float-left">
+                    <div class="title" style="color: #53d19d;">个性化预警功能</div>
+                    <div class="content">重大行情短信提醒，不再担心没有时间看盘而错过大把机会！</div>
+                </div>
+                <div class="r float-left">
+                    <img src="__TEMPLATE__/new/img/19/img_2.png">
+                </div>
+            </div>
+            <div class="s-li c clearfix">
+                <div class="l float-left">
+                    <div class="title" style="color: #ff484a;">特色指标</div>
+                    <div class="content">融入多项指标公式而研发的特色行情指标，让您不惧任何复杂行情！</div>
+                </div>
+                <div class="r float-left">
+                    <img src="__TEMPLATE__/new/img/19/img_3.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div>投资有风险，入市需谨慎</div>
+        <div>{$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}</div>
+    </div>
+</div>
+</body>
+</html>

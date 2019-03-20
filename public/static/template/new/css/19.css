@@ -1,0 +1,71 @@
+.top img {
+  width: 100%; }
+
+.wx-box {
+  text-align: center;
+  padding: 10px; }
+  .wx-box .title {
+    padding: 10px 0;
+    font-size: 20px; }
+  .wx-box .wx {
+    padding: 10px 0;
+    font-size: 25px; }
+  .wx-box .wx-btn {
+    padding: 10px 0; }
+    .wx-box .wx-btn button {
+      font-size: 25px;
+      height: 60px !important;
+      padding: 0; }
+  .wx-box .note {
+    padding: 10px 0; }
+
+.a-box {
+  padding: 20px 0; }
+  .a-box .b {
+    padding: 30px 10px; }
+    .a-box .b .icon {
+      padding-right: 15px; }
+      .a-box .b .icon img {
+        width: 70px; }
+    .a-box .b .title {
+      font-size: 25px;
+      color: #1f82ed; }
+    .a-box .b .content {
+      font-size: 18px;
+      color: #696969;
+      padding-top: 10px; }
+
+.b-box {
+  background: #e7fbff; }
+  .b-box .t {
+    text-align: center;
+    color: #11b7ff;
+    font-size: 40px;
+    padding: 40px 0; }
+  .b-box .h {
+    width: 100%; }
+    .b-box .h .s-li {
+      width: 100%; }
+      .b-box .h .s-li .l {
+        width: 50%;
+        padding: 20px; }
+        .b-box .h .s-li .l .title {
+          font-size: 30px;
+          padding: 20px 0; }
+        .b-box .h .s-li .l .content {
+          font-size: 20px;
+          color: #949494; }
+      .b-box .h .s-li .r {
+        width: 50%;
+        padding: 20px; }
+        .b-box .h .s-li .r img {
+          width: 100%; }
+
+.footer {
+  background: rgba(38, 38, 38, 0.6);
+  width: 100%;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 30px 0; }
+
+/*# sourceMappingURL=19.css.map */

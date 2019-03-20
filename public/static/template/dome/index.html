@@ -604,7 +604,7 @@
 
 
 <script type="text/javascript">
-    $(function () {
+   /* $(function () {
         var ua = navigator.userAgent;
         var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
         var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
@@ -617,7 +617,7 @@
             $(".tc .close").click(function () {
                 $(".tc").hide();
                 clearInterval(interval);
-                /***清除重新计算***/
+                /!***清除重新计算***!/
                 interval = setInterval("open()", 15000); //每个五秒调用一次函数
             })
         } else {
@@ -625,7 +625,7 @@
 
         }
 
-    })
+    })*/
 
     function modalshow() {
         $(".tc").show();

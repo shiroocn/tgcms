@@ -26,15 +26,9 @@
         <img src="__TEMPLATE__/new/img/19/banner1.png" />
     </div>
     <div class="wx-box">
-        <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
-        <div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>
-
-        <div class="title"><strong>添加导师微信号免费领取</strong></div>
-        <div class="wx">微信号：<span style="color:#FF0000;">{$sh.brand_weixin?:''}</span>（长按复制）</div>
         <div class="wx-btn">
-            <button type="button" id="copy_wx_btn" class="btn btn-primary btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击按钮自动复制微信号</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">点击免费领取</button>
         </div>
-        <div class="note">（如遇到点击失效，请长按微信号手动复制）</div>
     </div>
     <div class="a-box">
         <div class="container">
@@ -123,7 +117,52 @@
     <div class="footer">
         <div>投资有风险，入市需谨慎</div>
         <div>{$sh.domain_copyright?html_entity_decode($sh.domain_copyright):''}</div>
+        <div>
+            <a href="http://jr5.jinshiqh168.com/index_contact.html">联系我们</a>
+            <a href="http://jr5.jinshiqh168.com/index_synopsis.html">关于我们</a>
+        </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin: 50px auto">
+        <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-header" style="padding: 10px;">
+                <h5 class="modal-title" id="exampleModalLabel" style="font-size: 16px;"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 10px;margin: -25px -2px -15px auto;font-size: 42px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 10px;">
+                <div class="wx-box">
+
+                    <div class="title"><strong>添加导师微信号免费领取</strong></div>
+                    <div class="wx">微信号：<span style="color:#FF0000;">{$sh.brand_weixin?:''}</span>（长按复制）</div>
+                    <div class="wx-btn">
+                        <button type="button" id="copy_wx_btn" class="btn btn-primary btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制微信</button>
+                    </div>
+
+                    <div class="note">（如遇到点击失效，请长按微信号手动复制）</div>
+
+                    <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+                    <div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>
+                </div>
+            </div>
+            <!--<div class="modal-footer" style="padding: 10px;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="padding: 10px;font-size: 19px;border-radius: 10px;">Close</button>
+                <button type="button" class="btn btn-primary"style="padding: 10px;font-size: 19px;border-radius: 10px;">Save changes</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        document.body.oncopy=function (ev) {
+            console.log("复制了");
+        }
+    });
+</script>
 </body>
 </html>

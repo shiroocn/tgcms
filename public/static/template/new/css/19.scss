@@ -1,3 +1,11 @@
+.btn{
+    &:hover{
+        box-shadow: 0 0 0 8px rgba(0,123,255,.25);
+    }
+    &:focus{
+        box-shadow: 0 0 0 8px rgba(0,123,255,.25);
+    }
+}
 .top {
     img {
         width: 100%;
@@ -94,5 +102,20 @@
     p{
         padding: 0;
         margin: 0;
+    }
+    a{
+        font-size: 14px;
+        &:link{
+            color: #d0d0d0;
+        }
+        &:hover{
+            color: #d0d0d0;
+        }
+        &:active{
+            color: #d0d0d0;
+        }
+        &:visited{
+            color: #d0d0d0;
+        }
     }
 }

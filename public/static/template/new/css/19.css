@@ -24,36 +24,37 @@
   .a-box .b {
     padding: 30px 10px; }
     .a-box .b .icon {
-      padding-right: 15px; }
+      padding-right: 10px; }
       .a-box .b .icon img {
-        width: 70px; }
+        width: 60px; }
     .a-box .b .title {
-      font-size: 25px;
+      font-size: 20px;
       color: #1f82ed; }
     .a-box .b .content {
-      font-size: 18px;
+      font-size: 15px;
       color: #696969;
       padding-top: 10px; }
 
 .b-box {
-  background: #e7fbff; }
+  background: #e7fbff;
+  padding-bottom: 40px; }
   .b-box .t {
     text-align: center;
     color: #11b7ff;
     font-size: 40px;
-    padding: 40px 0; }
+    padding: 40px 20px; }
   .b-box .h {
     width: 100%; }
     .b-box .h .s-li {
       width: 100%; }
       .b-box .h .s-li .l {
         width: 50%;
-        padding: 20px; }
+        padding: 10px; }
         .b-box .h .s-li .l .title {
-          font-size: 30px;
-          padding: 20px 0; }
+          font-size: 22px;
+          padding: 5px 0; }
         .b-box .h .s-li .l .content {
-          font-size: 20px;
+          font-size: 15px;
           color: #949494; }
       .b-box .h .s-li .r {
         width: 50%;

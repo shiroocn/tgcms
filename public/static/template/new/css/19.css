@@ -6,7 +6,8 @@
   padding: 10px; }
   .wx-box .title {
     padding: 10px 0;
-    font-size: 20px; }
+    font-size: 25px;
+    color: #FF0000; }
   .wx-box .wx {
     padding: 10px 0;
     font-size: 25px; }

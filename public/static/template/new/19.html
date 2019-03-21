@@ -28,7 +28,16 @@
     <div class="wx-box">
         <div class="wx-btn">
             <div style="height: 20px;"></div>
-            <button type="button" id="btn-linqu" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">点击免费领取</button>
+            <button type="button" id="btn-linqu" class="s-btn-wxh btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">点击免费领取</button>
+            <div>
+                <span class="s-wxh" style="color:#FF0000;">111111111111</span>
+            </div>
+            <div>
+                <span class="s-wxh" style="color:#FF0000;">222222222222</span>
+            </div>
+            <div>
+                <span class="s-wxh" style="color:#FF0000;">333333333333</span>
+            </div>
         </div>
     </div>
     <div class="a-box">
@@ -139,7 +148,7 @@
                 <div class="wx-box">
 
                     <div class="title"><strong>添加导师微信号免费领取</strong></div>
-                    <div class="wx">微信号：<span style="color:#FF0000;">{$sh.brand_weixin?:''}</span>（长按复制）</div>
+                    <div class="wx">微信号：<span class="s-wxh" style="color:#FF0000;">{$sh.brand_weixin?:''}</span>（长按复制）</div>
                     <div class="wx-btn">
                         <button type="button" id="copy_wx_btn" class="btn btn-primary btn-lg btn-block copy_wx_btn" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击复制微信</button>
                     </div>
@@ -159,11 +168,13 @@
 </div>
 
 <script>
-    $(function () {
-        document.body.oncopy=function (ev) {
-            console.log("复制了");
-        }
-    });
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "http://192.168.1.7/tongji.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
 </body>
 </html>

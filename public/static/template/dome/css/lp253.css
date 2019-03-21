@@ -375,7 +375,7 @@ img{
 
     height: 271px;
 
-    background: url("../images/banner-text.png") no-repeat center;
+    /*background: url("../images/banner-text.png") no-repeat center;*/
 
     position: absolute;
 
@@ -424,7 +424,7 @@ img{
 
     height: 680px;
 
-    background: url(../images/bg_coin.png) 300px 500px no-repeat;
+    /*background: url(../images/bg_coin.png) 300px 500px no-repeat;*/
 
 }
 
@@ -436,7 +436,7 @@ img{
 
     height: 382px;
 
-    background: url(../images/bg_giftbox1.png) center no-repeat;
+    /*background: url(../images/bg_giftbox1.png) center no-repeat;*/
 
     left: 16px;
 
@@ -578,7 +578,7 @@ img{
 
     height: 700px;
 
-    background: url(../images/bg_gift2.png) 340px 340px no-repeat;
+    /*background: url(../images/bg_gift2.png) 340px 340px no-repeat;*/
 
 }
 
@@ -590,7 +590,7 @@ img{
 
     height: 540px;
 
-    background: url(../images/bg_cloud.png) 0px top repeat-x;
+    /*background: url(../images/bg_cloud.png) 0px top repeat-x;*/
 
     left: 50%;
 
@@ -718,7 +718,7 @@ img{
 
     border-radius: 4px;
 
-    background-image: url(../images/bg_btn.png);
+    /*background-image: url(../images/bg_btn.png);*/
 
     background-repeat: no-repeat;
 
@@ -868,25 +868,25 @@ img{
 
 .m-list-tokes .list1 .m-bg-tokes{
 
-    background: url(../images/bg_part1_1.jpg) center no-repeat;
+    /*background: url(../images/bg_part1_1.jpg) center no-repeat;*/
 
 }
 
 .m-list-tokes .list2 .m-bg-tokes{
 
-    background: url(../images/bg_part1_2.jpg) center no-repeat;
+    /*background: url(../images/bg_part1_2.jpg) center no-repeat;*/
 
 }
 
 .m-list-tokes .list3 .m-bg-tokes{
 
-    background: url(../images/bg_part1_3.jpg) center no-repeat;
+    /*background: url(../images/bg_part1_3.jpg) center no-repeat;*/
 
 }
 
 .m-list-tokes .list4 .m-bg-tokes{
 
-    background: url(../images/bg_part1_4.jpg) center no-repeat;
+    /*background: url(../images/bg_part1_4.jpg) center no-repeat;*/
 
 }
 
@@ -1158,7 +1158,7 @@ img{
 
     padding-bottom: 118px;
 
-    background: url(../images/bg_curve.png) center 85px no-repeat;
+    /*background: url(../images/bg_curve.png) center 85px no-repeat;*/
 
 }
 
@@ -1222,7 +1222,7 @@ img{
 
     height: 160px;
 
-    background: url(../images/bg_part3.jpg) center no-repeat;
+    /*background: url(../images/bg_part3.jpg) center no-repeat;*/
 
     border-radius: 8px;
 
@@ -1264,7 +1264,7 @@ img{
 
     font-style: normal;
 
-    background: url(../images/bg_icon.png) center -65px no-repeat;
+    /*background: url(../images/bg_icon.png) center -65px no-repeat;*/
 
 }
 
@@ -1279,7 +1279,7 @@ img{
 
 .m-list-month p.active{
 
-    background: url(../images/bg_part3_active.jpg) center no-repeat;
+    /*background: url(../images/bg_part3_active.jpg) center no-repeat;*/
 
     z-index: 1;
 
@@ -1351,7 +1351,7 @@ img{
 
     color: #fff;
 
-    background: url(../images/bg_icon.png) center top no-repeat;
+    /*background: url(../images/bg_icon.png) center top no-repeat;*/
 
 }
 
@@ -2257,12 +2257,9 @@ img{
 
 
     .m-list-month{
-
         margin-top: .14rem;
-
         height: 5.6rem;
-        z-index：-1；
-
+        z-index:-1;
     }
 
     .m-list-month p{
@@ -2271,7 +2268,7 @@ img{
 
         height: auto;
 
-        background: url(../images/bg_part3_mo.jpg) left center no-repeat;
+        /*background: url(../images/bg_part3_mo.jpg) left center no-repeat;*/
 
         background-size: 100% 100%;
 
@@ -2297,7 +2294,7 @@ img{
 
         line-height: .5rem;
 
-        background: url(../images/bg_icon_mo.png) center -.85rem no-repeat;
+        /*background: url(../images/bg_icon_mo.png) center -.85rem no-repeat;*/
 
         background-size: 100%;
 
@@ -2323,7 +2320,7 @@ img{
 
     .m-list-month p.active i{
 
-        background: url(../images/bg_icon_mo.png) center top no-repeat;
+        /*background: url(../images/bg_icon_mo.png) center top no-repeat;*/
 
         background-size: 100%;
 

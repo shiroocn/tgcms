@@ -13,9 +13,10 @@
 
 //Route::get('user', 'index/user/index');
 //Route::get('admin','admin/index/index');
-Route::rule('admin$','admin/index/index');
-Route::rule('admin/login','admin/admin/login');
-Route::rule('[:p]$','index/index/index');
 
+Route::rule('admin$','admin/index/index');
+Route::rule('admin/login','admin/index/login');
+//Route::rule('admin/login','admin/admin/login');
+Route::rule('[:p]$','index/index/index');
 
 

@@ -3,7 +3,7 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree"  lay-filter="test">
             <li class="layui-nav-item {if (CONTROLLER_NAME=='Index')}layui-this{/if}"><a href="{:url('admin/index/index')}">首页</a></li>
-            <li class="layui-nav-item layui-nav-itemed">
+            <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Domain','Page','Brand','Template']))} layui-nav-itemed{/if}">
                 <a href="javascript:;">系统</a>
                 <dl class="layui-nav-child">
                     <dd class="{if (in_array(CONTROLLER_NAME,['Domain','Page']))}layui-this{/if}"><a href="{:url('admin/domain/show')}">站点管理</a></dd>
@@ -20,7 +20,12 @@
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="">附件</a></li>
-            <li class="layui-nav-item"><a href="">设置</a></li>
+            <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Admin']))} layui-nav-itemed{/if}">
+                <a href="javascript:;">设置</a>
+                <dl class="layui-nav-child">
+                    <dd class="{if (CONTROLLER_NAME=='Admin' && ACTION_NAME=='editpass')}layui-this{/if}"><a href="{:url('admin/admin/editpass')}">修改密码</a></dd>
+                </dl>
+            </li>
         </ul>
     </div>
 </div>

@@ -16,8 +16,8 @@ class Tongji extends Base
 {
     public function add(){
         $postData=$this->request->param();
-        dump($this->request->ip());
 
+        return json_shiroo(0,'aaaa',0,$postData);
 
         $data=[
             'tj_keyword'=>'',
@@ -28,8 +28,8 @@ class Tongji extends Base
             'tj_create_data'=>'',
             'tj_url'=>'',
             'tj_device'=>'',
-            'tj_mac'=>'',
-            'tj_ip'=>''
+            'tj_ip'=>$this->request->ip(),
+            'tj_token'=>''
         ];
 
         $where=[

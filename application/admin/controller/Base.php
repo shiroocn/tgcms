@@ -13,8 +13,8 @@ class Base extends Controller
 {
     public function initialize(){
         define('IS_POST',$this->request->isPost()?:false);
-        define('ACTION_NAME',$this->request->action()?:'');
-        define('CONTROLLER_NAME',$this->request->controller()?:'');
+        define('ACTION_NAME',$this->request->action()?:'');//全小写
+        define('CONTROLLER_NAME',$this->request->controller()?:'');//实际一样
         //过滤不需要登陆的行为
         if(!in_array(ACTION_NAME,['login'])){
             //如果访问的action不在这个数组里面，则需要登录才能继续。

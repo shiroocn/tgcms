@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+    {include file="public/head" /}
+    {include file="public/css" /}
+</head>
+<body class="layui-layout-body">
+<div id="app">
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">修改密码</div>
+                <div class="layui-card-body">
+                    <form id="editpass-form" class="layui-form" method="post" :action="postURL" lay-filter="editPassForm">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">旧密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="old_password" required lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="new_password" required lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">再次输入</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="new_password2" required lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">再次输入新密码</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn">确认修改</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {include file="public/footer" /}
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+    var element, layer, form, openIndex;
+    var app = new Vue({
+        el: "#app",
+        data: {
+            postURL: "{:url('admin/admin/editpass')}"
+
+        },
+        created: function () {
+            layui.use(['element', 'layer', 'form'], function () {
+                element = layui.element;
+                layer = layui.layer;
+                form = layui.form;
+
+                jQuery("#editpass-form").submit(function () {
+                    var loadIndex = layer.load();
+                    $(this).ajaxSubmit({
+                        success: function (data, status) {
+                            layer.close(loadIndex);
+                            if (data.code === 0) {
+                                layer.alert(data.msg,{icon:1,title:"成功"},function (index) {
+                                    form.val("editPassForm",{
+                                        "old_password":"",
+                                        "new_password":"",
+                                        "new_password2":""
+                                    });
+                                    layer.close(index);
+                                });
+
+                            }else{
+                                layer.alert(data.msg,{icon:2,title:"出错了"},function (index) {
+                                    layer.close(index);
+                                });
+                            }
+
+                        }
+                    });
+                    return false;
+                });
+
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -103,4 +103,14 @@ function isLogin(){
         return false;
     }
 }
+function getUserID(){
+    if(isLogin()){
+        return (int)session('user.user_id');
+    }else{
+        return 0;
+    }
+}
+function shaPass($password){
+    return sha1($password);
+}
 

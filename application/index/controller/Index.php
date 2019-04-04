@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use think\Db;
+use think\facade\Cookie;
 
 class Index extends Base
 {
@@ -24,6 +25,21 @@ class Index extends Base
         //去掉http://字符。
         $domain=str_replace('http://','',$domain);
         $domain=str_replace('https://','',$domain);
+
+        //访客记录
+        $tongji=[
+            'tj_source'=>isset($postData['source'])?$postData['source']:'',
+            'tj_keyword'=>isset($postData['keyword'])?$postData['keyword']:'',
+            'tj_plan'=>isset($postData['plan'])?$postData['plan']:'',
+            'tj_unit'=>isset($postData['unit'])?$postData['unit']:'',
+            'tj_domain'=>$domain,
+            'tj_page_name'=>$pageName,
+            'tj_create_time'=>time(),
+            'tj_device'=>$this->request->isMobile()?'YD':'PC',
+            'tj_ip'=>$this->request->ip()
+        ];
+        $tongjiID=$this->newVisitor($tongji);
+        $this->assign('tongji_id',$tongjiID);
 
         try{
             //首页查询访问落地页的域名是否已在后台绑定

@@ -22,7 +22,8 @@ class Tongji extends Base
         $str=$postData['copy_str'];
         $data=[
             'tj_str'=>$str,
-            'tj_zhuanhua'=>1
+            'tj_zhuanhua'=>1,
+            'tj_zh_time'=>date('Y-m-d H:i:s')
         ];
         try{
             $tjDB=Db::name('tongji')->where('tj_id',$id)->update($data);

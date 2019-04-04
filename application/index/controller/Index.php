@@ -34,7 +34,7 @@ class Index extends Base
             'tj_unit'=>isset($postData['unit'])?$postData['unit']:'',
             'tj_domain'=>$domain,
             'tj_page_name'=>$pageName,
-            'tj_create_time'=>time(),
+            'tj_create_time'=>date('Y-m-d H:i:s'),
             'tj_device'=>$this->request->isMobile()?'YD':'PC',
             'tj_ip'=>$this->request->ip()
         ];

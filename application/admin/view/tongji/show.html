@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访问统计</title>
+    {include file="public/head" /}
+    {include file="public/css" /}
+</head>
+<body>
+<div id="app">
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">访问统计</div>
+                <div class="layui-card-body">
+                    <div class="domain_list_btn">
+                        <a class="layui-btn layui-btn-normal" data-type="add">新增主题</a>
+                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
+                    </div>
+                    <table id="template_dir_list" lay-filter="template_dir_list"></table>
+
+                </div>
+            </div>
+        </div>
+        {include file="public/footer" /}
+    </div>
+
+    <!--新增与编辑站点HTML-->
+    <div id="edit-box" style="padding: 20px;display: none;">
+        <form id="edit-form" class="layui-form layui-form-pane" method="post" :action="postURL">
+            <input type="hidden" name="template_dir_id" v-model="templateDirID">
+            <div class="layui-form-item">
+                <label class="layui-form-label">主题目录</label>
+                <div class="layui-input-block">
+                    <input type="text" name="template_dir_name" required lay-verify="required" autocomplete="off"
+                           class="layui-input" v-model="templateDirName">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
+                    <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{include file="public/js" /}
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            disabled: false,
+            postURL: "",
+            templateDirID: 0,
+            templateDirName: "",
+            submitButtonString: ""
+        },
+        created: function () {
+            layui.use(['element', 'layer', 'table'], function () {
+                var layer = layui.layer,
+                    table = layui.table;
+                var openIndex;
+
+                table.render({
+                    elem: '#template_dir_list',
+                    url: '{:url("admin/tongji/show")}',//数据接口
+                    method: 'post',
+                    loading: true,
+                    page: true,//开启分页
+                    cols: [[
+                        {field: 'tj_domain', title: '受访站点', minWidth: 150},
+                        {field: 'tj_page_name', title: '受访页面', minWidth: 100},
+                        {field: 'tj_create_time', title: '访问时间', minWidth: 150},
+                        {field: 'tj_device', title: '设备', minWidth: 50},
+                        {field: 'tj_ip', title: '访问IP', minWidth: 150},
+                        {field: 'tj_source', title: '渠道', minWidth: 100},
+                        {field: 'tj_keyword', title: '关键词', minWidth: 150}
+                    ]]
+                });
+
+                table.on('tool(template_dir_list)', function (obj) {
+                    var data = obj.data;
+                    switch (obj.event) {
+                        case 'edit':
+                            app.postURL = "{:url('admin/template/edit')}";
+                            app.templateDirID = data.template_dir_id;
+                            app.templateDirName = data.template_dir_name;
+                            app.submitButtonString = "确认修改";
+                            openIndex = layer.open({
+                                type: 1,
+                                title: "编辑",
+                                area: "460px",
+                                content: $("#edit-box")
+                            });
+                            break;
+                        case 'del':
+                            layer.confirm('是否确定删除' + data.template_dir_name + '主题及其所有风格？', {
+                                icon: 3,
+                                title: '提示'
+                            }, function (index) {
+                                $.post("{:url('admin/template/del')}", {
+                                    template_dir_id: data.template_dir_id
+                                }, function (data, status) {
+                                    layer.msg(data.msg);
+                                    if (data.code === 0) {
+                                        obj.del();
+                                    }
+                                    layer.close(index);
+                                }, 'JSON');
+                            });
+                            break;
+                        case 'template':
+                            var url = "{:url('admin/template/style',['template_dir_id'=>-19880722])}";
+                            url = url.replace("-19880722", data.template_dir_id);
+                            console.log(url);
+                            location.href = url;
+                            break;
+                    }
+                });
+
+                jQuery("#edit-form").submit(function () {
+                    var loadIndex = layer.load();
+                    $(this).ajaxSubmit({
+                        success: function (data, status) {
+                            layer.close(loadIndex);
+                            layer.msg(data.msg);
+                            if (data.code === 0) {
+                                layer.close(openIndex);
+                                active.reload();
+                            }
+                        }
+                    });
+                    return false;
+                });
+
+                var $ = layui.$, active = {
+                    reload: function () {
+                        table.reload('template_dir_list');
+                    },
+                    add: function () {
+                        app.postURL = "{:url('admin/template/add')}";
+                        app.templateDirName = "";
+                        app.submitButtonString = "确认新增";
+                        openIndex = layer.open({
+                            type: 1,
+                            title: "新增",
+                            area: "460px",
+                            content: $("#edit-box")
+                        });
+                    },
+                    close: function () {
+                        layer.close(openIndex); //执行关闭
+                    }
+                };
+                $('.layui-btn').on('click', function () {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

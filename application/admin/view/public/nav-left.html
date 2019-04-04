@@ -11,10 +11,10 @@
                     <dd class="{if (CONTROLLER_NAME=='Template')}layui-this{/if}"><a href="{:url('admin/template/show')}">模板管理</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item">
+            <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Tongji']))} layui-nav-itemed{/if}">
                 <a href="javascript:;">数据</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">访问来源</a></dd>
+                    <dd class="{if (CONTROLLER_NAME=='Tongji' && ACTION_NAME=='show')}layui-this{/if}"><a href="{:url('admin/tongji/show')}">访问统计</a></dd>
                     <dd><a href="javascript:;">转化率</a></dd>
                     <dd><a href="">超链接</a></dd>
                 </dl>

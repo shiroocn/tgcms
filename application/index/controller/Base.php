@@ -35,6 +35,11 @@ class Base extends Controller{
         //Cookie::set('time',$data['tj_create_time'],['prefix'=>'tongji_','expire'=>$remaining]);
         $data['tj_token']=$token;
         //$data的数据即为表的数据
-        return Db::name('tongji')->insertGetId($data)?:0;
+        $db=Db::name('tongji')->where('tj_token',$token)->find();
+        if(is_null($db) && !is_array($db)){
+            return Db::name('tongji')->insertGetId($data)?:0;
+        }else{
+            return $db['tj_id'];
+        }
     }
 }

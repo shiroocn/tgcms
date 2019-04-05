@@ -26,21 +26,6 @@ class Index extends Base
         $domain=str_replace('http://','',$domain);
         $domain=str_replace('https://','',$domain);
 
-        //访客记录
-        $tongji=[
-            'tj_source'=>isset($postData['source'])?$postData['source']:'',
-            'tj_keyword'=>isset($postData['keyword'])?$postData['keyword']:'',
-            'tj_plan'=>isset($postData['plan'])?$postData['plan']:'',
-            'tj_unit'=>isset($postData['unit'])?$postData['unit']:'',
-            'tj_domain'=>$domain,
-            'tj_page_name'=>$pageName,
-            'tj_create_time'=>date('Y-m-d H:i:s'),
-            'tj_device'=>$this->request->isMobile()?'YD':'PC',
-            'tj_ip'=>$this->request->ip()
-        ];
-        $tongjiID=$this->newVisitor($tongji);
-        $this->assign('tongji_id',$tongjiID);
-
         try{
             //首页查询访问落地页的域名是否已在后台绑定
             $domainDB=Db::name('domain')->where('domain_url',$domain)->find();
@@ -109,6 +94,22 @@ class Index extends Base
             return $this->errorPage('访问的页面不存在');
         }else{
             //落地页存在
+
+            //访客记录(必须能正常访问该页面，才进行统计)
+            $tongji=[
+                'tj_source'=>isset($postData['source'])?$postData['source']:'',
+                'tj_keyword'=>isset($postData['keyword'])?$postData['keyword']:'',
+                'tj_plan'=>isset($postData['plan'])?$postData['plan']:'',
+                'tj_unit'=>isset($postData['unit'])?$postData['unit']:'',
+                'tj_domain'=>$domain,
+                'tj_page_name'=>$pageName,
+                'tj_create_time'=>date('Y-m-d H:i:s'),
+                'tj_device'=>$this->request->isMobile()?'YD':'PC',
+                'tj_ip'=>$this->request->ip()
+            ];
+            $tongjiID=$this->newVisitor($tongji);
+            $this->assign('tongji_id',$tongjiID);
+
             $def=[];//定义一个空的数组，用于储存循环读取到的扩展参数。
             if(is_array($defines)){
                 //如果该推广线索存在设置了扩展参数。

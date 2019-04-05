@@ -16,9 +16,29 @@
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
                     <div class="domain_list_btn">
-                        <a class="layui-btn layui-btn-normal" data-type="add">新增主题</a>
+                        <a class="layui-btn layui-btn-normal" data-type="add">查询站点</a>
+                        <a class="layui-btn layui-btn-normal" data-type="add">时间范围</a>
                         <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
                     </div>
+                    <div style="margin-top: 10px;">数据概括</div>
+                    <hr class="layui-bg-green">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-md4">
+                                    <span>访客数：{$todayCount}</span>
+                                </div>
+                                <div class="layui-col-md4">
+                                    <span>转化数：{$zhCount}</span>
+                                </div>
+                                <div class="layui-col-md4">
+                                    <span>转化率：{$zhl}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>访问明细</div>
+                    <hr class="layui-bg-green">
                     <table id="template_dir_list" lay-filter="template_dir_list"></table>
 
                 </div>
@@ -74,11 +94,12 @@
                     cols: [[
                         {field: 'tj_domain', title: '受访站点', minWidth: 150},
                         {field: 'tj_page_name', title: '受访页面', minWidth: 100},
-                        {field: 'tj_create_time', title: '访问时间', minWidth: 150},
+                        {field: 'tj_create_time', title: '访问时间', minWidth: 180},
                         {field: 'tj_device', title: '设备', minWidth: 50},
                         {field: 'tj_ip', title: '访问IP', minWidth: 150},
                         {field: 'tj_source', title: '渠道', minWidth: 100},
-                        {field: 'tj_keyword', title: '关键词', minWidth: 150}
+                        {field: 'tj_keyword', title: '关键词', minWidth: 150},
+                        {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
                     ]]
                 });
 

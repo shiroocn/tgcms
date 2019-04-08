@@ -97,10 +97,10 @@ class Index extends Base
 
             //访客记录(必须能正常访问该页面，才进行统计)
             $tongji=[
-                'tj_source'=>isset($postData['source'])?$postData['source']:'',
-                'tj_keyword'=>isset($postData['keyword'])?$postData['keyword']:'',
-                'tj_plan'=>isset($postData['plan'])?$postData['plan']:'',
-                'tj_unit'=>isset($postData['unit'])?$postData['unit']:'',
+                'tj_source'=>isset($postData['source'])?urldecode($postData['source']):'',
+                'tj_keyword'=>isset($postData['keyword'])?urldecode($postData['keyword']):'',
+                'tj_plan'=>isset($postData['plan'])?urldecode($postData['plan']):'',
+                'tj_unit'=>isset($postData['unit'])?urldecode($postData['unit']):'',
                 'tj_domain'=>$domain,
                 'tj_page_name'=>$pageName,
                 'tj_create_time'=>date('Y-m-d H:i:s'),

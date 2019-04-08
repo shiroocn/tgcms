@@ -13,7 +13,7 @@ function IsPC(){
     return flag;
 }
 $(document).ready(function () {
-    console.log("test");
+    //console.log("test");
 
     //点击复制功能，必须是按钮button，而且不能隐藏，只能设置
     var clipboard = new ClipboardJS('.copy_wx_btn');

@@ -20,12 +20,19 @@ window.addEventListener("load",function (ev) {
 });
 function shirooFunTongjiPost(copyStr) {
     console.log(copyStr);
-    ShriooJson.post(shirooTongji.url,{
+
+    jQuery.post(shirooTongji.url,{
+        id:shirooTongji.id,
+        copy_str:copyStr
+    },function (data) {
+        console.log(data);
+    },"JSON");
+    /*ShriooJson.post(shirooTongji.url,{
         id:shirooTongji.id,
         copy_str:copyStr
     },function (data) {
         console.log(data.data);
-    });
+    });*/
 }
 var ShriooJson={
     post: function (url, data, fn) {

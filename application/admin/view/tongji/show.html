@@ -15,11 +15,56 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
-                    <div class="domain_list_btn">
-                        <a class="layui-btn layui-btn-normal" data-type="add">查询站点</a>
-                        <a class="layui-btn layui-btn-normal" data-type="add">时间范围</a>
-                        <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
-                    </div>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">站点</label>
+                            <div class="layui-input-inline">
+                                <select name="city" lay-verify="">
+                                    <option value="">默认显示全部</option>
+                                    <option value="010">北京</option>
+                                    <option value="021">上海</option>
+                                    <option value="0571">杭州</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">渠道</label>
+                            <div class="layui-input-inline">
+                                <select name="city" lay-verify="">
+                                    <option value="">默认显示全部</option>
+                                    <option value="010">北京</option>
+                                    <option value="021">上海</option>
+                                    <option value="0571">杭州</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">设备</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="device" value="all" title="全部" checked>
+                                <input type="radio" name="device" value="pc" title="PC">
+                                <input type="radio" name="device" value="yd" title="YD">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">时间</label>
+                                <div class="layui-input-inline" style="width: 120px;">
+                                    <input type="text" name="start_time" class="layui-input" id="start_time" autocomplete="off">
+                                </div>
+                                <div class="layui-form-mid">-</div>
+                                <div class="layui-input-inline" style="width: 120px;">
+                                    <input type="text" name="end_time" class="layui-input" id="end_time" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">导出数据</button>
+                            </div>
+                        </div>
+                    </form>
                     <div style="margin-top: 10px;">数据概括</div>
                     <hr class="layui-bg-green">
                     <div class="layui-card">
@@ -80,11 +125,18 @@
             submitButtonString: ""
         },
         created: function () {
-            layui.use(['element', 'layer', 'table'], function () {
+            layui.use(['element', 'layer', 'table','laydate'], function () {
                 var layer = layui.layer,
-                    table = layui.table;
+                    table = layui.table,
+                    laydate=layui.laydate;
                 var openIndex;
 
+                laydate.render({
+                    elem:"#start_time"
+                });
+                laydate.render({
+                    elem:"#end_time"
+                });
                 table.render({
                     elem: '#template_dir_list',
                     url: '{:url("admin/tongji/show")}',//数据接口

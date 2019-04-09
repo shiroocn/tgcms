@@ -49,7 +49,14 @@ class Tongji extends Base
                 ->where('tj_zhuanhua',1)
                 ->count();
             //今日转化率
-            $zhl=round($zhCount/$todayCount*100,2);
+            if($todayCount>0){
+                $zhl=round($zhCount/$todayCount*100,2);
+            }else{
+                $zhl=0;
+            }
+            //站点列表
+            $domainList=Db::name('domain')->select();
+
             $this->assign('todayCount',$todayCount);
             $this->assign('zhCount',$zhCount);
             $this->assign('zhl',$zhl);

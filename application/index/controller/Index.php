@@ -21,9 +21,9 @@ class Index extends Base
         }
         $pageName=$postData['p'];
         //获取当前的域名
-        $domain=$this->request->domain();
+        $domain_http=$this->request->domain();
         //去掉http://字符。
-        $domain=str_replace('http://','',$domain);
+        $domain=str_replace('http://','',$domain_http);
         $domain=str_replace('https://','',$domain);
 
         try{
@@ -109,6 +109,7 @@ class Index extends Base
             ];
             $tongjiID=$this->newVisitor($tongji);
             $this->assign('tongji_id',$tongjiID);
+            $this->assign('domain_url',$domain_http);
 
             $def=[];//定义一个空的数组，用于储存循环读取到的扩展参数。
             if(is_array($defines)){

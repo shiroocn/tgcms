@@ -21,6 +21,10 @@ class Tongji extends Base
             $postData=$this->request->param();
             $page=$postData['page']-1;
             $limit=$postData['limit'];
+            $domainURL=$postData['domain_url'];
+            $source=$postData['source'];
+            $device=$postData['device'];
+
             try{
                 $result=Db::name('tongji')
                     ->limit($page*$limit,$limit)
@@ -57,6 +61,7 @@ class Tongji extends Base
             //站点列表
             $domainList=Db::name('domain')->select();
 
+            $this->assign('domains',$domainList);
             $this->assign('todayCount',$todayCount);
             $this->assign('zhCount',$zhCount);
             $this->assign('zhl',$zhl);

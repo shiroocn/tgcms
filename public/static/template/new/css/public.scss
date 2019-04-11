@@ -47,7 +47,7 @@ $maxWidth:1080px;
     height: 328px;
     position: fixed;
     top: 150px;
-    right: 20px;
+    left: 20px;
     background: url(../img/fu_box.png) no-repeat center top;
     background-size: 100%;
     z-index: 8;
@@ -119,5 +119,130 @@ $maxWidth:1080px;
 .copy_wx_btn{
     font-size: 16px;
     display: none;
+}
+.html18{
+    max-width: 1080px;
+    margin: 0 auto;
+    p{
+        margin: 0!important;
+        padding: 0!important;
+    }
+    .wxh-box{
+        padding: 0.2rem;
+        text-align: center;
+        .copy-wxh{
+            font-size: 0.22rem;
+            padding-bottom: 0.1rem;
+            .s-wxh{
+                font-size: 0.28rem;
+                color: #FF0000;
+                font-weight: bold;
+            }
+        }
+        .copy-wxh-tips{
+            font-size: 0.14rem;
+        }
+        .copy-wxh-btn{
+            margin: 0.2rem 0 0 0;
+            button{
+                padding: 0.1rem 0.3rem!important;
+                font-size: 0.2rem!important;
+                line-height: 0.4rem!important;
+                border-radius: .1rem!important;
+                &:hover{
+                    box-shadow: 0 0 0 8px rgba(0,123,255,.25);
+                }
+                &:focus{
+                    box-shadow: 0 0 0 8px rgba(0,123,255,.25);
+                }
+            }
+        }
+    }
+    .add-wx-tips{
+        padding: 0.2rem;
+        background: #cb131f;
+        color: #FFFFFF;
+        .title{
+            text-align: center;
+            font-size: 0.2rem;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            li{
+                font-size: 0.14rem;
+                list-style: none;
+                padding: 0;
+                margin: 0.1rem 0 0 0;
+                img{
+                    border: 2px solid #313758;
+                }
+            }
+        }
+        p{
+            margin: 0!important;
+            padding: 0!important;
+        }
+    }
+    .s-comments {
+        width: 100%;
+        background: #f3f3f3;
+        .s-list {
+            width: 100%;
+            .s-line {
+                border-bottom: 1px solid #fff;
+                .s-reply-box {
+                    font-size: 0.12rem;
+                    ul {
+                        padding: 0;
+                        margin: 0 0.1rem;
+                        li {
+                            padding: 0;
+                            margin: 0;
+                            list-style: none;
+                            .s-name {
+
+                            }
+                            .s-content {
+
+                            }
+                            .s-time {
+
+                            }
+                        }
+                    }
+
+                }
+            }
+            td {
+                padding: 0.1rem;
+            }
+            .s-name {
+                color: #3361a7;
+                font-size: 0.14rem;
+
+            }
+            .s-time {
+                color: #c5c9cd;
+                font-size: 0.12rem;
+            }
+            .s-content {
+                font-size: 0.12rem;
+
+            }
+            .s-portrait {
+                height: 0.38rem;
+                width: 0.38rem;
+            }
+        }
+    }
+    .html18-footer{
+        width: 100%;
+        max-width: $maxWidth;
+        margin: 0 auto;
+        text-align: center;
+        padding: 0.2rem 0;
+    }
+
 }
 

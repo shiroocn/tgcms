@@ -39,7 +39,7 @@
   height: 328px;
   position: fixed;
   top: 150px;
-  right: 20px;
+  left: 20px;
   background: url(../img/fu_box.png) no-repeat center top;
   background-size: 100%;
   z-index: 8; }
@@ -103,5 +103,90 @@
 .copy_wx_btn {
   font-size: 16px;
   display: none; }
+
+.html18 {
+  max-width: 1080px;
+  margin: 0 auto; }
+  .html18 p {
+    margin: 0 !important;
+    padding: 0 !important; }
+  .html18 .wxh-box {
+    padding: 0.2rem;
+    text-align: center; }
+    .html18 .wxh-box .copy-wxh {
+      font-size: 0.22rem;
+      padding-bottom: 0.1rem; }
+      .html18 .wxh-box .copy-wxh .s-wxh {
+        font-size: 0.28rem;
+        color: #FF0000;
+        font-weight: bold; }
+    .html18 .wxh-box .copy-wxh-tips {
+      font-size: 0.14rem; }
+    .html18 .wxh-box .copy-wxh-btn {
+      margin: 0.2rem 0 0 0; }
+      .html18 .wxh-box .copy-wxh-btn button {
+        padding: 0.1rem 0.3rem !important;
+        font-size: 0.2rem !important;
+        line-height: 0.4rem !important;
+        border-radius: 0.1rem !important; }
+        .html18 .wxh-box .copy-wxh-btn button:hover {
+          box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
+        .html18 .wxh-box .copy-wxh-btn button:focus {
+          box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
+  .html18 .add-wx-tips {
+    padding: 0.2rem;
+    background: #cb131f;
+    color: #FFFFFF; }
+    .html18 .add-wx-tips .title {
+      text-align: center;
+      font-size: 0.2rem; }
+    .html18 .add-wx-tips ul {
+      padding: 0;
+      margin: 0; }
+      .html18 .add-wx-tips ul li {
+        font-size: 0.14rem;
+        list-style: none;
+        padding: 0;
+        margin: 0.1rem 0 0 0; }
+        .html18 .add-wx-tips ul li img {
+          border: 2px solid #313758; }
+    .html18 .add-wx-tips p {
+      margin: 0 !important;
+      padding: 0 !important; }
+  .html18 .s-comments {
+    width: 100%;
+    background: #f3f3f3; }
+    .html18 .s-comments .s-list {
+      width: 100%; }
+      .html18 .s-comments .s-list .s-line {
+        border-bottom: 1px solid #fff; }
+        .html18 .s-comments .s-list .s-line .s-reply-box {
+          font-size: 0.12rem; }
+          .html18 .s-comments .s-list .s-line .s-reply-box ul {
+            padding: 0;
+            margin: 0 0.1rem; }
+            .html18 .s-comments .s-list .s-line .s-reply-box ul li {
+              padding: 0;
+              margin: 0;
+              list-style: none; }
+      .html18 .s-comments .s-list td {
+        padding: 0.1rem; }
+      .html18 .s-comments .s-list .s-name {
+        color: #3361a7;
+        font-size: 0.14rem; }
+      .html18 .s-comments .s-list .s-time {
+        color: #c5c9cd;
+        font-size: 0.12rem; }
+      .html18 .s-comments .s-list .s-content {
+        font-size: 0.12rem; }
+      .html18 .s-comments .s-list .s-portrait {
+        height: 0.38rem;
+        width: 0.38rem; }
+  .html18 .html18-footer {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0.2rem 0; }
 
 /*# sourceMappingURL=public.css.map */

@@ -19,22 +19,23 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">站点</label>
                             <div class="layui-input-inline">
-                                <select name="city" lay-verify="">
-                                    <option value="">默认显示全部</option>
-                                    <option value="010">北京</option>
-                                    <option value="021">上海</option>
-                                    <option value="0571">杭州</option>
+                                <select name="domain" lay-verify="">
+                                    <option value="">全部站点</option>
+                                    {volist name="domains" id="vo"}
+                                    <option value="{$vo.domain_url}">{$vo.domain_url}</option>
+                                    {/volist}
                                 </select>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">渠道</label>
                             <div class="layui-input-inline">
-                                <select name="city" lay-verify="">
-                                    <option value="">默认显示全部</option>
-                                    <option value="010">北京</option>
-                                    <option value="021">上海</option>
-                                    <option value="0571">杭州</option>
+                                <select name="source" lay-verify="">
+                                    <option value="">全部渠道</option>
+                                    <option value="baidu">baidu</option>
+                                    <option value="sogou">sogou</option>
+                                    <option value="sm">sm</option>
+                                    <option value="360">360</option>
                                 </select>
                             </div>
                         </div>
@@ -50,18 +51,18 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">时间</label>
                                 <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="start_time" class="layui-input" id="start_time" autocomplete="off">
+                                    <input type="text" name="start_time" class="layui-input" id="start_time" autocomplete="off" v-model="startTime">
                                 </div>
                                 <div class="layui-form-mid">-</div>
                                 <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="end_time" class="layui-input" id="end_time" autocomplete="off">
+                                    <input type="text" name="end_time" class="layui-input" id="end_time" autocomplete="off" v-model="endTime">
                                 </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
-                                <button type="reset" class="layui-btn layui-btn-primary">导出数据</button>
+                                <button type="reset" class="layui-btn layui-btn-primary" @click="exportFile">导出数据</button>
                             </div>
                         </div>
                     </form>
@@ -70,13 +71,13 @@
                     <div class="layui-card">
                         <div class="layui-card-body">
                             <div class="layui-row layui-col-space10">
-                                <div class="layui-col-md4">
+                                <div class="layui-col-sm4">
                                     <span>访客数：{$todayCount}</span>
                                 </div>
-                                <div class="layui-col-md4">
+                                <div class="layui-col-sm4">
                                     <span>转化数：{$zhCount}</span>
                                 </div>
-                                <div class="layui-col-md4">
+                                <div class="layui-col-sm4">
                                     <span>转化率：{$zhl}%</span>
                                 </div>
                             </div>
@@ -84,62 +85,66 @@
                     </div>
                     <div>访问明细</div>
                     <hr class="layui-bg-green">
-                    <table id="template_dir_list" lay-filter="template_dir_list"></table>
+                    <table id="data_list" lay-filter="data_list"></table>
 
                 </div>
             </div>
         </div>
         {include file="public/footer" /}
     </div>
-
-    <!--新增与编辑站点HTML-->
-    <div id="edit-box" style="padding: 20px;display: none;">
-        <form id="edit-form" class="layui-form layui-form-pane" method="post" :action="postURL">
-            <input type="hidden" name="template_dir_id" v-model="templateDirID">
-            <div class="layui-form-item">
-                <label class="layui-form-label">主题目录</label>
-                <div class="layui-input-block">
-                    <input type="text" name="template_dir_name" required lay-verify="required" autocomplete="off"
-                           class="layui-input" v-model="templateDirName">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
-                    <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 {include file="public/js" /}
 
 <script>
+    var layer,table,laydate,openIndex,tableIns;
     var app = new Vue({
         el: "#app",
         data: {
-            disabled: false,
-            postURL: "",
-            templateDirID: 0,
-            templateDirName: "",
-            submitButtonString: ""
+            domainURL:"",
+            source:"",
+            device:"",
+            startTime:"",
+            endTime:""
+        },
+        watch:{
+            startTime:function (val,oldVal) {
+
+            },
+            endTime:function (val,oldVal) {
+
+            }
+        },
+        methods:{
+              exportFile:function () {
+                  table.exportFile(tableIns.config.id);
+              }
         },
         created: function () {
             layui.use(['element', 'layer', 'table','laydate'], function () {
-                var layer = layui.layer,
-                    table = layui.table,
-                    laydate=layui.laydate;
-                var openIndex;
+                layer = layui.layer;
+                table = layui.table;
+                laydate=layui.laydate;
+
+                var ins1=laydate.render({
+                    elem:"#start_time",
+                    value:new Date()
+                });
 
                 laydate.render({
-                    elem:"#start_time"
+                    elem:"#end_time",
+                    value:new Date()
                 });
-                laydate.render({
-                    elem:"#end_time"
-                });
-                table.render({
-                    elem: '#template_dir_list',
+
+                tableIns=table.render({
+                    elem: '#data_list',
                     url: '{:url("admin/tongji/show")}',//数据接口
+                    where:{
+                        domain_url:"",
+                        source:"",
+                        device:"",
+                        start_time:"",
+                        end_time:""
+                    },
                     method: 'post',
                     loading: true,
                     page: true,//开启分页
@@ -154,86 +159,10 @@
                         {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
                     ]]
                 });
-
-                table.on('tool(template_dir_list)', function (obj) {
-                    var data = obj.data;
-                    switch (obj.event) {
-                        case 'edit':
-                            app.postURL = "{:url('admin/template/edit')}";
-                            app.templateDirID = data.template_dir_id;
-                            app.templateDirName = data.template_dir_name;
-                            app.submitButtonString = "确认修改";
-                            openIndex = layer.open({
-                                type: 1,
-                                title: "编辑",
-                                area: "460px",
-                                content: $("#edit-box")
-                            });
-                            break;
-                        case 'del':
-                            layer.confirm('是否确定删除' + data.template_dir_name + '主题及其所有风格？', {
-                                icon: 3,
-                                title: '提示'
-                            }, function (index) {
-                                $.post("{:url('admin/template/del')}", {
-                                    template_dir_id: data.template_dir_id
-                                }, function (data, status) {
-                                    layer.msg(data.msg);
-                                    if (data.code === 0) {
-                                        obj.del();
-                                    }
-                                    layer.close(index);
-                                }, 'JSON');
-                            });
-                            break;
-                        case 'template':
-                            var url = "{:url('admin/template/style',['template_dir_id'=>-19880722])}";
-                            url = url.replace("-19880722", data.template_dir_id);
-                            console.log(url);
-                            location.href = url;
-                            break;
-                    }
-                });
-
-                jQuery("#edit-form").submit(function () {
-                    var loadIndex = layer.load();
-                    $(this).ajaxSubmit({
-                        success: function (data, status) {
-                            layer.close(loadIndex);
-                            layer.msg(data.msg);
-                            if (data.code === 0) {
-                                layer.close(openIndex);
-                                active.reload();
-                            }
-                        }
-                    });
-                    return false;
-                });
-
-                var $ = layui.$, active = {
-                    reload: function () {
-                        table.reload('template_dir_list');
-                    },
-                    add: function () {
-                        app.postURL = "{:url('admin/template/add')}";
-                        app.templateDirName = "";
-                        app.submitButtonString = "确认新增";
-                        openIndex = layer.open({
-                            type: 1,
-                            title: "新增",
-                            area: "460px",
-                            content: $("#edit-box")
-                        });
-                    },
-                    close: function () {
-                        layer.close(openIndex); //执行关闭
-                    }
-                };
-                $('.layui-btn').on('click', function () {
-                    var type = $(this).data('type');
-                    active[type] ? active[type].call(this) : '';
-                });
             });
+        },
+        updated:function () {
+            console.log("updated");
         }
     });
 </script>

@@ -109,7 +109,6 @@ class Index extends Base
             ];
             $tongjiID=$this->newVisitor($tongji);
             $this->assign('tongji_id',$tongjiID);
-            $this->assign('domain_url',$domain_http);
 
             $def=[];//定义一个空的数组，用于储存循环读取到的扩展参数。
             if(is_array($defines)){

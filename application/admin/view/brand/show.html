@@ -54,7 +54,7 @@
                 <label class="layui-form-label">线索头像</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="brand_icon_path" v-model="brandIconPath">
-                    <img :src="brandIconPath" width="120"  height="100" /><br>
+                    <img :src="uploadPath+'/'+brandIconPath" width="120"  height="100" /><br>
                     <button type="button" class="layui-btn" style="width: 120px;" id="upload_icon">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
@@ -64,7 +64,7 @@
                 <label class="layui-form-label">二维码</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="brand_weixinqr_path" v-model="brandWeiXinQRPath">
-                    <img :src="brandWeiXinQRPath" width="120"  height="100" /><br>
+                    <img :src="uploadPath+'/'+brandWeiXinQRPath" width="120"  height="100" /><br>
                     <button type="button" class="layui-btn" style="width: 120px;" id="upload_wx_qr">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
@@ -81,10 +81,10 @@
 </div>
 {include file="public/js" /}
 <script type="text/html" id="brand_weixinqr_img">
-    <div><img src="{{d.brand_weixinqr_path}}" width="50" height="50" /></div>
+    <div><img src="__UPLOADS__/{{d.brand_weixinqr_path}}" width="50" height="50" /></div>
 </script>
 <script type="text/html" id="brand_icon_img">
-    <div><img src="{{d.brand_icon_path}}" width="50" height="50" /></div>
+    <div><img src="__UPLOADS__/{{d.brand_icon_path}}" width="50" height="50" /></div>
 </script>
 
 <script>
@@ -194,7 +194,7 @@
                     ,done: function(res, index, upload){ //上传后的回调
                         console.log(res);
                         var data=res.data;
-                        app.brandWeiXinQRPath=app.uploadPath+"/"+data.file_path;
+                        app.brandWeiXinQRPath=data.file_path;
                         layer.closeAll('loading'); //关闭loading
                     }
                     ,error: function(index, upload){
@@ -212,7 +212,7 @@
                     ,done: function(res, index, upload){ //上传后的回调
                         console.log(res);
                         var data=res.data;
-                        app.brandIconPath=app.uploadPath+"/"+data.file_path;
+                        app.brandIconPath=data.file_path;
                         layer.closeAll('loading'); //关闭loading
                     }
                     ,error: function(index, upload){

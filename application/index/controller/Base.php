@@ -15,7 +15,7 @@ use think\facade\Cookie;
 class Base extends Controller{
     public function initialize()
     {
-
+        define('UPLOADS_PATH','/uploads');
     }
     public function errorPage($title='',$content=''){
         return $this->fetch('public/error',['title'=>$title,'content'=>$content]);

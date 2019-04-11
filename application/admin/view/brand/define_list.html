@@ -62,7 +62,7 @@
             <div class="layui-form-item" v-show="bdlDefineType==='images'">
                 <label class="layui-form-label">参数值</label>
                 <div class="layui-input-block">
-                    <img :src="defineImagesPath" width="120" height="100"/><br>
+                    <img :src="uploadPath+'/'+defineImagesPath" width="120" height="100"/><br>
                     <button type="button" class="layui-btn" style="width: 120px;" id="uploadDefineImagesBtn">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
@@ -193,7 +193,7 @@
                     , done: function (res, index, upload) { //上传后的回调
                         console.log(res);
                         var data = res.data;
-                        app.defineImagesPath = app.uploadPath + "/" + data.file_path;
+                        app.defineImagesPath = data.file_path;
                         app.bdlDefineVar = app.defineImagesPath;
                         layer.closeAll('loading'); //关闭loading
                     }

@@ -1,3 +1,6 @@
+body{
+    background: #f3f3f3!important;
+}
 .fu_box {
     width: 204px;
     height: 328px;
@@ -129,23 +132,25 @@
 .s-nav {
     height: 60px;
     line-height: 60px;
-    background: #fafbfc;
-    font-size: 18px;
+    background: #ffffff;
+    font-size: 1.2rem;
     padding: 0 10px;
+    margin-bottom: 10px;
     .s-l {
         font-weight: bold;
     }
     .s-r {
-        font-size: 14px;
+        font-size: 1rem;
     }
 }
 
 .s-contentxx {
     padding: 10px;
-    max-width: 1080px;
     margin: 0 auto;
+    background: #ffffff;
     p{
-        margin-bottom: 0.46rem!important;
+        margin-bottom: 0.6rem!important;
+        font-size: 1rem;
     }
     table {
         margin: 20px 0;
@@ -160,22 +165,24 @@
         }
     }
     .s-name {
-        font-size: 14px;
+        font-size: 1rem;
     }
     .s-describe {
-        font-size: 12px;
+        font-size: 0.8rem;
     }
 }
 
 .s-comments {
     width: 100%;
-    background: #f3f3f3;
+    background: #ffffff;
+    margin-top: 10px;
     .s-list {
         width: 100%;
         .s-line {
-            border-bottom: 1px solid #fff;
+            border-bottom: 10px solid #f3f3f3;
+            margin-bottom: 10px;
             .s-reply-box {
-                font-size: 12px;
+                font-size: 1rem;
                 ul {
                     padding: 0;
                     margin: 0 10px;
@@ -202,15 +209,15 @@
         }
         .s-name {
             color: #3361a7;
-            font-size: 14px;
+            font-size: 1rem;
 
         }
         .s-time {
             color: #c5c9cd;
-            font-size: 12px;
+            font-size: 0.8rem;
         }
         .s-content {
-            font-size: 14px;
+            font-size: 1rem;
 
         }
         .s-portrait {
@@ -222,8 +229,8 @@
 
 .s-footer {
     text-align: center;
-    height: 180px;
+    height: 90px;
     background: #f3f3f3;
-    padding-top: 30px;
+    padding: 20px 0;
     font-size: 14px;
 }

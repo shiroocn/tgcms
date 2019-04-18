@@ -15,12 +15,12 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
-                    <form class="layui-form" action="">
+                    <form id="s-form" class="layui-form" action="">
                         <div class="layui-form-item">
                             <label class="layui-form-label">站点</label>
                             <div class="layui-input-inline">
-                                <select name="domain" lay-verify="">
-                                    <option value="">全部站点</option>
+                                <select name="domain" lay-filter="domain">
+                                    <option value="all">全部站点</option>
                                     {volist name="domains" id="vo"}
                                     <option value="{$vo.domain_url}">{$vo.domain_url}</option>
                                     {/volist}
@@ -30,8 +30,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">渠道</label>
                             <div class="layui-input-inline">
-                                <select name="source" lay-verify="">
-                                    <option value="">全部渠道</option>
+                                <select name="source" lay-filter="source">
+                                    <option value="all">全部渠道</option>
                                     <option value="baidu">baidu</option>
                                     <option value="sogou">sogou</option>
                                     <option value="sm">sm</option>
@@ -42,27 +42,30 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">设备</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="device" value="all" title="全部" checked>
-                                <input type="radio" name="device" value="pc" title="PC">
-                                <input type="radio" name="device" value="yd" title="YD">
+                                <input type="radio" name="device" value="all" title="全部" lay-filter="device" checked>
+                                <input type="radio" name="device" value="PC" title="PC" lay-filter="device">
+                                <input type="radio" name="device" value="YD" title="YD" lay-filter="device">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-inline">
                                 <label class="layui-form-label">时间</label>
                                 <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="start_time" class="layui-input" id="start_time" autocomplete="off" v-model="startTime">
+                                    <input type="text" name="start_time" class="layui-input" id="start_time"
+                                           autocomplete="off">
                                 </div>
                                 <div class="layui-form-mid">-</div>
                                 <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="end_time" class="layui-input" id="end_time" autocomplete="off" v-model="endTime">
+                                    <input type="text" name="end_time" class="layui-input" id="end_time"
+                                           autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
-                                <button type="reset" class="layui-btn layui-btn-primary" @click="exportFile">导出数据</button>
+                                <button type="button" class="layui-btn layui-btn-primary" @click="exportFile">导出数据
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -72,13 +75,13 @@
                         <div class="layui-card-body">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-sm4">
-                                    <span>访客数：{$todayCount}</span>
+                                    <span>访客数：{{dataCount}}</span>
                                 </div>
                                 <div class="layui-col-sm4">
-                                    <span>转化数：{$zhCount}</span>
+                                    <span>转化数：{{zhCount}}</span>
                                 </div>
                                 <div class="layui-col-sm4">
-                                    <span>转化率：{$zhl}%</span>
+                                    <span>转化率：{{zhl}}%</span>
                                 </div>
                             </div>
                         </div>
@@ -96,54 +99,90 @@
 {include file="public/js" /}
 
 <script>
-    var layer,table,laydate,openIndex,tableIns;
+    //获取当前时间，格式YYYY-MM-DD
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        return year + seperator1 + month + seperator1 + strDate;
+    }
+
+    var layer, table, laydate, form, openIndex, tableIns,tableData;
     var app = new Vue({
         el: "#app",
         data: {
-            domainURL:"",
-            source:"",
-            device:"",
-            startTime:"",
-            endTime:""
+            domainURL: "all",
+            source: "all",
+            device: "all",
+            startTime: "",
+            endTime: "",
+            dataCount: 0,//访客数
+            zhCount: 0,//转化数
+            zhl: 0//转化率
         },
-        watch:{
-            startTime:function (val,oldVal) {
-
-            },
-            endTime:function (val,oldVal) {
-
+        methods: {
+            exportFile: function () {
+                //数据表导出
+                var loadingIndex=layer.load();
+                jQuery.post('{:url("admin/tongji/show")}',{
+                    domain_url: app.domainURL,
+                    source: app.source,
+                    device: app.device,
+                    start_time: app.startTime,
+                    end_time: app.endTime,
+                    page:1,
+                    limit:0
+                },function (data) {
+                    layer.close(loadingIndex);
+                    table.exportFile(tableIns.config.id,data.data);
+                },"JSON");
             }
         },
-        methods:{
-              exportFile:function () {
-                  table.exportFile(tableIns.config.id);
-              }
-        },
         created: function () {
-            layui.use(['element', 'layer', 'table','laydate'], function () {
+            layui.use(['element', 'layer', 'table', 'laydate', "form"], function () {
                 layer = layui.layer;
                 table = layui.table;
-                laydate=layui.laydate;
+                laydate = layui.laydate;
+                form = layui.form;
 
-                var ins1=laydate.render({
-                    elem:"#start_time",
-                    value:new Date()
+                var startTimeIns = laydate.render({
+                    elem: "#start_time",
+                    done: function (value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        app.startTime = value;
+
+                    }
                 });
 
-                laydate.render({
-                    elem:"#end_time",
-                    value:new Date()
+                var endTimeIns = laydate.render({
+                    elem: "#end_time",
+                    done: function (value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        app.endTime = value;
+                    }
                 });
 
-                tableIns=table.render({
+                tableIns = table.render({
                     elem: '#data_list',
                     url: '{:url("admin/tongji/show")}',//数据接口
-                    where:{
-                        domain_url:"",
-                        source:"",
-                        device:"",
-                        start_time:"",
-                        end_time:""
+                    where: {
+                        domain_url: app.domainURL,
+                        source: app.source,
+                        device: app.device,
+                        start_time: app.startTime,
+                        end_time: app.endTime
                     },
                     method: 'post',
                     loading: true,
@@ -157,12 +196,61 @@
                         {field: 'tj_source', title: '渠道', minWidth: 100},
                         {field: 'tj_keyword', title: '关键词', minWidth: 150},
                         {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
-                    ]]
+                    ]],
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        app.dataCount=res.count;
+                        app.zhCount=res.zh_count;
+                        app.zhl=res.zhl;
+                    }
                 });
+                //站点选择事件
+                form.on("select(domain)", function (data) {
+                    console.log(data.elem); //得到select原始DOM对象
+                    console.log(data.value); //得到被选中的值
+                    console.log(data.othis); //得到美化后的DOM对象
+                    app.domainURL = data.value;
+                });
+                //渠道选择事件
+                form.on("select(source)", function (data) {
+                    console.log(data.elem); //得到select原始DOM对象
+                    console.log(data.value); //得到被选中的值
+                    console.log(data.othis); //得到美化后的DOM对象
+                    app.source = data.value;
+                });
+                //设备选择事件
+                form.on("radio(device)", function (data) {
+                    console.log(data.elem); //得到select原始DOM对象
+                    console.log(data.value); //得到被选中的值
+                    console.log(data.othis); //得到美化后的DOM对象
+                    app.device = data.value;
+                });
+                //表单提交事件
+                jQuery("#s-form").submit(function () {
+                    tableIns.reload({
+                        where: {
+                            domain_url: app.domainURL,
+                            source: app.source,
+                            device: app.device,
+                            start_time: app.startTime,
+                            end_time: app.endTime
+                        }
+                    });
+                    /*$(this).ajaxSubmit({
+                        success:function (data,status) {
+                            layer.close(loadIndex);
+                            layer.msg(data.msg);
+                            if(data.code===0){
+                                layer.close(openIndex);
+                                active.reload();
+                            }
+                        }
+                    });*/
+                    return false;
+                });
+
             });
-        },
-        updated:function () {
-            console.log("updated");
         }
     });
 </script>

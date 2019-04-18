@@ -15,12 +15,12 @@
     </div>
     <div class="wxh-box">
         <div class="copy-wxh">
-            <p>导师微信号</p>
+            <p>加微信学期货</p>
             <p><span class="s-wxh">{$sh.brand_weixin?:''}</span></p>
         </div>
         <div class="copy-wxh-tips">(长按红色部分可复制微信号，或点击下面按钮)</div>
         <div class="copy-wxh-btn">
-            <button type="button" id="s-btn-wxh" class="btn btn-danger s-btn-wxh" data-clipboard-action="copy" data-clipboard-target="#user-wx">一键复制加导师</button>
+            <button type="button" id="s-btn-wxh" class="btn btn-danger s-btn-wxh" data-clipboard-action="copy" data-clipboard-target="#user-wx">一键复制加微信</button>
         </div>
     </div>
     <div class="add-wx-tips">
@@ -164,18 +164,6 @@
     <p class="p3">{$sh.brand_weixin?:''}</p>
 </div>
 {/if}
-<script>
-    var shirooTongji={
-        id:"{$tongji_id}",
-        url:"{:url('index/tongji/add')}"
-    };
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "__STATIC__/js/tongji.js";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 <script>
     $(document).ready(function () {
         //console.log("test");

@@ -1,6 +1,5 @@
 window.addEventListener("load",function (ev) {
-    console.log(shirooTongji.id);
-    console.log((shirooTongji.url));
+    console.log("自带统计功能代码已安装。[id:"+shirooTongji.id+",url:"+shirooTongji.url+"]");
     var sCopyWxh=document.getElementsByClassName("s-wxh");
     for (var i=0;i<sCopyWxh.length;i++){
         sCopyWxh[i].addEventListener("copy",function (evt) {

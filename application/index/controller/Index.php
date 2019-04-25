@@ -182,6 +182,7 @@ class Index extends Base
                 //如果$isTongJi变量还是为false,则未找到，不进行统计。
                 return 0;
             }
+
             $data = [
                 'tj_source' => $source,
                 'tj_keyword' => $keyword,
@@ -192,7 +193,7 @@ class Index extends Base
                 'tj_page_name' => $pageName,
                 'tj_create_time' => date('Y-m-d H:i:s'),
                 'tj_device' => $this->request->isMobile() ? 'YD' : 'PC',
-                'tj_ip' => $this->request->ip()
+                'tj_ip' => $this->request->ip(),
             ];
 
             //先计算今日还余下多少秒

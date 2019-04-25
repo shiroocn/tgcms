@@ -31,8 +31,8 @@ class Tongji extends Base
             $startTime = empty($postData['start_time']) ? date('Y-m-d 00:00:00') : $postData['start_time'] . ' 00:00:00';
             $endTime = empty($postData['end_time']) ? date('Y-m-d 23:59:59') : $postData['end_time'] . ' 23:59:59';
             $where = [
-                ['tj_create_time', '>', $startTime],
-                ['tj_create_time', '<', $endTime],
+                ['tj_create_time', '>=', $startTime],
+                ['tj_create_time', '<=', $endTime],
                 ['tj_load_done', '=', 1]
             ];
 

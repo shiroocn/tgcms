@@ -1,5 +1,14 @@
 window.addEventListener("load",function (ev) {
     console.log("自带统计功能代码已安装。[id:"+shirooTongji.id+",url:"+shirooTongji.url+"]");
+
+    jQuery.post(shirooTongji.url,{
+        id:shirooTongji.id,
+        copy_str:"",
+        type:1
+    },function (data) {
+        console.log(data);
+    },"JSON");
+
     var sCopyWxh=document.getElementsByClassName("s-wxh");
     for (var i=0;i<sCopyWxh.length;i++){
         sCopyWxh[i].addEventListener("copy",function (evt) {
@@ -19,10 +28,10 @@ window.addEventListener("load",function (ev) {
 });
 function shirooFunTongjiPost(copyStr) {
     console.log(copyStr);
-
     jQuery.post(shirooTongji.url,{
         id:shirooTongji.id,
-        copy_str:copyStr
+        copy_str:copyStr,
+        type:2
     },function (data) {
         console.log(data);
     },"JSON");
@@ -33,6 +42,30 @@ function shirooFunTongjiPost(copyStr) {
         console.log(data.data);
     });*/
 }
+
+function getQueryString(url,name)
+{
+    //window.location.search
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = url.substr(1).match(reg);
+    if(r!=null)return r[2]; return null;
+}
+function getSearchKeyword(){
+    var referer=document.referrer;
+    var searchKeyword="";
+    if(referer.indexOf("baidu.com")>-1){
+        searchKeyword=getQueryString(referer,"")
+    }else if(referer.indexOf("sogou.com")){
+
+    }else if(referer.indexOf("so.com")){
+
+    }else if(referer.indexOf("sm.cn")){
+
+    }else{
+
+    }
+}
+
 var ShriooJson={
     post: function (url, data, fn) {
         var xhr = new XMLHttpRequest();

@@ -132,17 +132,16 @@
             exportFile: function () {
                 //数据表导出
                 var loadingIndex=layer.load();
-                jQuery.post('{:url("admin/tongji/show")}',{
+                jQuery.post('{:url("admin/tongji/export")}',{
                     domain_url: app.domainURL,
                     source: app.source,
                     device: app.device,
                     start_time: app.startTime,
-                    end_time: app.endTime,
-                    page:1,
-                    limit:0
+                    end_time: app.endTime
                 },function (data) {
                     layer.close(loadingIndex);
-                    table.exportFile(tableIns.config.id,data.data);
+                    //console.log(data.data);
+                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词"],data.data);
                 },"JSON");
             }
         },
@@ -192,9 +191,9 @@
                         {field: 'tj_page_name', title: '受访页面', minWidth: 100},
                         {field: 'tj_create_time', title: '访问时间', minWidth: 180},
                         {field: 'tj_device', title: '设备', minWidth: 50},
-                        {field: 'tj_ip', title: '访问IP', minWidth: 150},
                         {field: 'tj_source', title: '渠道', minWidth: 100},
                         {field: 'tj_keyword', title: '关键词', minWidth: 150},
+                        {field: 'tj_search_keyword', title: '搜索词', minWidth: 150},
                         {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
                     ]],
                     done: function (res, curr, count) {

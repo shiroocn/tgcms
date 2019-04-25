@@ -63,8 +63,10 @@ class Template extends Base
         $postData=$this->request->param();
 
         $templateDirName=$postData['template_dir_name'];
+        $templateDirNote=$postData['template_dir_note'];
         $data=[
-            'template_dir_name'=>$templateDirName
+            'template_dir_name'=>$templateDirName,
+            'template_dir_note'=>$templateDirNote
         ];
         $result=Db::name('template_dir')->insert($data);
         if($result>0){
@@ -78,9 +80,11 @@ class Template extends Base
 
         $templateName=$postData['template_name'];
         $templateDirID=$postData['template_dir_id'];
+        $templateNote=$postData['template_note'];
         $data=[
             'template_name'=>$templateName,
-            '_template_dir_id'=>$templateDirID
+            '_template_dir_id'=>$templateDirID,
+            'template_note'=>$templateNote,
         ];
         $result=Db::name('template')->insert($data);
         if($result>0){
@@ -95,8 +99,10 @@ class Template extends Base
 
         $templateDirID=$postData['template_dir_id'];
         $templateDirName=$postData['template_dir_name'];
+        $templateDirNote=$postData['template_dir_note'];
         $data=[
-            'template_dir_name'=>$templateDirName
+            'template_dir_name'=>$templateDirName,
+            'template_dir_note'=>$templateDirNote
         ];
         try{
             $result=Db::name('template_dir')
@@ -115,8 +121,10 @@ class Template extends Base
 
         $templateID=$postData['template_id'];
         $templateName=$postData['template_name'];
+        $templateNote=$postData['template_note'];
         $data=[
-            'template_name'=>$templateName
+            'template_name'=>$templateName,
+            'template_note'=>$templateNote
         ];
         try{
             $result=Db::name('template')

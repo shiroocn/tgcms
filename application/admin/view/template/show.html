@@ -39,6 +39,13 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">主题描述</label>
+                <div class="layui-input-block">
+                    <input type="text" name="template_dir_note" autocomplete="off"
+                           class="layui-input" v-model="templateDirNote">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
                     <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
@@ -57,6 +64,7 @@
             postURL: "",
             templateDirID: 0,
             templateDirName: "",
+            templateDirNote:"",
             submitButtonString: ""
         },
         created: function () {
@@ -73,7 +81,8 @@
                     page: true,//开启分页
                     cols: [[
                         {field: 'template_dir_id', title: 'ID', width: 80},
-                        {field: 'template_dir_name', title: '模板主题', minWidth: 250},
+                        {field: 'template_dir_name', title: '模板主题', minWidth: 200},
+                        {field: 'template_dir_note', title: '描述内容', minWidth: 250},
                         {
                             title: '操作',
                             minWidth: 220,
@@ -93,6 +102,7 @@
                             app.postURL = "{:url('admin/template/edit')}";
                             app.templateDirID = data.template_dir_id;
                             app.templateDirName = data.template_dir_name;
+                            app.templateDirNote = data.template_dir_note;
                             app.submitButtonString = "确认修改";
                             openIndex = layer.open({
                                 type: 1,
@@ -148,6 +158,7 @@
                     add: function () {
                         app.postURL = "{:url('admin/template/add')}";
                         app.templateDirName = "";
+                        app.templateDirNote = "";
                         app.submitButtonString = "确认新增";
                         openIndex = layer.open({
                             type: 1,

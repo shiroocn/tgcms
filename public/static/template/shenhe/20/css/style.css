@@ -1,0 +1,244 @@
+.btn:hover {
+  box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
+.btn:focus {
+  box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
+
+.top img {
+  width: 100%; }
+
+.bgimg3 {
+  background-image: url(../img/3_03.jpg);
+  background-size: 100% 100%;
+  height: 534px;
+  text-align: center; }
+
+.wx-box {
+  text-align: center;
+  padding: 10px; }
+  .wx-box .title {
+    padding: 10px 0;
+    font-size: 25px;
+    color: #FF0000; }
+  .wx-box .wx {
+    padding: 10px 0;
+    font-size: 25px; }
+  .wx-box .wx-btn {
+    padding: 10px 0; }
+    .wx-box .wx-btn button {
+      font-size: 25px;
+      height: 60px !important;
+      padding: 0; }
+  .wx-box .note {
+    padding: 10px 0; }
+
+.a-box {
+  padding: 20px 0; }
+  .a-box .b {
+    padding: 30px 10px; }
+    .a-box .b .icon {
+      padding-right: 10px; }
+      .a-box .b .icon img {
+        width: 60px; }
+    .a-box .b .title {
+      font-size: 20px;
+      color: #1f82ed; }
+    .a-box .b .content {
+      font-size: 15px;
+      color: #696969;
+      padding-top: 10px; }
+
+.b-box {
+  background: #e7fbff;
+  padding-bottom: 40px; }
+  .b-box .t {
+    text-align: center;
+    color: #11b7ff;
+    font-size: 40px;
+    padding: 40px 20px; }
+  .b-box .h {
+    width: 100%; }
+    .b-box .h .s-li {
+      width: 100%; }
+      .b-box .h .s-li .l {
+        width: 50%;
+        padding: 10px; }
+        .b-box .h .s-li .l .title {
+          font-size: 22px;
+          padding: 5px 0; }
+        .b-box .h .s-li .l .content {
+          font-size: 15px;
+          color: #949494; }
+      .b-box .h .s-li .r {
+        width: 50%;
+        padding: 20px; }
+        .b-box .h .s-li .r img {
+          width: 100%; }
+
+.footer {
+  background: #666666;
+  width: 100%;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 30px 0;
+  height: 260px; }
+  .footer p {
+    padding: 0;
+    margin: 0; }
+  .footer a {
+    font-size: 14px; }
+    .footer a:link {
+      color: #d0d0d0; }
+    .footer a:hover {
+      color: #d0d0d0; }
+    .footer a:active {
+      color: #d0d0d0; }
+    .footer a:visited {
+      color: #d0d0d0; }
+
+.bgimg10 {
+  background: #666666;
+  height: 140px;
+  text-align: center;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  display: none;
+  border-top: #f3f3f3 solid 1px; }
+
+.tanchu {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8; }
+  .tanchu .tkimg {
+    background-image: url(../img/tk-1.png);
+    width: 600px;
+    height: 620px;
+    background-size: 100% 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -300px;
+    margin-left: -310px;
+    z-index: 9; }
+  .tanchu .tkbj {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+    background-color: #000000;
+    opacity: 0.4; }
+  .tanchu .tkclose {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    width: 60px; }
+  .tanchu .inptext1 {
+    width: 460px;
+    height: 67px;
+    /* margin-left: 12rem; */
+    font-size: 28px;
+    position: relative;
+    top: 164px;
+    left: 90px;
+    background-color: transparent;
+    border: 0; }
+  .tanchu .inptext2 {
+    font-size: 28px;
+    position: relative;
+    /* top: 18.5rem; */
+    width: 460px;
+    height: 67px;
+    /* left: 8.6rem; */
+    top: 210px;
+    left: 90px;
+    background-color: transparent;
+    border: 0; }
+  .tanchu .inptext3 {
+    font-size: 28px;
+    position: relative;
+    /* top: 21.2rem; */
+    top: 247px;
+    height: 72px;
+    width: 300px;
+    /* left: 5.1rem; */
+    left: 40px;
+    background-color: transparent;
+    border: 0; }
+  .tanchu .inpimg {
+    position: relative;
+    top: 233px;
+    left: 70px; }
+  .tanchu .tkbtn {
+    position: relative;
+    top: 264px;
+    left: 45px;
+    cursor: pointer; }
+
+.ts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+  display: none; }
+  .ts .tsimg {
+    width: 600px;
+    height: 450px;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -220px;
+    margin: -300px;
+    z-index: 9;
+    font-size: 30px;
+    text-align: center; }
+  .ts .tsbj {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+    background-color: #000000;
+    opacity: 0.4; }
+
+@keyframes change {
+  0% {
+    transform: scale(1, 1); }
+  50% {
+    transform: scale(0.8, 0.8); }
+  100% {
+    transform: scale(1, 1); } }
+@-moz-keyframes change {
+  0% {
+    -moz-transform: scale(1, 1); }
+  50% {
+    -moz-transform: scale(0.8, 0.8); }
+  100% {
+    -moz-transform: scale(1, 1); } }
+@-webkit-keyframes change {
+  0% {
+    -webkit-transform: scale(1, 1); }
+  50% {
+    -webkit-transform: scale(0.8, 0.8); }
+  100% {
+    -webkit-transform: scale(1, 1); } }
+@-o-keyframes change {
+  0% {
+    -o-transform: scale(1, 1); }
+  50% {
+    -o-transform: scale(0.8, 0.8); }
+  100% {
+    -o-transform: scale(1, 1); } }
+.btn1 {
+  animation: change 1s linear infinite alternate;
+  -ms-animation: change 1s linear infinite alternate;
+  -moz-animation: change 1s linear infinite alternate;
+  -webkit-animation: change 1s linear infinite alternate;
+  -o-animation: change 1s linear infinite alternate; }
+
+/*# sourceMappingURL=style.css.map */

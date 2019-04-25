@@ -106,8 +106,10 @@
             <div class="layui-form-item" v-show="applyAllBox">
                 <label class="layui-form-label">应用全部</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="apply_all_template" title="模板" lay-skin="primary" v-model="applyAllTemplate" lay-filter="applyAllTemplate">
-                    <input type="checkbox" name="apply_all_brand" title="线索" lay-skin="primary" v-model="applyAllBrand" lay-filter="applyAllBrand">
+                    <input type="checkbox" name="apply_all_template" title="模板" lay-skin="primary"
+                           v-model="applyAllTemplate" lay-filter="applyAllTemplate">
+                    <input type="checkbox" name="apply_all_brand" title="线索" lay-skin="primary" v-model="applyAllBrand"
+                           lay-filter="applyAllBrand">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -214,7 +216,7 @@
             }
         },
         created: function () {
-            layui.use(['element','layer', 'table', 'form'], function () {
+            layui.use(['element', 'layer', 'table', 'form'], function () {
                 layer = layui.layer;
                 table = layui.table;
                 form = layui.form;
@@ -228,8 +230,8 @@
                     loading: true,
                     page: true,//开启分页
                     cols: [[
-                        /*{field: 'page_id', title: 'ID', width: '8%'},*/
-                        {field: 'page_name', title: '落地页名', width: 100},
+                       /* {field: 'page_id', type: 'checkbox', title: 'ID', width: '8%'},*/
+                        {field: 'page_name', title: '落地页名', minWidth: 100},
                         {field: 'domain_url', title: '域名', minWidth: 220},
                         {field: 'template_dir_name', title: '模板目录', minWidth: 120},
                         {field: 'template_name', title: '模板文件', minWidth: 120},
@@ -241,12 +243,12 @@
                         },
                         {
                             title: '操作',
-                            minWidth:220,
+                            minWidth: 220,
                             toolbar: '<div>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
-                            '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
-                            '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="nav">访问页面</a>' +
-                            '</div>'
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>' +
+                                '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>' +
+                                '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="nav">访问页面</a>' +
+                                '</div>'
                         }
                     ]]
                 });
@@ -299,7 +301,7 @@
                             });
                             break;
                         case "nav":
-                            window.open("//" + data.domain_url + "/" + data.page_name);
+                            window.open("//" + data.domain_url + "/" + data.page_name + "?plan=本地测试计划&unit=%e6%9c%ac%e5%9c%b0%e6%b5%8b%e8%af%95%e5%8d%95%e5%85%83&source=localhost&keyword=%e6%9c%ac%e5%9c%b0%e6%b5%8b%e8%af%95%e5%85%b3%e9%94%ae%e8%af%8d");
                             break;
                     }
                 });
@@ -325,11 +327,11 @@
                 //绑定复选框事件
                 form.on("checkbox(applyAllTemplate)", function (data) {
                     //console.log(data);
-                    vm.applyAllTemplate=data.value;
+                    vm.applyAllTemplate = data.value;
                 });
                 form.on("checkbox(applyAllBrand)", function (data) {
                     //console.log(data);
-                    vm.applyAllBrand=data.value;
+                    vm.applyAllBrand = data.value;
                 });
                 //提交表单事件
                 jQuery("#page-form").submit(function () {

@@ -5,6 +5,11 @@
     <title>Title</title>
     {include file="public/head" /}
     {include file="public/css" /}
+    <style>
+        /*.layui-table-cell{
+            height: auto!important;
+        }*/
+    </style>
 </head>
 <body>
 <div id="app">
@@ -43,6 +48,13 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">注释文本</label>
+                <div class="layui-input-block">
+                    <input type="text" name="template_note" autocomplete="off"
+                           class="layui-input" v-model="templateNote">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button type="submit" class="layui-btn layui-btn-normal">{{submitButtonString}}</button>
                     <a type="button" class="layui-btn layui-btn-primary" data-type="close">关闭</a>
@@ -51,8 +63,10 @@
         </form>
     </div>
 </div>
+<script type="text/html" id="style_img">
+    <div style="width: 200px;"><img src="__TEMPLATE__/{{d.template_dir_name}}/{{d.template_name}}.png" /></div>
+</script>
 {include file="public/js" /}
-
 <script>
     var app = new Vue({
         el: "#app",
@@ -62,6 +76,7 @@
             templateDirID: {$template_dir_id},
             templateID: 0,
             templateName: "",
+            templateNote:"",
             submitButtonString: ""
         },
         created: function () {
@@ -78,9 +93,11 @@
                     loading: true,
                     page: true,//开启分页
                     cols: [[
-                        {field: 'template_id', title: 'ID', width: 80},
-                        {field: 'template_name', title: '模板风格', minWidth: 250},
-                        {field: 'template_dir_name', title: '模板主题', minWidth: 250},
+                        /*{field: 'template_id', title: 'ID', minWidth: 80},*/
+                        {field: 'template_name', title: '模板风格', minWidth: 100},
+                        {field: 'template_dir_name', title: '模板主题', minWidth: 100},
+                        {field: 'template_note', title: '描述内容', minWidth: 200},
+                        {field: 'template_name', title: '预览图', width: 150,templet:'#style_img'},
                         {
                             title: '操作',
                             minWidth: 220,
@@ -99,6 +116,7 @@
                             app.postURL = "{:url('admin/template/editstyle')}";
                             app.templateID = data.template_id;
                             app.templateName = data.template_name;
+                            app.templateNote = data.template_note;
                             app.submitButtonString = "确认修改";
                             openIndex = layer.open({
                                 type: 1,
@@ -148,6 +166,7 @@
                     add: function () {
                         app.postURL = "{:url('admin/template/addstyle')}";
                         app.templateName = "";
+                        app.templateNote = "";
                         app.submitButtonString = "确认新增";
                         openIndex = layer.open({
                             type: 1,

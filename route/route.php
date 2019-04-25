@@ -16,6 +16,6 @@
 Route::rule('admin$','admin/index/index');
 Route::rule('admin/login','admin/index/login');
 //Route::rule('admin/login','admin/admin/login');
-Route::rule('[:p]$','index/index/index');
+Route::rule('[:p]$','index/index/index')->pattern(['p'=>'[a-z0-9]+']);
 
 

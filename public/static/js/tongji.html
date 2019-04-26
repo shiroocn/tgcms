@@ -1,10 +1,10 @@
 <!--系统统计功能的统计代码start-->
 <script>
-    var shirooTongji={
-        id:"{$tongji_id}",
-        url:"{:url('index/tongji/add')}"
+    var shirooTongji = {
+        id: "{$tongji_id}",
+        url: "{:url('index/tongji/add')}"
     };
-    (function() {
+    (function () {
         var hm = document.createElement("script");
         hm.src = "__STATIC__/js/tongji.js";
         var s = document.getElementsByTagName("script")[0];
@@ -12,3 +12,25 @@
     })();
 </script>
 <!--系统统计功能的统计代码end-->
+<!--获取访客的所以地区信息-->
+<script type="text/javascript" src="http://ip.ws.126.net/ipquery"></script>
+<script type="text/javascript">
+    var shirooLocationUrl = document.location;
+    if (shirooLocationUrl.href.indexOf("/ex") === -1) {
+        var shirooProvince = "";
+        var shirooCity = "";
+        shirooProvince = localAddress["province"];
+        shirooCity = localAddress["city"];
+        var shirooRestrictedArea = "{$shirooRestrictedArea}";//禁止的地区（北京,上海,广州,深圳,石家庄,太原,河南,珠海）。
+        var shirooRestrictedAreaArray = shirooRestrictedArea.split(",");
+        //因为shirooCity返回的是珠海市，而shirooRestrictedArea里面的是珠海，所以是找不到，返回-1
+        for (var shiroo_i = 0; shiroo_i < shirooRestrictedAreaArray.length; shiroo_i++) {
+            if (shirooProvince.indexOf(shirooRestrictedAreaArray[shiroo_i]) !== -1 || shirooCity.indexOf(shirooRestrictedAreaArray[shiroo_i]) !== -1) {
+                //如果访客的省份或城市包含了定义的禁止地区。
+                window.location.href = './ex';
+                break;
+            }
+        }
+    }
+</script>
+<!--获取访客的所以地区信息-->

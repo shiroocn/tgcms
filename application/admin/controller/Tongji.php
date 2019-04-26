@@ -32,8 +32,7 @@ class Tongji extends Base
             $endTime = empty($postData['end_time']) ? date('Y-m-d 23:59:59') : $postData['end_time'] . ' 23:59:59';
             $where = [
                 ['tj_create_time', '>=', $startTime],
-                ['tj_create_time', '<=', $endTime],
-                ['tj_load_done', '=', 1]
+                ['tj_create_time', '<=', $endTime]
             ];
 
             //如果传递过来的这几个参数的值为all，表示查询全部就不用添加where条件，否则往where数组末尾压入查询条件
@@ -96,8 +95,7 @@ class Tongji extends Base
 
             $where = [
                 ['tj_create_time', '>', $startTime],
-                ['tj_create_time', '<', $endTime],
-                ['tj_load_done', '=', 1]
+                ['tj_create_time', '<', $endTime]
             ];
 
             //如果传递过来的这几个参数的值为all，表示查询全部就不用添加where条件，否则往where数组末尾压入查询条件

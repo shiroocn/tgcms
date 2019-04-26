@@ -15,60 +15,77 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
-                    <form id="s-form" class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">站点</label>
-                            <div class="layui-input-inline">
-                                <select name="domain" lay-filter="domain">
-                                    <option value="all">全部站点</option>
-                                    {volist name="domains" id="vo"}
-                                    <option value="{$vo.domain_url}">{$vo.domain_url}</option>
-                                    {/volist}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">渠道</label>
-                            <div class="layui-input-inline">
-                                <select name="source" lay-filter="source">
-                                    <option value="all">全部渠道</option>
-                                    <option value="baidu">baidu</option>
-                                    <option value="sogou">sogou</option>
-                                    <option value="sm">sm</option>
-                                    <option value="360">360</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">设备</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="device" value="all" title="全部" lay-filter="device" checked>
-                                <input type="radio" name="device" value="PC" title="PC" lay-filter="device">
-                                <input type="radio" name="device" value="YD" title="YD" lay-filter="device">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">时间</label>
-                                <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="start_time" class="layui-input" id="start_time"
-                                           autocomplete="off">
+                    <div class="layui-row">
+                        <div class="layui-col-md7">
+                            <form id="s-form" class="layui-form" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">站点</label>
+                                    <div class="layui-input-inline">
+                                        <select name="domain" lay-filter="domain">
+                                            <option value="all">全部站点</option>
+                                            {volist name="domains" id="vo"}
+                                            <option value="{$vo.domain_url}">{$vo.domain_url}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="layui-form-mid">-</div>
-                                <div class="layui-input-inline" style="width: 120px;">
-                                    <input type="text" name="end_time" class="layui-input" id="end_time"
-                                           autocomplete="off">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">渠道</label>
+                                    <div class="layui-input-inline">
+                                        <select name="source" lay-filter="source">
+                                            <option value="all">全部渠道</option>
+                                            <option value="baidu">baidu</option>
+                                            <option value="sogou">sogou</option>
+                                            <option value="sm">sm</option>
+                                            <option value="360">360</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">设备</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="device" value="all" title="全部" lay-filter="device" checked>
+                                        <input type="radio" name="device" value="PC" title="PC" lay-filter="device">
+                                        <input type="radio" name="device" value="YD" title="YD" lay-filter="device">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">时间</label>
+                                        <div class="layui-input-inline" style="width: 120px;">
+                                            <input type="text" name="start_time" class="layui-input" id="start_time"
+                                                   autocomplete="off">
+                                        </div>
+                                        <div class="layui-form-mid">-</div>
+                                        <div class="layui-input-inline" style="width: 120px;">
+                                            <input type="text" name="end_time" class="layui-input" id="end_time"
+                                                   autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
+                                        <button type="button" class="layui-btn layui-btn-primary" @click="exportFile">导出数据
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="layui-form-item">
-                            <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
-                                <button type="button" class="layui-btn layui-btn-primary" @click="exportFile">导出数据
-                                </button>
-                            </div>
+                        <div class="layui-col-md5">
+                            <blockquote class="layui-elem-quote layui-quote-nm">
+                                <p>统计规则：必须是由百度，搜狗，360，神马搜索结果跳转过来的才统计。</p>
+                                <ul>
+                                    <li>需要设置关键词追踪URL</li>
+                                    <li>示例：http://xxx.xxxx.com/?source=<span style="color: #FF0000">baidu</span>&plan=<span style="color: #FF0000">计划名</span>&unit=<span style="color: #FF0000">单元名</span>&keyword=<span style="color: #FF0000">关键词名</span></li>
+                                    <li>source：目前只支持设置（baidu，sogou，360，sm）</li>
+                                    <li>plan：计划名（如果为中文，建议URL转码）</li>
+                                    <li>unit：单元名（如果是中文，建议URL转码）</li>
+                                    <li>keyword：关键词名（如果是中文，建议URL转码）</li>
+                                </ul>
+                            </blockquote>
                         </div>
-                    </form>
+                    </div>
                     <div style="margin-top: 10px;">数据概括</div>
                     <hr class="layui-bg-green">
                     <div class="layui-card">
@@ -141,7 +158,7 @@
                 },function (data) {
                     layer.close(loadingIndex);
                     //console.log(data.data);
-                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词"],data.data);
+                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词","referer"],data.data);
                 },"JSON");
             }
         },

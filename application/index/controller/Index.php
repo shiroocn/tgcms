@@ -55,7 +55,7 @@ class Index extends Base
 
         if (!$this->allowBrowse($referer, $domainDB)) {
             //不允许访问，跳转默认设置页面
-            $pageName = 'ex';
+            $pageName = 'ex';//如果这里改动了，记得去static/js/tongji.html里也改。
         }
 
         try {
@@ -101,6 +101,7 @@ class Index extends Base
             //输出所有参数到模板，使用$sh调用。
             $this->assign('sh', $page);
             $this->assign('tongji_id', $tongjiID);
+            $this->assign('shirooRestrictedArea',!empty($domainDB['domain_restricted_area'])?$domainDB['domain_restricted_area']:'没有设置地区');
 
             //这里只是去掉了文件后缀.html，因为带后缀$this->fetch会出错。
             $str = $page['template_name'];
@@ -141,7 +142,7 @@ class Index extends Base
             $allow = false;
             foreach ($sources as $source) {
                 //判断来源的特征码是否存在于URL中。
-                $allow = strpos($host, $source['source_feature']);
+                $allow = strpos($host, $source['source_feature']);//查找$source['source_feature']特征码是否存在于$host中。不存在返回false，
                 if ($allow !== false) {
                     //存在，表示允许来源访问，否则跳到默认页面
                     //跳出循环
@@ -177,8 +178,25 @@ class Index extends Base
         if (!empty($referer)) {
             //$url为HTTP头信息里的referer的值，即从哪个页面链接跳转过来的，
             //不为空的话，表示referer不为空，有上一跳转Url。而不是直接访问
-            $isTongJi = $this->refererIsSource($referer);//如果referer不包含在t_source表里
-            if (!$isTongJi) {
+            $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
+            $sourceDB=[
+                ['source_feature'=>'baidu.com'],
+                ['source_feature'=>'sogou.com'],
+                ['source_feature'=>'so.com'],
+                ['source_feature'=>'sm.cn'],
+                ['source_feature'=>'192.168.1.7']
+            ];
+            $isExist = false;//定义一个为假的变量
+            foreach ($sourceDB as $sv) {
+                //循环从数据库里读出来的数组。
+                $isExist = strpos($host, $sv['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
+                if ($isExist !== false) {
+                    //如果返回结果为找到的话。则跳出循环
+                    break;
+                }
+            }
+
+            if ($isExist === false) {
                 //如果$isTongJi变量还是为false,则未找到，不进行统计。
                 return 0;
             }
@@ -194,6 +212,7 @@ class Index extends Base
                 'tj_create_time' => date('Y-m-d H:i:s'),
                 'tj_device' => $this->request->isMobile() ? 'YD' : 'PC',
                 'tj_ip' => $this->request->ip(),
+                'tj_referer'=>$referer
             ];
 
             //先计算今日还余下多少秒
@@ -235,6 +254,10 @@ class Index extends Base
                     $id=0;
                 }
             }else{
+                if(!empty($searchKeyword) && empty($result->tj_search_keyword)){
+                    $result->tj_search_keyword=$searchKeyword;
+                    $result->save();
+                }
                 //存在的话就直接返回该记录的ID
                 $id=$result->tj_id;
                 //$id=$db['tj_id'];
@@ -303,43 +326,4 @@ class Index extends Base
         }
     }
 
-    /**
-     * note:在source表里定义来源特征码，判断特征码是否与referer的值对应
-     * @param $referer 'HTTP头里的referer的值'
-     * @return bool
-     */
-    private function refererIsSource($referer)
-    {
-        $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-
-        //从source数据表里读取出定义的来源页面url（如：baidu.com;sogou.com;so.com;sm.cn）
-        /*try {
-            $sourceDB = Db::name('source')->select();
-        } catch (\Exception $e) {
-            $sourceDB = [];
-        }*/
-        $sourceDB=[
-            ['source_feature'=>'baidu.com'],
-            ['source_feature'=>'sogou.com'],
-            ['source_feature'=>'so.com'],
-            ['source_feature'=>'sm.cn'],
-            ['source_feature'=>'192.168.1.7']
-        ];
-        $isExist = false;//定义一个为假的变量
-        foreach ($sourceDB as $source) {
-            //循环从数据库里读出来的数组。
-            $isExist = strpos($host, $source['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
-            if ($isExist !== false) {
-                //如果返回结果为找到的话。则跳出循环
-                break;
-            }
-        }
-
-        if ($isExist === false) {
-            //如果$isTongJi变量还是为false,则未找到，不进行统计。
-            return false;
-        } else {
-            return true;
-        }
-    }
 }

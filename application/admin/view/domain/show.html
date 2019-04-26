@@ -20,7 +20,7 @@
                 <div class="layui-card-body">
                     <div class="domain_list_btn">
                         <a class="layui-btn layui-btn-normal" @click="add">新增站点</a>
-                        <a class="layui-btn layui-btn-normal" @click="sourceManage">来源管理</a>
+                        <!--<a class="layui-btn layui-btn-normal" @click="sourceManage">来源管理</a>-->
                         <a class="layui-btn layui-btn-normal" @click="reload">刷新</a>
                     </div>
                     <table id="domain_list" lay-filter="domain_list"></table>
@@ -46,24 +46,34 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">版权信息</label>
                 <div class="layui-input-block">
-                    <textarea name="domain_copyright" class="layui-textarea" required lay-verify="required" rows="3"
-                              v-model="domainCopyright"></textarea>
+                    <textarea name="domain_copyright" class="layui-textarea" rows="3"
+                              v-model="domainCopyright" placeholder="<p>版权信息(第一行)</p><p>其它信息(第二行)</p>"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">统计代码</label>
                 <div class="layui-input-block">
                     <textarea name="domain_count_code" class="layui-textarea" rows="3"
-                              v-model="domainCountCode"></textarea>
+                              v-model="domainCountCode" placeholder="放置您的站点统计代码"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">限制地区</label>
+                <div class="layui-input-block">
+                    <input type="text" name="domain_restricted_area" placeholder="北京,上海,广州(半角英文逗号隔开)" autocomplete="off"
+                           class="layui-input" v-model="domainRestrictedArea">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">允许来源</label>
                 <div class="layui-input-block">
-                    {volist name="sources" id="v"}
-                    <input type="checkbox" name="sources[{$v.source_id}]" value="{$v.source_id}"
-                           title="{$v.source_name}" lay-filter="sources" v-model="sources">
-                    {/volist}
+                    <div>
+                        {volist name="sources" id="v"}
+                        <input type="checkbox" name="sources[{$v.source_id}]" value="{$v.source_id}"
+                               title="{$v.source_name}" lay-filter="sources" v-model="sources">
+                        {/volist}
+                    </div>
+                    <div style="color: #6d6d6d;">（提示：不勾选表示默认允许所有）</div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -89,6 +99,7 @@
             domainURL: "",
             domainCopyright: "",
             domainCountCode: "",
+            domainRestrictedArea: "",
             submitButtonString: "",
             sources: []
         },
@@ -99,6 +110,7 @@
                 app.domainURL = "";
                 app.domainCopyright = "";
                 app.domainCountCode = "";
+                app.domainRestrictedArea = "";
                 app.submitButtonString = "确认新增";
                 app.sources = [];
                 openIndex = layer.open({
@@ -137,9 +149,10 @@
                     loading: true,
                     page: true,//开启分页
                     cols: [[
-                        {field: 'domain_id', title: 'ID', width: 100},
-                        {field: 'domain_url', title: '域名', width: 220},
-                        {field: 'domain_copyright', title: '版权信息', minWidth: 300},
+                        {field: 'domain_id', title: 'ID', width: 80},
+                        {field: 'domain_url', title: '域名', minWidth: 220},
+                        {field: 'domain_copyright', title: '版权信息', minWidth: 200},
+                        {field: 'domain_restricted_area', title: '限制地区', minWidth: 200},
                         {
                             title: '操作',
                             minWidth: 220,
@@ -168,6 +181,7 @@
                             app.domainURL = data.domain_url;
                             app.domainCopyright = htmlDecode(data.domain_copyright);
                             app.domainCountCode = htmlDecode(data.domain_count_code);
+                            app.domainRestrictedArea = data.domain_restricted_area;
                             app.submitButtonString = "确认修改";
                             openIndex = layer.open({
                                 type: 1,

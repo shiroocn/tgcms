@@ -13,26 +13,25 @@ use think\Validate;
 
 class Page extends Validate
 {
-    protected $rule=[
-        'page_name'=>'require',
-        'domain_id'=>'require|number',
-        'model_id'=>'require|number',
-        'model_dir_id'=>'require|number',
-        'brand_id'=>'require|number',
-        'page_id'=>'require|number'
+    protected $rule = [
+        'page_name' => 'require|alphaNum',
+        'domain_id' => 'require|number',
+        'template_id' => 'require|number',
+        'brand_id' => 'require|number',
+        'page_id' => 'require|number',
+        'apply_all_template' => ['regex' => '/^(on|off)$/i'],
+        'apply_all_brand' => ['regex' => '/^(on|off)$/i'],
+        'page_name_prefix' => 'require|alpha',
+        'page_name_suffix_min' => 'require|number',
+        'page_name_suffix_max' => 'require|number',
+        'template_dir_id'=>'require|number'
     ];
-    protected $message=[
-        'page_name.require'=>'落地页别名不能为空。',
-        'domain_id.require'=>'请选择所属域名。',
-        'domain_id.number'=>'域名ID必须为数字。',
-        'model_id.require'=>'请选择使用的模板。',
-        'model_id.number'=>'模板ID必须为数字。',
-        'brand_id.require'=>'请选择关联的用户。',
-        'brand_id.number'=>'用户ID必须为数字。'
-    ];
-    protected $scene=[
-        'add'=>['page_name','domain_id','model_id','brand_id'],
-        'edit'=>['page_id','page_name','model_id','brand_id'],
-        'delete'=>['page_id']
+    protected $scene = [
+        'add' => ['page_name', 'domain_id', 'template_id', 'brand_id'],
+        'edit' => ['domain_id', 'page_id', 'template_id', 'brand_id', 'apply_all_template', 'apply_all_brand'],
+        'delete' => ['page_id'],
+        'batchAdd' => ['domain_id', 'page_name_prefix', 'page_name_suffix_min', 'page_name_suffix_max', 'template_id', 'brand_id'],
+        'show'=>['domain_id'],
+        'getTemplate'=>['template_dir_id']
     ];
 }

@@ -21,12 +21,12 @@ class Page extends Base
     public function add()
     {
         $postData = $this->request->param();
-
-        /*$result = $this->validate($postData, 'app\admin\validate\Page.add');
-        if ($result !== true) {
+        $validate = $this->validate($postData, 'app\admin\validate\Page.add');
+        if ($validate !== true) {
             //如果检检验不过关，提示错误。
-            return json_shiroo('validate');
-        }*/
+            return json_shiroo('validate', $validate);
+        }
+
         $domainID = $postData['domain_id'];
         $pageName = $postData['page_name'];
         $templateID = $postData['template_id'];
@@ -65,6 +65,12 @@ class Page extends Base
     {
         $postData = $this->request->param();
 
+        $validate = $this->validate($postData, 'app\admin\validate\Page.batchAdd');
+        if ($validate !== true) {
+            //如果检检验不过关，提示错误。
+            return json_shiroo('validate', $validate);
+        }
+
         $domainID = $postData['domain_id'];
         $pageNamePrefix = $postData['page_name_prefix'];
         $pageNameSuffixMin = $postData['page_name_suffix_min'];
@@ -81,23 +87,25 @@ class Page extends Base
                     'page_brand_id' => $brandID)
             );
         }
-        $result=0;
+        $result = 0;
         try {
             $result = Db::name('page')->limit(100)->insertAll($data);
         } catch (\Exception $e) {
             return json_shiroo('add.error', '批量新增失败，可能存在重复。', $result);
         }
-        return json_shiroo('add.success','',$result);
+        return json_shiroo('add.success', '', $result);
     }
 
     public function del()
     {
         $postData = $this->request->param();
         //检验数据合法性
-        $result = $this->validate($postData, 'app\admin\validate\Page.delete');
-        if ($result !== true) {
-            return json_shiroo('validate');
+        $validate = $this->validate($postData, 'app\admin\validate\Page.delete');
+        if ($validate !== true) {
+            //如果检检验不过关，提示错误。
+            return json_shiroo('validate', $validate);
         }
+
         $pageID = $postData['page_id'];
         try {
             $result = Db::name('page')->where('page_id', $pageID)->delete();
@@ -114,16 +122,18 @@ class Page extends Base
     public function edit()
     {
         $postData = $this->request->param();
-        $result = $this->validate($postData, 'app\admin\validate\Page.edit');
-        if ($result != true) {
-            return json_shiroo('validate');
+
+        $validate = $this->validate($postData, 'app\admin\validate\Page.edit');
+        if ($validate !== true) {
+            return json_shiroo('validate', $validate);
         }
-        $domainID=$postData['domain_id'];
+
+        $domainID = $postData['domain_id'];
         $pageID = $postData['page_id'];
         $templateID = $postData['template_id'];
         $brandID = $postData['brand_id'];
-        $applyAllTemplate=isset($postData['apply_all_template'])?$postData['apply_all_template']:'off';
-        $applyAllBrand=isset($postData['apply_all_brand'])?$postData['apply_all_brand']:'off';
+        $applyAllTemplate = isset($postData['apply_all_template']) ? $postData['apply_all_template'] : 'off';
+        $applyAllBrand = isset($postData['apply_all_brand']) ? $postData['apply_all_brand'] : 'off';
 
         try {
             //这里是编辑当前记录
@@ -133,14 +143,14 @@ class Page extends Base
                     'page_brand_id' => $brandID
                 ]);
             //如果客户选中了应用全部【模板】
-            if($applyAllTemplate=='on'){
+            if ($applyAllTemplate == 'on') {
                 Db::name('page')->where('page_domain_id', $domainID)
                     ->update([
                         'page_template_id' => $templateID
                     ]);
             }
             //如果客户选中了应用全部【线索】
-            if($applyAllBrand=='on'){
+            if ($applyAllBrand == 'on') {
                 Db::name('page')->where('page_domain_id', $domainID)
                     ->update([
                         'page_brand_id' => $brandID
@@ -160,11 +170,14 @@ class Page extends Base
     {
         $postData = $this->request->param();
         //检验数据有效性
+        $validate = $this->validate($postData, 'app\admin\validate\Page.show');
+        if ($validate !== true) {
+            return json_shiroo('validate', $validate);
+        }
         $domain_id = $postData['domain_id'];
-
         if (IS_POST) {
-            $page = $postData['page'] - 1;
-            $limit = $postData['limit'];
+            $page = (int)$postData['page'] - 1;
+            $limit = (int)$postData['limit'];
             try {
                 $result = Db::name('page')
                     ->leftJoin('domain', 'page_domain_id=domain_id')
@@ -197,10 +210,16 @@ class Page extends Base
     public function getTemplate()
     {
         $postData = $this->request->param();
+
+        $validate = $this->validate($postData, 'app\admin\validate\Page.getTemplate');
+        if ($validate !== true) {
+            return json_shiroo('validate', $validate);
+        }
         $templateDirID = $postData['template_dir_id'];
-        try{
+
+        try {
             $result = Db::name('template')->where('_template_dir_id', $templateDirID)->select();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return json_shiroo('database');
         }
         return json_shiroo(0, '', count($result), $result);

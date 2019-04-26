@@ -2,9 +2,12 @@
 
 namespace app\index\controller;
 
+use app\admin\model\Page;
 use think\Db;
 use think\facade\Cookie;
 use app\admin\model\Tongji;
+use app\admin\model\Page as PageModel;
+use app\admin\model\Domain;
 
 class Index extends Base
 {
@@ -25,10 +28,10 @@ class Index extends Base
         }
 
         $pageName = $postData['p'];//获取落地页名
-        $source = isset($postData['source'])?urldecode($postData['source']):'';//渠道
-        $plan = isset($postData['plan'])?urldecode($postData['plan']):'';//计划
-        $unit = isset($postData['unit'])?urldecode($postData['unit']):'';//单元
-        $keyword = isset($postData['keyword'])?urldecode($postData['keyword']):'';//关键词
+        $source = isset($postData['source']) ? urldecode($postData['source']) : '';//渠道
+        $plan = isset($postData['plan']) ? urldecode($postData['plan']) : '';//计划
+        $unit = isset($postData['unit']) ? urldecode($postData['unit']) : '';//单元
+        $keyword = isset($postData['keyword']) ? urldecode($postData['keyword']) : '';//关键词
 
         $domain_http = $this->request->domain();//获取当前的域名,带http://
 
@@ -44,7 +47,8 @@ class Index extends Base
 
         try {
             //首页查询访问落地页的域名是否已在后台绑定
-            $domainDB = Db::name('domain')->where('domain_url', $domain)->find();
+            $domainDB=Domain::where('domain_url', $domain)->find();
+            //$domainDB = Db::name('domain')->where()->find();
         } catch (\Exception $e) {
             return $this->errorPage('查询域名数据异常');
         }
@@ -61,23 +65,33 @@ class Index extends Base
         try {
             //查询落地页，
             $where = ['page_domain_id' => $domainDB['domain_id'], 'page_name' => $pageName];
-            $page = Db::name('page')
+
+            $rec = PageModel::where($where)->find();//find查找出来是数组，而select查找出来是数据集对象。
+
+            $pageRec = $rec;
+            $domainRec = $rec->domain;//对应model/page里的domain方法
+            $templateRec = $rec->template;
+            $templateDirRec = $rec->template->templateDir;
+            $brandRec = $rec->brand;
+            /*//转换成数组
+            $pageRec = !is_null($pageRec) ? $pageRec->toArray() : array();
+            $domainRec = !is_null($domainRec) ? $domainRec->toArray() : array();
+            $templateRec = !is_null($templateRec) ? $templateRec->toArray() : array();
+            $templateDirRec = !is_null($templateDirRec) ? $templateDirRec->toArray() : array();
+            $brandRec = !is_null($brandRec) ? $brandRec->toArray() : array();*/
+
+            /*$page = Db::name('page')
                 ->join('domain', 'page_domain_id=domain_id')
                 ->join('template', 'page_template_id=template_id')
                 ->join('template_dir', 'template_dir_id=_template_dir_id')
                 ->join('brand', 'page_brand_id=brand_id')
                 ->where($where)
-                ->find();
-            //查询推广线索的扩展参数
-            $defines = Db::name('brand_define_list')
-                ->join('brand_define', 'bd_id=bdl_define_id')
-                ->where('bdl_brand_id', $page['brand_id'])->select();
-
+                ->find();*/
         } catch (\Exception $exception) {
             return $this->errorPage('查询页面数据异常');
             // Log::record('执行查询落地页数据库失败。'.$exception,'error');
         }
-        if (is_null($page) && !is_array($page)) {
+        if (is_null($rec) && !is_array($rec)) {
             //访问的落地页不存在的话，返回错误
             return $this->errorPage('访问的页面不存在');
         } else {
@@ -86,31 +100,55 @@ class Index extends Base
             //访客记录(必须能正常访问该页面，才进行统计)
             $tongjiID = $this->tongJi($referer, $source, $keyword, $plan, $unit, $domain, $pageName, $searchKeyword);
 
+            //查询推广线索的扩展参数
+            $defines = Db::name('brand_define_list')
+                ->join('brand_define', 'bd_id=bdl_define_id')
+                ->where('bdl_brand_id', $brandRec->brand_id)->select();
+
             $def = [];//定义一个空的数组，用于储存循环读取到的扩展参数。
             if (is_array($defines)) {
                 //如果该推广线索存在设置了扩展参数。
                 foreach ($defines as $define) {
                     //循环读取设置的所有扩展参数，
-                    $def['defines'][$define['bd_name']] = $define['bdl_define_var'];
+                    $def[$define['bd_name']] = $define['bdl_define_var'];
                 }
             }
 
+            $sh=[
+                'domain_id'=>$domainRec->domain_id,
+                'domain_url'=>$domainRec->domain_url,
+                'domain_copyright'=>$domainRec->domain_copyright,
+                'domain_count_code'=>$domainRec->domain_count_code,
+                'page_id'=>$pageRec->page_id,
+                'page_name'=>$pageRec->page_name,
+                'template_id'=>$templateRec->template_id,
+                'template_name'=>$templateRec->template_name,
+                'template_dir_id'=>$templateDirRec->template_dir_id,
+                'template_dir_name'=>$templateDirRec->template_dir_name,
+                'brand_id'=>$brandRec->brand_id,
+                'brand_name'=>$brandRec->brand_name,
+                'brand_weixin'=>$brandRec->brand_weixin,
+                'brand_weixinqr_path'=>$brandRec->brand_weixinqr_path,
+                'brand_icon_path'=>$brandRec->brand_icon_path,
+                'defines'=>$def
+
+            ];
             //把扩展参数合并到所有的参数里中去。
-            $page = array_merge($page, $def);
-            //dump($page);
+            /*$sh = array_merge($domainRec, $pageRec, $brandRec, $templateRec, $templateDirRec, $def);*/
+            //dump($sh);
             //输出所有参数到模板，使用$sh调用。
-            $this->assign('sh', $page);
+            $this->assign('sh', $sh);
             $this->assign('tongji_id', $tongjiID);
-            $this->assign('shirooRestrictedArea',!empty($domainDB['domain_restricted_area'])?$domainDB['domain_restricted_area']:'没有设置地区');
+            $this->assign('shirooRestrictedArea', !empty($domainDB['domain_restricted_area']) ? $domainDB['domain_restricted_area'] : '没有设置地区');
 
             //这里只是去掉了文件后缀.html，因为带后缀$this->fetch会出错。
-            $str = $page['template_name'];
+            $str = $sh['template_name'];
             $pos = strripos($str, '.');
             $str = substr($str, 0, $pos);
             //动态改变一下模板路径。
             $this->view->config('view_path', $_SERVER['DOCUMENT_ROOT'] . '/public/static/template/');
             //输出相应的模板视图
-            return $this->fetch($page['template_dir_name'] . '/' . $str);
+            return $this->fetch($sh['template_dir_name'] . '/' . $str);
         }
     }
 
@@ -179,12 +217,12 @@ class Index extends Base
             //$url为HTTP头信息里的referer的值，即从哪个页面链接跳转过来的，
             //不为空的话，表示referer不为空，有上一跳转Url。而不是直接访问
             $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-            $sourceDB=[
-                ['source_feature'=>'baidu.com'],
-                ['source_feature'=>'sogou.com'],
-                ['source_feature'=>'so.com'],
-                ['source_feature'=>'sm.cn'],
-                ['source_feature'=>'192.168.1.7']
+            $sourceDB = [
+                ['source_feature' => 'baidu.com'],
+                ['source_feature' => 'sogou.com'],
+                ['source_feature' => 'so.com'],
+                ['source_feature' => 'sm.cn'],
+                ['source_feature' => '192.168.1.7']
             ];
             $isExist = false;//定义一个为假的变量
             foreach ($sourceDB as $sv) {
@@ -212,54 +250,54 @@ class Index extends Base
                 'tj_create_time' => date('Y-m-d H:i:s'),
                 'tj_device' => $this->request->isMobile() ? 'YD' : 'PC',
                 'tj_ip' => $this->request->ip(),
-                'tj_referer'=>$referer
+                'tj_referer' => $referer
             ];
 
             //先计算今日还余下多少秒
-            $lastSeconds=strtotime(date('Y-m-d 23:59:59'));//获取当天最后一秒时间戳
-            $nowSeconds=time();//获取当前的时间戳
-            $remaining=$lastSeconds-$nowSeconds;//今日还余下的时间戳(秒)
+            $lastSeconds = strtotime(date('Y-m-d 23:59:59'));//获取当天最后一秒时间戳
+            $nowSeconds = time();//获取当前的时间戳
+            $remaining = $lastSeconds - $nowSeconds;//今日还余下的时间戳(秒)
 
-            $token=sha1(md5($nowSeconds).'shiroo.cn');//系统自动生成一个token
+            $token = sha1(md5($nowSeconds) . 'shiroo.cn');//系统自动生成一个token
 
-            if(!Cookie::has('token','tongji_')){
+            if (!Cookie::has('token', 'tongji_')) {
                 //如果Cookie里不存在token，表示新访客
-                Cookie::set('token',$token,['prefix'=>'tongji_','expire'=>$remaining]);
-            }else{
+                Cookie::set('token', $token, ['prefix' => 'tongji_', 'expire' => $remaining]);
+            } else {
                 //存在的话，获取并存到临时变量里。
-                $tokenCookie=Cookie::get('token','tongji_');
+                $tokenCookie = Cookie::get('token', 'tongji_');
                 //验证token的合法性
-                if(preg_match('/[a-z0-9]{40}/',$tokenCookie)){
+                if (preg_match('/[a-z0-9]{40}/', $tokenCookie)) {
                     //合法的话，就覆盖掉系统自动生成的$token变量
-                    $token=$tokenCookie;
+                    $token = $tokenCookie;
                 }
             }
-            $data['tj_token']=$token;//data数组新增一个token数据。
+            $data['tj_token'] = $token;//data数组新增一个token数据。
             //先查询当前的token是否存在于表里。
 
-            try{
-                $result=Tongji::where('tj_token',$token)->find();
+            try {
+                $result = Tongji::where('tj_token', $token)->find();
                 //$db=Tongji::where('tj_token',$token)->select();
                 //$db=Db::name('tongji')->where('tj_token',$token)->find();
-            }catch (\Exception $e){
-                $result=null;
+            } catch (\Exception $e) {
+                $result = null;
             }
-            if(empty($result)){
+            if (empty($result)) {
                 //如果该token不存在表里的话，就插入新记录。
-                $tjModel=new Tongji();
-                $row=$tjModel->allowField(true)->save($data);//返回的是影响行数
-                if($row>0){
-                    $id=$tjModel->tj_id;
-                }else{
-                    $id=0;
+                $tjModel = new Tongji();
+                $row = $tjModel->allowField(true)->save($data);//返回的是影响行数
+                if ($row > 0) {
+                    $id = $tjModel->tj_id;
+                } else {
+                    $id = 0;
                 }
-            }else{
-                if(!empty($searchKeyword) && empty($result->tj_search_keyword)){
-                    $result->tj_search_keyword=$searchKeyword;
+            } else {
+                if (!empty($searchKeyword) && empty($result->tj_search_keyword)) {
+                    $result->tj_search_keyword = $searchKeyword;
                     $result->save();
                 }
                 //存在的话就直接返回该记录的ID
-                $id=$result->tj_id;
+                $id = $result->tj_id;
                 //$id=$db['tj_id'];
             }
             /*if(is_null($db) && !is_array($db) && empty($db)){

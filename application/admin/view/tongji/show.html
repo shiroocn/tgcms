@@ -83,6 +83,8 @@
                                     <li>unit：单元名（如果是中文，建议URL转码）</li>
                                     <li>keyword：关键词名（如果是中文，建议URL转码）</li>
                                 </ul>
+                                <p>-</p>
+                                <p>复制事件class="s-wxh"，点击事件class="s-btn-wxh"</p>
                             </blockquote>
                         </div>
                     </div>
@@ -158,7 +160,7 @@
                 },function (data) {
                     layer.close(loadingIndex);
                     //console.log(data.data);
-                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词","referer"],data.data);
+                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词","referer","转化事件"],data.data);
                 },"JSON");
             }
         },

@@ -4,7 +4,8 @@ window.addEventListener("load",function (ev) {
     jQuery.post(shirooTongji.url,{
         id:shirooTongji.id,
         copy_str:"",
-        type:1
+        type:1,
+        s_event:""
     },function (data) {
         console.log(data);
     },"JSON");
@@ -13,7 +14,7 @@ window.addEventListener("load",function (ev) {
     for (var i=0;i<sCopyWxh.length;i++){
         sCopyWxh[i].addEventListener("copy",function (evt) {
             var copyStr=evt.srcElement.innerHTML.toString();
-            shirooFunTongjiPost(copyStr);
+            shirooFunTongjiPost(copyStr,"copy");
         });
     }
 
@@ -21,17 +22,18 @@ window.addEventListener("load",function (ev) {
     for (var j=0;j<sBtnWxh.length;j++){
         sBtnWxh[j].addEventListener("click",function (evt) {
             var btnStr=evt.srcElement.innerHTML.toString();
-            shirooFunTongjiPost(btnStr);
+            shirooFunTongjiPost(btnStr,'click');
         });
 
     }
 });
-function shirooFunTongjiPost(copyStr) {
+function shirooFunTongjiPost(copyStr,sEvent) {
     console.log(copyStr);
     jQuery.post(shirooTongji.url,{
         id:shirooTongji.id,
         copy_str:copyStr,
-        type:2
+        type:2,//1是载入完成，2是转化
+        s_event:sEvent
     },function (data) {
         console.log(data);
     },"JSON");

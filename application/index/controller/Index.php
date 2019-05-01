@@ -11,7 +11,6 @@ use app\admin\model\Domain;
 
 class Index extends Base
 {
-
     public function index()
     {
         //获取访问的落地页别名
@@ -42,9 +41,6 @@ class Index extends Base
         //获取前一页的URL。用于判断是直接输入URL访问还是从搜索引擎点进来的
         $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
-        //从上一个跳转URL的参数里获取搜索词
-        $searchKeyword = $this->getSearchKeyword($referer);
-
         try {
             //首页查询访问落地页的域名是否已在后台绑定
             $domainDB=Domain::where('domain_url', $domain)->find();
@@ -57,6 +53,20 @@ class Index extends Base
             return $this->errorPage('访问的域名没有绑定');
         }
 
+        if($domain=='192.168.1.7'){
+            $referer='http://192.168.1.7/?query=%e6%b5%8b%e8%af%95%e6%90%9c%e7%b4%a2%e8%af%8d';
+        }
+
+        //从上一个跳转URL的参数里获取搜索词
+        $searchKeyword = $this->getSearchKeyword($referer);
+
+
+        //是否允许访问正常落地页，还是访问审核页
+        //根据城市判断
+        if(!$this->allowCity($domainDB)){
+            $pageName='ex';
+        }
+        //根据设置来源
         if (!$this->allowBrowse($referer, $domainDB)) {
             //不允许访问，跳转默认设置页面
             $pageName = 'ex';//如果这里改动了，记得去static/js/tongji.html里也改。
@@ -161,15 +171,21 @@ class Index extends Base
     private function allowBrowse($referer, $domainDB)
     {
         if (!empty($referer)) {
-            //如果前一页URL不为空的话。
             $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
+            $directAccess=false;//跳转访问
         } else {
-            //为空。
             $host = '';
+            $directAccess=true;//直接访问
         }
+
         //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
         if (!empty($domainDB['domain_source_allow'])) {
             //设置了允许来源，进行限制访问
+            if($directAccess){
+                //设置了来源限制，并且为直接访问，那直接就不允许
+                return false;
+            }
+            //查询设置的是哪些
             try {
                 //设置的值格式为1,2,3  每个数字表示source_id
                 $sources = Db::name('source')->where('source_id', 'in', $domainDB['domain_source_allow'])->select();
@@ -217,23 +233,16 @@ class Index extends Base
             //$url为HTTP头信息里的referer的值，即从哪个页面链接跳转过来的，
             //不为空的话，表示referer不为空，有上一跳转Url。而不是直接访问
             $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-            $sourceDB = [
-                ['source_feature' => 'baidu.com'],
-                ['source_feature' => 'sogou.com'],
-                ['source_feature' => 'so.com'],
-                ['source_feature' => 'sm.cn'],
-                ['source_feature' => '192.168.1.7']
-            ];
+            $sourceDB = $this->source;
             $isExist = false;//定义一个为假的变量
-            foreach ($sourceDB as $sv) {
+            foreach ($sourceDB as $s){
                 //循环从数据库里读出来的数组。
-                $isExist = strpos($host, $sv['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
+                $isExist = strpos($host, $s['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
                 if ($isExist !== false) {
                     //如果返回结果为找到的话。则跳出循环
                     break;
                 }
             }
-
             if ($isExist === false) {
                 //如果$isTongJi变量还是为false,则未找到，不进行统计。
                 return 0;
@@ -342,6 +351,9 @@ class Index extends Base
             } elseif (strpos($host, 'sogou.com') !== false) {
                 //搜狗
                 $resultStr = isset($params['keyword']) ? $params['keyword'] : '';
+                if(empty($resultStr)){
+                    $resultStr = isset($params['keywod']) ? $params['keywod'] : '';
+                }
 
             } elseif (strpos($host, 'baidu.com') !== false) {
                 //百度
@@ -352,15 +364,66 @@ class Index extends Base
                 $resultStr = isset($params['keyword']) ? $params['keyword'] : '';
 
             } elseif (strpos($host, '192.168.1.7') !== false) {
-                //神马
-                $resultStr = '本地测试搜索词';
-
+                $resultStr = isset($params['query']) ? $params['query'] : '';
             } else {
                 $resultStr = '';
             }
             return urldecode($resultStr);
         } else {
             return '';
+        }
+    }
+
+    private function allowCity($domainDB){
+        try{
+            // Create a stream
+            $opts = array(
+                'http'=>array(
+                    'method'=>"GET",
+                    'header'=>"Accept-language: zh-CN,zh;q=0.9\r\n" .
+                        "Cookie: foo=bar\r\n"
+                )
+            );
+            $context = stream_context_create($opts);
+            $htmlCode=file_get_contents('http://ip.ws.126.net/ipquery?ip='.$this->request->ip(),false,$context);
+        }catch (\Exception $exception){
+            $htmlCode='';
+        }
+
+        try{
+            $isMatched = preg_match('/city:"(\S+)"/', $htmlCode, $city);
+            $cityStr=iconv('GB2312','UTF-8',$city[1]);
+        }catch (\Exception $exception){
+            $cityStr='';
+        }
+
+        try{
+            $isMatched = preg_match('/province:"(\S+)"/', $htmlCode, $province);
+            $provinceStr=iconv('GB2312','UTF-8',$province[1]);
+        }catch (\Exception $exception){
+            $provinceStr='';
+        }
+        try{
+            $domainRestrictedArea=explode(',',$domainDB['domain_restricted_area']);
+        }catch (\Exception $exception){
+            $domainRestrictedArea=[];
+        }
+        $existence=false;
+        foreach ($domainRestrictedArea as $v){
+            if(!empty($v)){
+                $a=strpos($cityStr,$v);
+                $b=strpos($provinceStr,$v);
+                if($a!==false || $b!==false){
+                    $existence=true;
+                    break;
+                }
+            }
+        }
+        if($existence){
+            //访客的地区存在于禁止访问列表里
+            return false;
+        }else{
+            return true;
         }
     }
 

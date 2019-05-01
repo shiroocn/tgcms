@@ -21,6 +21,7 @@ class Tongji extends Base
         $id=$postData['id'];
         $str=$postData['copy_str'];
         $type=$postData['type'];
+        $sEvent=$postData['s_event'];
         switch ($type){
             case 1:
                 //落地页载入完成
@@ -33,7 +34,8 @@ class Tongji extends Base
                 $data=[
                     'tj_str'=>$str,
                     'tj_zhuanhua'=>1,
-                    'tj_zh_time'=>date('Y-m-d H:i:s')
+                    'tj_zh_time'=>date('Y-m-d H:i:s'),
+                    'tj_event'=>$sEvent
                 ];
                 break;
             default:

@@ -350,11 +350,10 @@ class Index extends Base
 
             } elseif (strpos($host, 'sogou.com') !== false) {
                 //搜狗
-                $resultStr = isset($params['keyword']) ? $params['keyword'] : '';
-                if(empty($resultStr)){
+                $resultStr = isset($params['keyword']) ? $params['keyword'] : isset($params['keywod']) ? $params['keywod'] : '';
+                /*if(empty($resultStr)){
                     $resultStr = isset($params['keywod']) ? $params['keywod'] : '';
-                }
-
+                }*/
             } elseif (strpos($host, 'baidu.com') !== false) {
                 //百度
                 $resultStr = isset($params['word']) ? $params['word'] : '';

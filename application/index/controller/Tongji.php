@@ -9,7 +9,7 @@
 namespace app\index\controller;
 
 
-use think\Db;
+use app\admin\model\Tongji as TongjiModel;
 
 class Tongji extends Base
 {
@@ -42,7 +42,13 @@ class Tongji extends Base
                 $data=[];
         }
         try{
-            $tjDB=Db::name('tongji')->where('tj_id',$id)->update($data);
+            $tj=TongjiModel::get($id+1000);
+            if(!is_null($tj)){
+                $tjDB=$tj->save($data);
+            }else{
+                $tjDB=0;
+            }
+            //$tjDB=Db::name('tongji')->where('tj_id',$id)->update($data);
         }catch (\Exception $exception){
             $tjDB=0;
         }

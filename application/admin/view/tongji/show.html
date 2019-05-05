@@ -42,6 +42,14 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
+                                    <label class="layui-form-label">转化</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="zhuanhua" value="all" title="全部" lay-filter="zhuanhua" checked>
+                                        <input type="radio" name="zhuanhua" value="yes" title="是" lay-filter="zhuanhua">
+                                        <input type="radio" name="zhuanhua" value="no" title="否" lay-filter="zhuanhua">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
                                     <label class="layui-form-label">设备</label>
                                     <div class="layui-input-block">
                                         <input type="radio" name="device" value="all" title="全部" lay-filter="device" checked>
@@ -140,6 +148,7 @@
         data: {
             domainURL: "all",
             source: "all",
+            zhuanhua:"all",
             device: "all",
             startTime: "",
             endTime: "",
@@ -175,8 +184,8 @@
                     elem: "#start_time",
                     done: function (value, date, endDate) {
                         console.log(value); //得到日期生成的值，如：2017-08-18
-                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                       // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
                         app.startTime = value;
 
                     }
@@ -186,8 +195,8 @@
                     elem: "#end_time",
                     done: function (value, date, endDate) {
                         console.log(value); //得到日期生成的值，如：2017-08-18
-                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        //console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
                         app.endTime = value;
                     }
                 });
@@ -198,6 +207,7 @@
                     where: {
                         domain_url: app.domainURL,
                         source: app.source,
+                        zhuanhua:app.zhuanhua,
                         device: app.device,
                         start_time: app.startTime,
                         end_time: app.endTime
@@ -225,23 +235,30 @@
                 });
                 //站点选择事件
                 form.on("select(domain)", function (data) {
-                    console.log(data.elem); //得到select原始DOM对象
+                    //console.log(data.elem); //得到select原始DOM对象
                     console.log(data.value); //得到被选中的值
-                    console.log(data.othis); //得到美化后的DOM对象
+                    //console.log(data.othis); //得到美化后的DOM对象
                     app.domainURL = data.value;
                 });
                 //渠道选择事件
                 form.on("select(source)", function (data) {
-                    console.log(data.elem); //得到select原始DOM对象
+                    //console.log(data.elem); //得到select原始DOM对象
                     console.log(data.value); //得到被选中的值
-                    console.log(data.othis); //得到美化后的DOM对象
+                    //console.log(data.othis); //得到美化后的DOM对象
                     app.source = data.value;
+                });
+                //转化选择事件
+                form.on("radio(zhuanhua)", function (data) {
+                    //console.log(data.elem); //得到select原始DOM对象
+                    console.log(data.value); //得到被选中的值
+                    //console.log(data.othis); //得到美化后的DOM对象
+                    app.zhuanhua = data.value;
                 });
                 //设备选择事件
                 form.on("radio(device)", function (data) {
-                    console.log(data.elem); //得到select原始DOM对象
+                    //console.log(data.elem); //得到select原始DOM对象
                     console.log(data.value); //得到被选中的值
-                    console.log(data.othis); //得到美化后的DOM对象
+                    //console.log(data.othis); //得到美化后的DOM对象
                     app.device = data.value;
                 });
                 //表单提交事件
@@ -251,6 +268,7 @@
                             domain_url: app.domainURL,
                             source: app.source,
                             device: app.device,
+                            zhuanhua:app.zhuanhua,
                             start_time: app.startTime,
                             end_time: app.endTime
                         }

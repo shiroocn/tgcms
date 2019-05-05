@@ -20,12 +20,14 @@ class Tongji extends Base
         if (IS_POST) {
             $postData = $this->request->param();
             //此处应有检验安全性代码
+
             //传参赋值
             $page = $postData['page'] - 1;
             $limit = $postData['limit'];
             $domainURL = $postData['domain_url'];
             $source = $postData['source'];
             $device = $postData['device'];
+            $zhuanhua=$postData['zhuanhua'];
 
             //如果时间是空的话，就默认为今天时间
             $startTime = empty($postData['start_time']) ? date('Y-m-d 00:00:00') : $postData['start_time'] . ' 00:00:00';
@@ -41,6 +43,15 @@ class Tongji extends Base
             $source == 'all' ? array_push($where, ['tj_source', 'in', $this->source]) : array_push($where, ['tj_source', '=', $postData['source']]);
 
             $device == 'all' ?: array_push($where, ['tj_device', '=', $postData['device']]);
+
+            switch ($zhuanhua){
+                case 'yes':
+                    array_push($where,['tj_zhuanhua','=','1']);
+                    break;
+                case 'no':
+                    array_push($where,['tj_zhuanhua','=','0']);
+                    break;
+            }
 
             try {
                 $result = TongjiModel::where($where)

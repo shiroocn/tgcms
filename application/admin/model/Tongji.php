@@ -16,33 +16,89 @@ class Tongji extends Model
     protected $pk='tj_id';//默认主键。
 
     public function getTjKeywordAttr($value){
-        return base64_decode($value);
+        try{
+            $val=base64_decode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
     public function setTjKeywordAttr($value){
-        return base64_encode($value);
+        try{
+            $val=base64_encode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
+
+
     public function getTjPlanAttr($value){
-        return base64_decode($value);
+        try{
+            $val=base64_decode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
     public function setTjPlanAttr($value){
-        return base64_encode($value);
+        try{
+            $val=base64_encode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
+
+
     public function getTjUnitAttr($value){
-        return base64_decode($value);
+        try{
+            $val=base64_decode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
     public function setTjUnitAttr($value){
-        return base64_encode($value);
+        try{
+            $val=base64_encode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
+
     public function getTjStrAttr($value){
-        return base64_decode($value);
+        try{
+            $val=base64_decode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
     public function setTjStrAttr($value){
-        return base64_encode($value);
+        try{
+            $val=base64_encode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
+
     public function getTjSearchKeywordAttr($value){
-        return base64_decode($value);
+        try{
+            $val=base64_decode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
     public function setTjSearchKeywordAttr($value){
-        return base64_encode($value);
+        try{
+            $val=base64_encode($value);
+        }catch (\Exception $exception){
+            $val=$value;
+        }
+        return $val;
     }
 }

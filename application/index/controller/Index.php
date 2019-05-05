@@ -53,10 +53,6 @@ class Index extends Base
             return $this->errorPage('访问的域名没有绑定');
         }
 
-        if($domain=='192.168.1.7'){
-            $referer='http://192.168.1.7/?query=%e6%b5%8b%e8%af%95%e6%90%9c%e7%b4%a2%e8%af%8d';
-        }
-
         //从上一个跳转URL的参数里获取搜索词
         $searchKeyword = $this->getSearchKeyword($referer);
 
@@ -83,20 +79,6 @@ class Index extends Base
             $templateRec = $rec->template;
             $templateDirRec = $rec->template->templateDir;
             $brandRec = $rec->brand;
-            /*//转换成数组
-            $pageRec = !is_null($pageRec) ? $pageRec->toArray() : array();
-            $domainRec = !is_null($domainRec) ? $domainRec->toArray() : array();
-            $templateRec = !is_null($templateRec) ? $templateRec->toArray() : array();
-            $templateDirRec = !is_null($templateDirRec) ? $templateDirRec->toArray() : array();
-            $brandRec = !is_null($brandRec) ? $brandRec->toArray() : array();*/
-
-            /*$page = Db::name('page')
-                ->join('domain', 'page_domain_id=domain_id')
-                ->join('template', 'page_template_id=template_id')
-                ->join('template_dir', 'template_dir_id=_template_dir_id')
-                ->join('brand', 'page_brand_id=brand_id')
-                ->where($where)
-                ->find();*/
         } catch (\Exception $exception) {
             return $this->errorPage('查询页面数据异常');
             // Log::record('执行查询落地页数据库失败。'.$exception,'error');
@@ -350,10 +332,13 @@ class Index extends Base
 
             } elseif (strpos($host, 'sogou.com') !== false) {
                 //搜狗
-                $resultStr = isset($params['keyword']) ? $params['keyword'] : isset($params['keywod']) ? $params['keywod'] : '';
-                /*if(empty($resultStr)){
-                    $resultStr = isset($params['keywod']) ? $params['keywod'] : '';
-                }*/
+                if(isset($params['keyword']) && !empty($params['keyword'])){
+                    $resultStr=$params['keyword'];
+                }elseif(isset($params['keywod']) && !empty($params['keywod'])){
+                    $resultStr=$params['keywod'];
+                }else{
+                    $resultStr='';
+                }
             } elseif (strpos($host, 'baidu.com') !== false) {
                 //百度
                 $resultStr = isset($params['word']) ? $params['word'] : '';
@@ -363,7 +348,7 @@ class Index extends Base
                 $resultStr = isset($params['keyword']) ? $params['keyword'] : '';
 
             } elseif (strpos($host, '192.168.1.7') !== false) {
-                $resultStr = isset($params['query']) ? $params['query'] : '';
+                $resultStr = isset($params['query']) ? $params['query'] : urlencode('测试搜索词');
             } else {
                 $resultStr = '';
             }
@@ -372,7 +357,9 @@ class Index extends Base
             return '';
         }
     }
+    private function getSearchKeywordParams(){
 
+    }
     private function allowCity($domainDB){
         try{
             // Create a stream

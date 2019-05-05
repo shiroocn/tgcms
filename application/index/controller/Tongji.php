@@ -42,7 +42,7 @@ class Tongji extends Base
                 $data=[];
         }
         try{
-            $tj=TongjiModel::get($id+1000);
+            $tj=TongjiModel::get($id);
             if(!is_null($tj)){
                 $tjDB=$tj->save($data);
             }else{

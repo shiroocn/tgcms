@@ -68,26 +68,25 @@ class Index extends Base
             $pageName = 'ex';//如果这里改动了，记得去static/js/tongji.html里也改。
         }
 
+        $where = ['page_domain_id' => $domainDB['domain_id'], 'page_name' => $pageName];
         try {
             //查询落地页，
-            $where = ['page_domain_id' => $domainDB['domain_id'], 'page_name' => $pageName];
-
             $rec = PageModel::where($where)->find();//find查找出来是数组，而select查找出来是数据集对象。
-
-            $pageRec = $rec;
-            $domainRec = $rec->domain;//对应model/page里的domain方法
-            $templateRec = $rec->template;
-            $templateDirRec = $rec->template->templateDir;
-            $brandRec = $rec->brand;
         } catch (\Exception $exception) {
             return $this->errorPage('查询页面数据异常');
             // Log::record('执行查询落地页数据库失败。'.$exception,'error');
         }
         if (is_null($rec) && !is_array($rec)) {
             //访问的落地页不存在的话，返回错误
-            return $this->errorPage('访问的页面不存在');
+            return $this->errorPage('页面['.$pageName.']不存在');
         } else {
             //落地页存在
+            $pageRec = $rec;
+            $domainRec = $rec->domain;//对应model/page里的domain方法
+            $templateRec = $rec->template;
+            $templateDirRec = $rec->template->templateDir;
+            $brandRec = $rec->brand;
+
 
             //访客记录(必须能正常访问该页面，才进行统计)
             $tongjiID = $this->tongJi($referer, $source, $keyword, $plan, $unit, $domain, $pageName, $searchKeyword);

@@ -3,6 +3,11 @@
 <div class='touch_icon' data-toggle="modal" data-target="#wx-box">
     <img src='__TEMPLATE__/tieba/img/wxa.gif' width='68' height='68'>
 </div>
+<!--这里是底部浮动-->
+<div class='{if $Request.ismobile}copy_wx_box{else}copy_wx_box_pc{/if}'>
+    微信号：<span class='user-wx'>{$sh.brand_weixin?:''}</span>
+    <img src='__TEMPLATE__/tieba/img/copy_wx_btn.png' style='margin-left: 10px;' width='120' height='40'  onclick='click_copy_wx()' />
+</div>
 {else}
 <div class='fu_box'>
     <p class='p1'>微信扫一扫</p>
@@ -12,11 +17,6 @@
     <p class='p3'>{$sh.brand_weixin?:''}</p>
 </div>
 {/if}
-<!--这里是底部浮动-->
-<div class='{if $Request.ismobile}copy_wx_box{else}copy_wx_box_pc{/if}'>
-    微信号：<span class='user-wx'>{$sh.brand_weixin?:''}</span>
-    <img src='__TEMPLATE__/tieba/img/copy_wx_btn.png' style='margin-left: 10px;' width='120' height='40'  onclick='click_copy_wx()' />
-</div>
 
 <!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
 <div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>

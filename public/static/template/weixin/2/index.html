@@ -127,13 +127,15 @@
             </div>
         </div>
         <div style="padding: 20px 0 10px 0;"><h5>四、我的目标是，帮助1000W创业者找到抖音赚钱的方法</h5></div>
-        <div class="a4">
-            跟着互联网巨头公司赚钱，肯定错不了，月入10W+就是这么简单，手把手教你推广引流方法，不怕你学不会，就怕你没执行力，没赚钱欲望。感兴趣的朋友可以添加我微信，免费学习，一起进步。
-        </div>
+        <div class="a4">跟着互联网巨头公司赚钱，肯定错不了，月入10W+就是这么简单，手把手教你推广引流方法，不怕你学不会，就怕你没执行力，没赚钱欲望。感兴趣的朋友可以添加我微信<span class="s-red-whx">{$sh.brand_weixin?:''}</span>（←长按复制），免费学习，一起进步。</div>
 
         <div class="s-wx-qr">
-            <div class="a">长按下面二维码识别</div>
+            {if $Request.ismobile}
+            <!--<div class="a">微信号：{$sh.brand_weixin?:''}（长按复制）</div>-->
+            {else}
+            <div class="a">扫一扫二维码添加好友</div>
             <img src="__UPLOADS__/{$sh.brand_weixinqr_path?:''}" width="80%"/>
+            {/if}
         </div>
         <div class="s-footer">
             <span>阅读 286178</span>

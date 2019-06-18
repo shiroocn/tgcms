@@ -1,0 +1,46 @@
+<!--这里是侧边浮动-->
+{if $Request.ismobile}
+<div class='touch_icon' data-toggle="modal" data-target="#wx-box">
+    <img src='__TEMPLATE__/tieba/img/wxa.gif' width='68' height='68'>
+</div>
+{else}
+<div class='fu_box'>
+    <p class='p1'>微信扫一扫</p>
+    <p class='p0'>免费在线指导</p>
+    <img class='fu_box_img' src="__UPLOADS__/{$sh.brand_weixinqr_path?:''}"/>
+    <p class='p2'>手动添加微信号</p>
+    <p class='p3'>{$sh.brand_weixin?:''}</p>
+</div>
+{/if}
+<!--这里是底部浮动-->
+<div class='{if $Request.ismobile}copy_wx_box{else}copy_wx_box_pc{/if}'>
+    微信号：<span class='user-wx'>{$sh.brand_weixin?:''}</span>
+    <img src='__TEMPLATE__/tieba/img/copy_wx_btn.png' style='margin-left: 10px;' width='120' height='40'  onclick='click_copy_wx()' />
+</div>
+
+<!--用于.copy_wx_btn按钮复制到剪贴板的内容-->
+<div id="user-wx" class="user-wx" style="opacity:0;">{$sh.brand_weixin?:''}</div>
+<button type='button' class='copy_wx_btn' data-clipboard-action='copy' data-clipboard-target='#user-wx'>点击复制加微信</button>
+
+<!-- Modal -->
+<!--调用代码 data-toggle="modal" data-target="#wx-box"-->
+<div class="modal fade" id="wx-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content wx-box">
+            <div class="">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="a">微信号：{$sh.brand_weixin?:''}</div>
+                <div class="b">
+                    <img src="__UPLOADS__/{$sh.brand_weixinqr_path?:''}" width='60%' />
+                </div>
+                <div class='c'>
+                    <img src='__TEMPLATE__/tieba/img/copy_wx_btn.png' width='120' height='40'  onclick='click_copy_wx()' />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

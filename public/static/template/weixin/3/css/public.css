@@ -21,7 +21,8 @@ body a:visited {
   .weixin3 .s-title {
     font-weight: bold;
     font-size: 1.4rem;
-    padding-bottom: 1rem; }
+    padding-bottom: 1rem;
+    color: #FF0000; }
   .weixin3 .s-author {
     padding-bottom: 1rem; }
     .weixin3 .s-author .a {

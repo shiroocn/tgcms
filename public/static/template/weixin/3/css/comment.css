@@ -1,0 +1,24 @@
+.s-comment .a {
+  border-bottom: 1px solid #e0e0e0; }
+.s-comment .t ul {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  .s-comment .t ul li {
+    font-size: 1rem;
+    padding: 16px 0;
+    border-bottom: 1px solid #e0e0e0; }
+    .s-comment .t ul li .t-tx {
+      min-width: 80px;
+      min-height: 80px;
+      text-align: center;
+      width: 20%; }
+    .s-comment .t ul li .t-a {
+      width: 60%;
+      padding: 0 10px; }
+    .s-comment .t ul li .t-time {
+      width: 15%;
+      text-align: right;
+      color: #ababab; }
+
+/*# sourceMappingURL=comment.css.map */

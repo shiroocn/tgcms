@@ -11,8 +11,8 @@
         }*/
     </style>
 </head>
-<body>
-<div id="app">
+<body class="template">
+<div id="app" class="style">
     <div class="layui-layout layui-layout-admin">
         {include file="public/nav-top" /}
         {include file="public/nav-left" /}
@@ -64,7 +64,7 @@
     </div>
 </div>
 <script type="text/html" id="style_img">
-    <div style="width: 200px;"><img src="__TEMPLATE__/{{d.template_dir_name}}/{{d.template_name}}.png" /></div>
+    <div style="width: 200px;"><img src="__TEMPLATE__/{{d.template_dir_name}}/{{d.template_name}}.png"/></div>
 </script>
 {include file="public/js" /}
 <script>
@@ -76,7 +76,7 @@
             templateDirID: {$template_dir_id},
             templateID: 0,
             templateName: "",
-            templateNote:"",
+            templateNote: "",
             submitButtonString: ""
         },
         created: function () {
@@ -97,7 +97,7 @@
                         {field: 'template_name', title: '模板风格', minWidth: 100},
                         {field: 'template_dir_name', title: '模板主题', minWidth: 100},
                         {field: 'template_note', title: '描述内容', minWidth: 200},
-                        {field: 'template_name', title: '预览图', width: 150,templet:'#style_img'},
+                        {field: 'template_name', title: '预览图', width: 150, templet: '#style_img'},
                         {
                             title: '操作',
                             minWidth: 220,

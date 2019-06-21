@@ -10,6 +10,7 @@ namespace app\admin\controller;
 
 
 use think\Db;
+use app\admin\model\Template as TemplateModel;
 
 class Template extends Base
 {
@@ -19,14 +20,17 @@ class Template extends Base
             $page=$postData['page']-1;
             $limit=$postData['limit'];
             try{
-                $result=Db::name('template_dir')
+                $result=TemplateModel::limit($page*$limit,$limit)->order('template_create_time','DESC')->select();
+                /*$result=Db::name('template_dir')
                     ->limit($page*$limit,$limit)
                     ->order('template_dir_id','asc')
-                    ->select();
+                    ->select();*/
                 $count=Db::name('template_dir')->count('template_dir_id');
             }catch (\Exception $e){
                 return json_shiroo('database');
             }
+
+
             return json_shiroo(0,'page:'.$page.',limit:'.$limit,$count,$result);
         }else{
             return $this->fetch();

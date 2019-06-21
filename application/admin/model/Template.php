@@ -14,6 +14,7 @@ use think\Model;
 class Template extends Model
 {
     protected $pk='template_id';
+
     public function templateDir(){
         return $this->belongsTo('TemplateDir','_template_dir_id');
     }

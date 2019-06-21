@@ -6,8 +6,8 @@
     {include file="public/head" /}
     {include file="public/css" /}
 </head>
-<body>
-<div id="app">
+<body class="template">
+<div id="app" class="show">
     <div class="layui-layout layui-layout-admin">
         {include file="public/nav-top" /}
         {include file="public/nav-left" /}
@@ -19,6 +19,22 @@
                         <a class="layui-btn layui-btn-normal" data-type="add">新增主题</a>
                         <a class="layui-btn layui-btn-normal" data-type="reload">刷新</a>
                     </div>
+                    <div class="layui-row layui-col-space30">
+                        <div class="layui-col-sm4 layui-col-md3 layui-col-lg2" v-for="t in templates">
+                            <div class="cmdlist-container">
+                                <a href="javascript:;">
+                                    <img :src="'__TEMPLATE__/'+t.template_path+'.png'">
+                                </a>
+                                <a href="javascript:;">
+                                    <div class="cmdlist-text">
+                                        <p class="info">{{t.template_title}}</p>
+                                        <div class="price">作者：{{t.template_author}}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <table id="template_dir_list" lay-filter="template_dir_list"></table>
 
                 </div>
@@ -65,13 +81,21 @@
             templateDirID: 0,
             templateDirName: "",
             templateDirNote:"",
-            submitButtonString: ""
+            submitButtonString: "",
+            templates:""
         },
         created: function () {
             layui.use(['element', 'layer', 'table'], function () {
                 var layer = layui.layer,
                     table = layui.table;
                 var openIndex;
+
+                jQuery.post("{:url('admin/template/show')}",{
+                    limit:100,
+                    page:1
+                },function (data) {
+                    app.templates=data.data;
+                },'JSON');
 
                 table.render({
                     elem: '#template_dir_list',

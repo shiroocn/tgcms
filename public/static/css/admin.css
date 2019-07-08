@@ -9,6 +9,8 @@
   border: 1px solid transparent; }
   .template .style .cmdlist-container img {
     width: 100%; }
+.template .show .templates_box {
+  margin-top: 20px; }
 .template .show .cmdlist-container {
   background: #fff;
   border: 1px solid transparent; }

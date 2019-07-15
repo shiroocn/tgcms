@@ -1,0 +1,43 @@
+.s-comment{
+    .a{
+        border-bottom: 1px solid #e0e0e0;
+
+    }
+    .t{
+        ul{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li{
+                font-size: 1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #e0e0e0;
+                .t-tx{
+                    min-width: 80px;
+                    min-height: 80px;
+                    text-align: center;
+                    width: 20%;
+                    img{
+
+                    }
+                }
+                .t-a{
+                    width: 60%;
+                    padding: 0 10px;
+                    .t-name{
+
+                    }
+                    .t-text{
+
+                    }
+                }
+                .t-time{
+                    width: 15%;
+                    text-align: right;
+                    color: #ababab;
+                }
+            }
+        }
+
+    }
+}

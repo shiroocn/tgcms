@@ -1,0 +1,121 @@
+.fu_box {
+    width: 204px;
+    height: 328px;
+    position: fixed;
+    top: 150px;
+    right: 20px;
+    background: url(../img/fu_box.png) no-repeat center top;
+    background-size: 100%;
+    z-index: 8;
+    p{
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    .p0{
+        font-size: 16px;
+        color: white;
+    }
+    .p1 {
+        font-size: 18px;
+        padding-top: 40px;
+        color: white;
+    }
+    .fu_box_img {
+        width: 143px;
+        height: 143px;
+        display: block;
+        margin: 6px auto 0;
+    }
+    img {
+        vertical-align: middle;
+        border: 0;
+    }
+    .p2 {
+        font-size: 18px;
+        padding-top: 15px;
+        color: white;
+    }
+    .p3 {
+        font-size: 18px;
+        padding-top: 3px;
+        color: white;
+    }
+}
+.copy_wx_box {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    background: #FF0000;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    .a{
+        margin: 0 auto;
+        position: relative;
+        .a-a{
+            text-align: center;
+        }
+        .a-b{
+            padding: 0 5px;
+            margin-top: -20px;
+            .b{
+                color: #ffffff;
+            }
+            .c{
+                color: #fff811;
+            }
+        }
+        .a-c{
+            text-align: right;
+        }
+    }
+    img{
+        height: 100px;
+        position: relative;
+        top: -20px;
+    }
+}
+.copy_wx_box_pc {
+    width: 100%;
+    height: 50px;
+    background: #f85b55;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 50px;
+    font-weight: bold;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+}
+.copy_wx_btn{
+    font-size: 16px;
+    display: none;
+}
+.touch_icon {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    cursor: pointer;
+    z-index: 999;
+}
+.wx-box{
+    width: auto;
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    background: #64ab23;
+    color: #fcff19;
+    margin: 0 auto;
+    .a{
+        font-size: 1.2rem;
+
+    }
+    .b{
+        margin-top: 10px;
+    }
+    .c{
+        margin-top: 10px;
+    }
+}

@@ -125,18 +125,16 @@
     .html18 .wxh-box .copy-wxh-btn {
       margin: 0.2rem 0 0 0; }
       .html18 .wxh-box .copy-wxh-btn button {
-        padding: 0.1rem 0.3rem !important;
-        font-size: 0.2rem !important;
-        line-height: 0.4rem !important;
+        padding: 0.06rem 0.15rem !important;
+        font-size: 0.15rem !important;
+        line-height: 0.3rem !important;
         border-radius: 0.1rem !important; }
         .html18 .wxh-box .copy-wxh-btn button:hover {
           box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
         .html18 .wxh-box .copy-wxh-btn button:focus {
           box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.25); }
   .html18 .add-wx-tips {
-    padding: 0.2rem;
-    background: #cb131f;
-    color: #FFFFFF; }
+    padding: 0.2rem; }
     .html18 .add-wx-tips .title {
       text-align: center;
       font-size: 0.2rem; }
@@ -154,8 +152,7 @@
       margin: 0 !important;
       padding: 0 !important; }
   .html18 .s-comments {
-    width: 100%;
-    background: #f3f3f3; }
+    width: 100%; }
     .html18 .s-comments .s-list {
       width: 100%; }
       .html18 .s-comments .s-list .s-line {

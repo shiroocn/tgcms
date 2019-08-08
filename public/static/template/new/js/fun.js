@@ -30,7 +30,7 @@ $(function () {
         console.info('Text:', e.text);
         console.info('Trigger:', e.trigger);
         location.href="weixin://";
-        alert("微信号复制成功，请添加朋友！");
+        //alert("微信号复制成功，请添加朋友！");
         e.clearSelection();
     });
 

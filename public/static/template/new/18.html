@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
     <title>玩转期货</title>
-    {include file="new/public/css" /}
-    {include file="new/public/js" /}
+    <!-- Bootstrap -->
+    <link href="__PLUGINS__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__TEMPLATE__/new/css/public.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="__PLUGINS__/clipboard/clipboard.min.js"></script>
+    <script src="__PLUGINS__/bootstrap/js/bootstrap.min.js"></script>
+    <script src="__PLUGINS__/layer/layer.js"></script>
+
+    <script src="__TEMPLATE__/new/js/fun.js"></script>
+
+    <!--监测代码start-->
+    {$sh.domain_count_code?html_entity_decode($sh.domain_count_code):''}
+    <!--监测代码end-->
+
+    {include file="./public/static/js/tongji.html"}
+
     <script src="__TEMPLATE__/new/js/rem.js" type="text/javascript"></script>
 </head>
 <body>
@@ -29,10 +46,14 @@
             <p>加微信学期货</p>
             <p><span class="s-wxh">{$sh.brand_weixin?:''}</span></p>
         </div>
+        {if $Request.ismobile}
         <div class="copy-wxh-tips">(长按上面红色字体然后复制微信号)</div>
         <div class="copy-wxh-btn">
             <button type="button" id="s-btn-wxh" class="btn btn-danger s-btn-wxh" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击跳转到微信</button>
         </div>
+        {else}
+        <div class="copy-wxh-tips">(请手动添加或扫二维码添加)</div>
+        {/if}
     </div>
     <div class="s-comments">
         <table class="s-list">
@@ -175,7 +196,7 @@
             console.info('Action:', e.action);
             console.info('Text:', e.text);
             console.info('Trigger:', e.trigger);
-            alert("微信号复制成功，请在微信添加好友！");
+            //alert("微信号复制成功，请在微信添加好友！");
             location.href="weixin://";
             e.clearSelection();
         });

@@ -1,0 +1,227 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    max-width: 720px;
+    margin: 0 auto;
+
+    .tutor {
+        .photo {
+            width: 40%;
+            height: auto;
+            margin: 0 auto;
+            img{
+                width: 100%;
+            }
+            .name{
+                font-size: 0.14rem;
+                text-align: center;
+            }
+        }
+
+        .introduce {
+            margin: 5px 0 0 0;
+            padding: 0 20px;
+            .describe{
+                font-size: 0.12rem;
+                text-indent: 0.24rem;
+            }
+
+        }
+    }
+
+    .add-wx-tips {
+        padding: 0.2rem;
+
+        .title {
+            text-align: center;
+            font-size: 0.2rem;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+                font-size: 0.14rem;
+                list-style: none;
+                padding: 0;
+                margin: 0.1rem 0 0 0;
+
+                img {
+                    border: 2px solid #313758;
+                }
+            }
+        }
+
+        p {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    }
+
+    .wxh-box {
+        padding: 0.2rem;
+        text-align: center;
+
+        .copy-wxh {
+            font-size: 0.22rem;
+            padding-bottom: 0.1rem;
+
+            .s-wxh {
+                font-size: 0.28rem;
+                color: #FF0000;
+                font-weight: bold;
+            }
+        }
+
+        .copy-wxh-tips {
+            font-size: 0.14rem;
+        }
+
+        .copy-wxh-btn {
+            margin: 0.2rem 0 0 0;
+
+            button {
+                padding: 0.06rem 0.15rem !important;
+                font-size: 0.15rem !important;
+                line-height: 0.3rem !important;
+                border-radius: .1rem !important;
+
+                &:hover {
+                    box-shadow: 0 0 0 8px rgba(0, 123, 255, .25);
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 8px rgba(0, 123, 255, .25);
+                }
+            }
+        }
+    }
+
+    .s-comments {
+        width: 100%;
+        margin-top: 15px;
+        .s-list {
+            width: 100%;
+
+            .s-line {
+                border-bottom: 1px solid #fff;
+
+                .s-reply-box {
+                    font-size: 0.12rem;
+
+                    ul {
+                        padding: 0;
+                        margin: 0 0.1rem;
+
+                        li {
+                            padding: 0;
+                            margin: 0;
+                            list-style: none;
+
+                            .s-name {
+
+                            }
+
+                            .s-content {
+
+                            }
+
+                            .s-time {
+
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            td {
+                padding: 0.1rem;
+            }
+
+            .s-name {
+                color: #3361a7;
+                font-size: 0.14rem;
+
+            }
+
+            .s-time {
+                color: #c5c9cd;
+                font-size: 0.12rem;
+            }
+
+            .s-content {
+                font-size: 0.12rem;
+
+            }
+
+            .s-portrait {
+                height: 0.38rem;
+                width: 0.38rem;
+            }
+        }
+    }
+
+    .html18-footer {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 0.2rem 0;
+    }
+}
+
+.fu_box {
+    width: 204px;
+    height: 328px;
+    position: fixed;
+    top: 150px;
+    left: 20px;
+    background: url(../img/fu_box.png) no-repeat center top;
+    background-size: 100%;
+    z-index: 8;
+
+    p {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .p0 {
+        font-size: 16px;
+        color: white;
+    }
+
+    .p1 {
+        font-size: 18px;
+        padding-top: 40px;
+        color: white;
+    }
+
+    .fu_box_img {
+        width: 143px;
+        height: 143px;
+        display: block;
+        margin: 6px auto 0;
+    }
+
+    img {
+        vertical-align: middle;
+        border: 0;
+    }
+
+    .p2 {
+        font-size: 18px;
+        padding-top: 15px;
+        color: white;
+    }
+
+    .p3 {
+        font-size: 18px;
+        padding-top: 3px;
+        color: white;
+    }
+}

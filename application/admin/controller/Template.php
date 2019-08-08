@@ -20,6 +20,25 @@ class Template extends Base
             $page=$postData['page']-1;
             $limit=$postData['limit'];
             try{
+                $result=Db::name('template_dir')
+                    ->limit($page*$limit,$limit)
+                    ->order('template_dir_id','asc')
+                    ->select();
+                $count=Db::name('template_dir')->count('template_dir_id');
+            }catch (\Exception $e){
+                return json_shiroo('database');
+            }
+            return json_shiroo(0,'page:'.$page.',limit:'.$limit,$count,$result);
+        }else{
+            return $this->fetch();
+        }
+    }
+    public function show1(){
+        if(IS_POST){
+            $postData=$this->request->param();
+            $page=$postData['page']-1;
+            $limit=$postData['limit'];
+            try{
                 $result=TemplateModel::limit($page*$limit,$limit)->order('template_create_time','DESC')->select();
                 /*$result=Db::name('template_dir')
                     ->limit($page*$limit,$limit)

@@ -21,7 +21,7 @@ class File extends Base
                 return json_shiroo('upload.error');
             }
             $info=$file->validate([
-                'size'=>1048576,
+                'size'=>2097152,
                 'ext'=>'jpg,png,gif'
             ])->rule('md5')->move('.'.UPLOADS_PATH);
             //这里采用MD5来给文件重命名，前两个字符是文件夹名称。

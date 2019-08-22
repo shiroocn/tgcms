@@ -6,7 +6,7 @@
     <title>玩转期货</title>
     <!-- Bootstrap -->
     <link href="__PLUGINS__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="__TEMPLATE__/shiroo/css/style.css?t={:time()}">
+    <link rel="stylesheet" href="__TEMPLATE__/shirootieba/css/style.css?t={:time()}">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
@@ -24,19 +24,28 @@
 <body>
 <div class="app" id="app">
     <div>
-        <img src="__TEMPLATE__/shiroo/img//1.png" width="100%" alt="">
+        <img src="__TEMPLATE__/shirootieba/img/052810.png" width="100%" alt="">
     </div>
     <div class="tutor">
         <div class="photo">
-            <div><img src="__UPLOADS__/{$sh.brand_icon_path?:''}" class="rounded-circle" alt="{$sh.brand_name?:''}"></div>
+            <div><img src="__UPLOADS__/{$sh.brand_icon_path?:''}" class="rounded-circle" alt="{$sh.brand_name?:''}">
+            </div>
             <!--<div class="name">{$sh.brand_name?:''}</div>-->
         </div>
+        <div class="label">
+            <img src="__TEMPLATE__/shirootieba/img/052811.png" width="100%" alt="">
+        </div>
         <div class="introduce">
-            <div class="describe">{$sh.brand_name?:''}从事金融行业18年，先后在多家大型金融企业任职首席分析师，管理资金超过3亿，对国内期货品种和国际期货品种有非常独到的见解，尤其是在恒指期货交易中。曾经多次用消息面、技术面对市场进行成功阻击，数倍获利，擅长做短线及超长线交易。</div>
+            <div class="describe">
+                {$sh.brand_name?:''}从事金融行业18年，先后在多家大型金融企业任职首席分析师，管理资金超过3亿，有自己的一套独特专业分析理念，一直屹立于起起伏伏的金融市场中，曾经多次用消息面、技术面对市场进行成功阻击。
+            </div>
+            <div class="describe">
+                {$sh.brand_name?:''}：“目前，我会在微信【<span style="color: #FF0000;font-weight: bold;">{$sh.brand_weixin?:''}</span>】（←长按复制/拷贝，去微信添加好友）上分享一些投资要领，这些方法已经帮助很多投资者找到人生第一桶金，甚至可以说达到“人生的小巅峰”！同时也避免大部分亏损。希望对大家有用，分享是福，感谢大家长久以来的信任！”
+            </div>
         </div>
     </div>
-    <div class="add-wx-tips">
-        <!--<p class="title">如何添加微信进群？</p>-->
+    <!--<div class="add-wx-tips">
+        &lt;!&ndash;<p class="title">如何添加微信进群？</p>&ndash;&gt;
         <ul>
             <li>1、一分钟了解什么是期货？期货到底怎么赚钱？</li>
             <li>2、期货是怎么利用杠杆以小博大的？</li>
@@ -45,37 +54,44 @@
             <li>5、炒期货需要多少钱？怎么算盈亏？</li>
             <li>6、各类期货战法，导师免费与您分享。</li>
         </ul>
-    </div>
+    </div>-->
 
     <div class="wxh-box">
         <div class="copy-wxh">
-            <p>加微信学期货</p>
+            <p>↓添加专家微信↓</p>
             <p><span class="s-wxh">{$sh.brand_weixin?:''}</span></p>
         </div>
         {if $Request.ismobile}
         <div class="copy-wxh-tips">(长按上面红色字体然后复制微信号)</div>
         <div class="copy-wxh-btn">
-            <button type="button" id="s-btn-wxh" class="btn btn-danger s-btn-wxh" data-clipboard-action="copy" data-clipboard-target="#user-wx">点击跳转到微信</button>
+            <button type="button" id="s-btn-wxh" class="btn btn-danger s-btn-wxh" data-clipboard-action="copy"
+                    data-clipboard-target="#user-wx">点击跳转到微信
+            </button>
         </div>
         {else}
         <div class="copy-wxh-tips">(请手动添加或扫二维码添加)</div>
         {/if}
+        <!--<div class="phone">
+            <div>没有微信？留下号码我们主动联系您</div>
+        </div>-->
     </div>
     <div class="s-comments">
         <table class="s-list">
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_1.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_1.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">不忘初心</div>
                     <div class="s-time">2楼&nbsp;&nbsp;昨天15:03</div>
-                    <div class="s-content">一直都一个人玩期货，好多东西都不懂，总是亏损，偶然机会加了老师微信，结识到了一堆同道中人，大家一起交流，现在总算掌握了很多技巧，开始盈利了，嘻嘻~~~~</div>
+                    <div class="s-content">
+                        我现在也有在做投资，也赚了不少。虽然银行卡上的数字并没有很多，但我相信总有一天我银行卡上的数字也会像蹭蹭的上涨的，只要跟着老师学投资理财就心安了~~
+                    </div>
                 </td>
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_3.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_3.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">七月安生</div>
@@ -85,7 +101,7 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_2.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_2.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">南巷清风</div>
@@ -115,7 +131,7 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_4.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_4.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">逍遥剑客</div>
@@ -125,7 +141,7 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_5.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_5.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">刚好遇见你</div>
@@ -135,7 +151,7 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_6.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_6.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">凉笙</div>
@@ -145,7 +161,7 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_7.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_7.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">情场老司机</div>
@@ -164,12 +180,22 @@
             </tr>
             <tr class="s-line">
                 <td valign="top">
-                    <img class="s-portrait" src="__TEMPLATE__/shiroo/img/tx_8.jpg" />
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_8.jpg"/>
                 </td>
                 <td>
                     <div class="s-name">怪我过分着迷</div>
                     <div class="s-time">9楼&nbsp;&nbsp;昨天17:13</div>
                     <div class="s-content">终于找对地方了，氛围不错，每天一群人交流各种心得，还有专业大枷分享经验。</div>
+                </td>
+            </tr>
+            <tr class="s-line">
+                <td valign="top">
+                    <img class="s-portrait" src="__TEMPLATE__/shirootieba/img/tx_9.jpg"/>
+                </td>
+                <td>
+                    <div class="s-name">不当韭菜的小白</div>
+                    <div class="s-time">10楼&nbsp;&nbsp;昨天18:13</div>
+                    <div class="s-content">我也是跟这个老师操作，之前一直亏啊，老婆本都亏了，后来偶然机会关注了老师微信后，现在月收益从2万变5万，嘻嘻~~~~</div>
                 </td>
             </tr>
         </table>
@@ -197,17 +223,17 @@
 
         //点击复制功能，必须是按钮button，而且不能隐藏，只能设置
         var clipboard = new ClipboardJS('.s-btn-wxh');
-        clipboard.on('success', function(e) {
+        clipboard.on('success', function (e) {
             //
             console.info('Action:', e.action);
             console.info('Text:', e.text);
             console.info('Trigger:', e.trigger);
             //alert("微信号复制成功，请在微信添加好友！");
-            location.href="weixin://";
+            location.href = "weixin://";
             e.clearSelection();
         });
 
-        clipboard.on('error', function(e) {
+        clipboard.on('error', function (e) {
             console.error('Action:', e.action);
             console.error('Trigger:', e.trigger);
         });

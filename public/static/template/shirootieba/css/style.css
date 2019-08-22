@@ -13,6 +13,8 @@ p {
       width: 100%; }
     .app .tutor .photo .name {
       text-align: center; }
+  .app .tutor .label {
+    margin: 20px 0; }
   .app .tutor .introduce {
     margin: 5px 0 0 0;
     padding: 0 20px; }

@@ -88,6 +88,11 @@ class Tongji extends Model
     public function getTjSearchKeywordAttr($value){
         try{
             $val=base64_decode($value);
+            //这里是因为在搜狗处发现有的会二次urlencode原始字符是%25xx%25xx%25xx,系统获取搜索词的时候会进行一次urldecode，但是还是url编码，这种字符串是gb2312，如果不进行转换直接urldecode会得到乱码。
+            $isMatched = preg_match('/%\w{2,4}/', $val, $matches);
+            if($isMatched){
+                $val=iconv('gb2312','UTF-8',urldecode($val));
+            }
         }catch (\Exception $exception){
             $val=$value;
         }

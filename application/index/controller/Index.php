@@ -412,4 +412,8 @@ class Index extends Base
         }
     }
 
+    public function hello(){
+        return iconv('gb2312','UTF-8',urldecode('%D4%F5%C3%B4%BF%B4k%CF%DF'));
+    }
+
 }

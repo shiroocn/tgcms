@@ -22,7 +22,7 @@ class File extends Base
             }
             $info=$file->validate([
                 'size'=>2097152,
-                'ext'=>'jpg,png,gif'
+                'ext'=>'jpg,png,gif,bmp'
             ])->rule('md5')->move('.'.UPLOADS_PATH);
             //这里采用MD5来给文件重命名，前两个字符是文件夹名称。
             if($info){

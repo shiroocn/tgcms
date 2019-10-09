@@ -1,0 +1,15 @@
+.s-main {
+  margin: 0 auto;
+  max-width: 720px;
+  background: #20255c; }
+  .s-main img {
+    width: 100%; }
+  .s-main .wxh-box {
+    color: #25f3f2;
+    text-align: center;
+    height: 600px; }
+    .s-main .wxh-box .wxh-text {
+      font-size: 20px;
+      font-weight: bold; }
+
+/*# sourceMappingURL=style.css.map */

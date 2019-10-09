@@ -1,0 +1,17 @@
+.s-main{
+    margin: 0 auto;
+    max-width: 720px;
+    background: #20255c;
+    img{
+        width: 100%;
+    }
+    .wxh-box{
+        color: #25f3f2;
+        text-align: center;
+        height: 600px;
+        .wxh-text{
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+}

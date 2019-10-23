@@ -6,10 +6,12 @@
     <title>资深专家</title>
     <!-- Bootstrap -->
     <link href="__PLUGINS__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__PLUGINS__/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="__TEMPLATE__/shirootieba/css/style.css?t={:time()}">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="__PLUGINS__/jquery/jquery-3.3.1.min.js"></script>
+    <script src="__PLUGINS__/jquery/jquery.form.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="__PLUGINS__/clipboard/clipboard.min.js"></script>
     <script src="__PLUGINS__/bootstrap/js/bootstrap.min.js"></script>
@@ -71,8 +73,90 @@
         {else}
         <div class="copy-wxh-tips">(请手动添加或扫二维码添加)</div>
         {/if}
-        <!--<div class="phone">
-            <div>没有微信？留下号码我们主动联系您</div>
+        <div class="s-phone">
+            <div class="title">没有微信？留下手机号我们联系您</div>
+            <form id="cj_form" method="post" action="{:url('index/customer_information/add')}">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-mobile fa-2x" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="填写您的手机号">
+                        <input type="hidden" id="keyword" name="keyword" value="{$keyword}">
+                        <input type="hidden" id="search_keyword" name="search_keyword" value="{$searchKeyword}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">确认提交</button>
+            </form>
+        </div>
+        <div class="s-joiner">
+            <p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 1.6em; text-align: center; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important;">
+                <span style="max-width: 100%; line-height: 10px; color: rgb(127, 127, 127); box-sizing: border-box !important; word-wrap: break-word !important;">目前10000+人已关注加入</span>
+            </p>
+            <p style="max-width: 100%; min-height: 1em;  text-align: center; line-height:10px; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important;">
+                                            <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/0.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/1.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/2.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/3.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/4.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/5.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/6.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/7.gif">
+                                            </span>
+            </p>
+            <p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); text-align: center; line-height: 24px; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important;">
+                                            <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/8.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/9.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/10.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/11.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/12.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/13.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/14.gif">
+                                            </span>
+                <span class="tt1">
+                                                <img border="0" class="tt2" src="__TEMPLATE__/shirootieba/img/a/15.gif">
+                                            </span>
+            </p>
+        </div>
+        <!--<div class="clearfix" style="width: 100%;text-align: center;">
+            <div class="float-left">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                17w+
+            </div>
+            <div class="float-left">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                22w+
+            </div>
         </div>-->
     </div>
     <div class="s-comments">
@@ -236,6 +320,22 @@
         clipboard.on('error', function (e) {
             console.error('Action:', e.action);
             console.error('Trigger:', e.trigger);
+        });
+
+        $('#cj_form').submit(function() {
+            var loadIndex = layer.load();
+            $(this).ajaxSubmit({
+                success:function (data,status) {
+                    if(data.code!=0){
+                        layer.msg(data.msg);
+                    }else{
+                        layer.msg("提交成功，我们稍候联系您。")
+                    }
+                    console.log(data);
+                }
+            });
+            layer.close(loadIndex);
+            return false; //阻止表单默认提交
         });
     });
 </script>

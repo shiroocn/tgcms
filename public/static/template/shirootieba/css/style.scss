@@ -82,6 +82,38 @@ p {
             margin-top: 10px;
 
         }
+        .s-phone{
+            max-width: 400px;
+            margin: 0 auto;
+            .title{
+                padding: 50px 0 10px 0;
+                color: #ff0b02;
+                font-weight: bold;
+            }
+        }
+        .s-joiner{
+            padding: 50px 0 0 0;
+            .tt1{
+                display: inline-block;
+                font-size: 0px;
+                box-sizing: border-box !important;
+                word-wrap: break-word !important;
+                .tt2{
+                    vertical-align: top;
+                    line-height: 2em;
+                    color: rgb(123, 123, 111);
+                    border-radius: 50%;
+                    box-sizing: border-box !important;
+                    word-wrap: break-word !important;
+                    visibility: visible !important;
+                    width: 30px !important;
+                    height: auto !important;
+                }
+                img{
+                    height: auto!important;
+                }
+            }
+        }
     }
 
     .s-comments {

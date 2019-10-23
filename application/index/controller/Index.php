@@ -14,25 +14,26 @@ class Index extends Base
     public function index()
     {
         //获取访问的落地页别名
-        $postData = $this->request->param();
-        //如果p参数为空的话，默认为index
-        $postData['p'] = !empty($postData['p']) ? $postData['p'] : 'index';
+        $param = $this->request->param();
+        //获取访问的子页面,如果p参数为空的话，默认为index
+        $param['p'] = !empty($param['p']) ? $param['p'] : 'index';
 
         //进行数据的检验,只允许字母与数字组合。
-        $validate = $this->validate($postData, 'app\index\validate\Index.open');
+        $validate = $this->validate($param, 'app\index\validate\Index.open');
         if ($validate !== true) {
             //如果检检验不过关，提示错误。
             return $this->errorPage('非法落地页名称');
             //return json_shiroo('validate', $validate);
         }
 
-        $pageName = $postData['p'];//获取落地页名
-        $source = isset($postData['source']) ? urldecode($postData['source']) : '';//渠道
-        $plan = isset($postData['plan']) ? urldecode($postData['plan']) : '';//计划
-        $unit = isset($postData['unit']) ? urldecode($postData['unit']) : '';//单元
-        $keyword = isset($postData['keyword']) ? urldecode($postData['keyword']) : '';//关键词
+        //在关键词连接里设置了下面相应的get参数
+        $pageName = $param['p'];//获取落地页名
+        $source = isset($param['source']) ? urldecode($param['source']) : '';//渠道
+        $plan = isset($param['plan']) ? urldecode($param['plan']) : '';//计划
+        $unit = isset($param['unit']) ? urldecode($param['unit']) : '';//单元
+        $keyword = isset($param['keyword']) ? urldecode($param['keyword']) : '';//关键词
 
-        $domain_http = $this->request->domain();//获取当前的域名,带http://
+        $domain_http = $this->request->domain();//获取当前的域名,这里的域名是带http://
 
         //去掉域名里的http://字符。
         $domain = str_replace('http://', '', $domain_http);
@@ -43,12 +44,12 @@ class Index extends Base
 
         try {
             //首页查询访问落地页的域名是否已在后台绑定
-            $domainDB=Domain::where('domain_url', $domain)->find();
+            $domainDB=Domain::where('domain_url', $domain)->findOrEmpty();
             //$domainDB = Db::name('domain')->where()->find();
         } catch (\Exception $e) {
             return $this->errorPage('查询域名数据异常');
         }
-        if (is_null($domainDB) && !is_array($domainDB)) {
+        if ($domainDB->isEmpty()) {
             //查询结果没有绑定的话，返回错误提示
             return $this->errorPage('访问的域名没有绑定');
         }
@@ -56,14 +57,13 @@ class Index extends Base
         //从上一个跳转URL的参数里获取搜索词
         $searchKeyword = $this->getSearchKeyword($referer);
 
-
         //是否允许访问正常落地页，还是访问审核页
         //根据城市判断
-        if(!$this->allowCity($domainDB)){
+        if(!$this->allowCity($domainDB['domain_restricted_area'])){
             $pageName='ex';
         }
         //根据设置来源
-        if (!$this->allowBrowse($referer, $domainDB)) {
+        if (!$this->allowBrowse($referer, $domainDB['domain_source_allow'])) {
             //不允许访问，跳转默认设置页面
             $pageName = 'ex';//如果这里改动了，记得去static/js/tongji.html里也改。
         }
@@ -87,15 +87,17 @@ class Index extends Base
             $templateDirRec = $rec->template->templateDir;
             $brandRec = $rec->brand;
 
-
             //访客记录(必须能正常访问该页面，才进行统计)
             $tongjiID = $this->tongJi($referer, $source, $keyword, $plan, $unit, $domain, $pageName, $searchKeyword);
 
             //查询推广线索的扩展参数
-            $defines = Db::name('brand_define_list')
-                ->join('brand_define', 'bd_id=bdl_define_id')
-                ->where('bdl_brand_id', $brandRec->brand_id)->select();
-
+            try{
+                $defines = Db::name('brand_define_list')
+                    ->join('brand_define', 'bd_id=bdl_define_id')
+                    ->where('bdl_brand_id', $brandRec->brand_id)->select();
+            }catch (\Exception $exception){
+                $defines=[];
+            }
             $def = [];//定义一个空的数组，用于储存循环读取到的扩展参数。
             if (is_array($defines)) {
                 //如果该推广线索存在设置了扩展参数。
@@ -130,6 +132,8 @@ class Index extends Base
             //输出所有参数到模板，使用$sh调用。
             $this->assign('sh', $sh);
             $this->assign('tongji_id', $tongjiID);
+            $this->assign('keyword',$keyword);
+            $this->assign('searchKeyword',$searchKeyword);
             $this->assign('shirooRestrictedArea', !empty($domainDB['domain_restricted_area']) ? $domainDB['domain_restricted_area'] : '没有设置地区');
 
             //这里只是去掉了文件后缀.html，因为带后缀$this->fetch会出错。
@@ -140,59 +144,6 @@ class Index extends Base
             $this->view->config('view_path', $_SERVER['DOCUMENT_ROOT'] . '/public/static/template/');
             //输出相应的模板视图
             return $this->fetch($sh['template_dir_name'] . '/' . $str);
-        }
-    }
-
-    /**
-     * note:允许哪些来源访问落地页，即允许哪些referer
-     * @param $referer 'HTTP头referer的值'
-     * @param $domainDB '查询domain表返回的数组'
-     * @return bool
-     */
-    private function allowBrowse($referer, $domainDB)
-    {
-        if (!empty($referer)) {
-            $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-            $directAccess=false;//跳转访问
-        } else {
-            $host = '';
-            $directAccess=true;//直接访问
-        }
-
-        //如果站点允许来源有值的话，表示设置了允许来源，为空表示不限制访问
-        if (!empty($domainDB['domain_source_allow'])) {
-            //设置了允许来源，进行限制访问
-            if($directAccess){
-                //设置了来源限制，并且为直接访问，那直接就不允许
-                return false;
-            }
-            //查询设置的是哪些
-            try {
-                //设置的值格式为1,2,3  每个数字表示source_id
-                $sources = Db::name('source')->where('source_id', 'in', $domainDB['domain_source_allow'])->select();
-                //上面按照ID进行查询
-            } catch (\Exception $e) {
-                $sources = [];
-            }
-            $allow = false;
-            foreach ($sources as $source) {
-                //判断来源的特征码是否存在于URL中。
-                $allow = strpos($host, $source['source_feature']);//查找$source['source_feature']特征码是否存在于$host中。不存在返回false，
-                if ($allow !== false) {
-                    //存在，表示允许来源访问，否则跳到默认页面
-                    //跳出循环
-                    break;
-                }
-            }
-            if ($allow === false) {
-                //不允许访问，跳转默认设置页面
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            //站点没有设置，表示允许所有跳转访问。
-            return true;
         }
     }
 
@@ -304,116 +255,7 @@ class Index extends Base
             return 0;
         }
     }
-
-    /**
-     * note:从referer里获取来源搜索引擎的搜索词。
-     * @param $referer 'HTTP头的referer的值'
-     * @return string
-     */
-    private function getSearchKeyword($referer)
-    {
-        if (!empty($referer)) {
-            $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-            $query = parse_url($referer, PHP_URL_QUERY);//获取参数部分
-
-            $queryParts = explode('&', $query);//参数部分进行分割
-            $params = [];//定义一个空的数组
-            foreach ($queryParts as $param) {//这里的作用主要是把参数部分转变数组
-                $item = explode('=', $param);//把参数名与参数值分割
-                if (count($item) > 1) {
-                    $params[$item[0]] = $item[1];//调用示例：$params[参数名]
-                }
-            }
-
-            if (strpos($host, 'so.com') !== false) {
-                //360
-                $resultStr = isset($params['q']) ? $params['q'] : '';
-
-            } elseif (strpos($host, 'sogou.com') !== false) {
-                //搜狗
-                if(isset($params['keyword']) && !empty($params['keyword'])){
-                    $resultStr=$params['keyword'];
-                }elseif(isset($params['keywod']) && !empty($params['keywod'])){
-                    $resultStr=$params['keywod'];
-                }else{
-                    $resultStr='';
-                }
-            } elseif (strpos($host, 'baidu.com') !== false) {
-                //百度
-                $resultStr = isset($params['word']) ? $params['word'] : '';
-
-            } elseif (strpos($host, 'sm.cn') !== false) {
-                //神马
-                $resultStr = isset($params['keyword']) ? $params['keyword'] : '';
-
-            } elseif (strpos($host, '192.168.1.7') !== false) {
-                $resultStr = isset($params['query']) ? $params['query'] : urlencode('测试搜索词');
-            } else {
-                $resultStr = '';
-            }
-            return urldecode($resultStr);
-        } else {
-            return '';
-        }
-    }
-    private function getSearchKeywordParams(){
-
-    }
-    private function allowCity($domainDB){
-        try{
-            // Create a stream
-            $opts = array(
-                'http'=>array(
-                    'method'=>"GET",
-                    'header'=>"Accept-language: zh-CN,zh;q=0.9\r\n" .
-                        "Cookie: foo=bar\r\n"
-                )
-            );
-            $context = stream_context_create($opts);
-            $htmlCode=file_get_contents('http://ip.ws.126.net/ipquery?ip='.$this->request->ip(),false,$context);
-        }catch (\Exception $exception){
-            $htmlCode='';
-        }
-
-        try{
-            $isMatched = preg_match('/city:"(\S+)"/', $htmlCode, $city);
-            $cityStr=iconv('GB2312','UTF-8',$city[1]);
-        }catch (\Exception $exception){
-            $cityStr='';
-        }
-
-        try{
-            $isMatched = preg_match('/province:"(\S+)"/', $htmlCode, $province);
-            $provinceStr=iconv('GB2312','UTF-8',$province[1]);
-        }catch (\Exception $exception){
-            $provinceStr='';
-        }
-        try{
-            $domainRestrictedArea=explode(',',$domainDB['domain_restricted_area']);
-        }catch (\Exception $exception){
-            $domainRestrictedArea=[];
-        }
-        $existence=false;
-        foreach ($domainRestrictedArea as $v){
-            if(!empty($v)){
-                $a=strpos($cityStr,$v);
-                $b=strpos($provinceStr,$v);
-                if($a!==false || $b!==false){
-                    $existence=true;
-                    break;
-                }
-            }
-        }
-        if($existence){
-            //访客的地区存在于禁止访问列表里
-            return false;
-        }else{
-            return true;
-        }
-    }
-
     public function hello(){
         return iconv('gb2312','UTF-8',urldecode('%D4%F5%C3%B4%BF%B4k%CF%DF'));
     }
-
 }

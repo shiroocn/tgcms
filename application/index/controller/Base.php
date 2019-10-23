@@ -10,13 +10,14 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Db;
+use think\facade\Cookie;
+use app\admin\model\Tongji as TongjiModel;
 
 class Base extends Controller{
     public function initialize()
     {
-        define('UPLOADS_PATH','/uploads');
-    }
 
+    }
     protected function getSearchKeyword($referer)
     {
         if (!empty($referer)) {
@@ -88,7 +89,8 @@ class Base extends Controller{
                 )
             );
             $context = stream_context_create($opts);
-            $htmlCode=file_get_contents('http://ip.ws.126.net/ipquery?ip='.$this->request->ip(),false,$context);
+            $ip=$this->request->ip();
+            $htmlCode=file_get_contents('http://ip.ws.126.net/ipquery?ip='.$ip,false,$context);
         }catch (\Exception $exception){
             $htmlCode='';
         }
@@ -116,6 +118,9 @@ class Base extends Controller{
                 $provinceStr='';
             }
             //$domain_restricted_area的数据格式：珠海,深圳,广州,香港
+            if(empty($domain_restricted_area)){
+                return true;
+            }
             $domainRestrictedArea=explode(',',$domain_restricted_area);
             if(!empty($domainRestrictedArea)){
                 $existence=false;
@@ -192,7 +197,98 @@ class Base extends Controller{
             return true;
         }
     }
+    protected function tongJi($referer, $source, $keyword, $plan, $unit, $domain, $pageName, $searchKeyword)
+    {
+        if (!empty($referer)) {
+            //$url为HTTP头信息里的referer的值，即从哪个页面链接跳转过来的，
+            //不为空的话，表示referer不为空，有上一跳转Url。而不是直接访问
+            $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
+            if(empty($host)){
+                return 0;
+            }
 
+            try{
+                $sourceDB = Db::name('source')->select();//查询结果是一个二维数组，如果结果不存在，返回空数组
+            }catch (\Exception $exception){
+                $sourceDB=[];
+            }
+            $isExist = false;//定义一个为假的变量
+            foreach ($sourceDB as $s){
+                //循环从数据库里读出来的数组。
+                $isExist = strpos($host, $s['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
+                if ($isExist !== false) {
+                    //如果返回结果为找到的话。则跳出循环
+                    break;
+                }
+            }
+            if ($isExist === false) {
+                //如果$isTongJi变量还是为false,则未找到，不进行统计。
+                return 0;
+            }
+
+            $data = [
+                'tj_source' => $source,
+                'tj_keyword' => $keyword,
+                'tj_plan' => $plan,
+                'tj_unit' => $unit,
+                'tj_search_keyword' => $searchKeyword,
+                'tj_domain' => $domain,
+                'tj_page_name' => $pageName,
+                'tj_create_time' => date('Y-m-d H:i:s'),
+                'tj_device' => $this->request->isMobile() ? 'YD' : 'PC',
+                'tj_ip' => $this->request->ip(),
+                'tj_referer' => $referer
+            ];
+
+            //先计算今日还余下多少秒
+            $lastSeconds = strtotime(date('Y-m-d 23:59:59'));//获取当天最后一秒时间戳
+            $nowSeconds = time();//获取当前的时间戳
+            $remaining = $lastSeconds - $nowSeconds;//今日还余下的时间戳(秒)
+
+            $token = sha1(md5($nowSeconds) . 'shiroo.cn');//系统自动生成一个token
+
+            if (!Cookie::has('token', 'tongji_')) {
+                //如果Cookie里不存在token，表示新访客
+                Cookie::set('token', $token, ['prefix' => 'tongji_', 'expire' => $remaining]);
+            } else {
+                //存在的话，获取并存到临时变量里。
+                $tokenCookie = Cookie::get('token', 'tongji_');
+                //验证token的合法性
+                if (preg_match('/[a-z0-9]{40}/', $tokenCookie)) {
+                    //合法的话，就覆盖掉系统自动生成的$token变量
+                    $token = $tokenCookie;
+                }
+            }
+            $data['tj_token'] = $token;//data数组新增一个token数据。
+            //先查询当前的token是否存在于表里。
+
+            try {
+                $result=TongjiModel::where(['tj_token'=>$token,'tj_domain'=>$domain])->findOrEmpty();
+            } catch (\Exception $e) {
+                return 0;
+            }
+            if ($result->isEmpty()) {
+                //如果该token不存在表里的话，就插入新记录。
+                $row=TongjiModel::create($data);
+                if(!$row->isEmpty()){
+                    $id=$row->tj_id;
+                }else{
+                    $id=0;
+                }
+            } else {
+                if (!empty($searchKeyword) && empty($result->tj_search_keyword)) {
+                    $result->tj_search_keyword = $searchKeyword;
+                    $result->save();
+                }
+                //存在的话就直接返回该记录的ID
+                $id = $result->tj_id;
+            }
+            return $id;
+        } else {
+            //表示为直接访问，不记录统计信息。
+            return 0;
+        }
+    }
     public function errorPage($title='',$content=''){
         return $this->fetch('public/error',['title'=>$title,'content'=>$content]);
     }

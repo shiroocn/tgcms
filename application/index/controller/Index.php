@@ -28,10 +28,10 @@ class Index extends Base
 
         //在关键词连接里设置了下面相应的get参数
         $pageName = $param['p'];//获取落地页名
-        $source = isset($param['source']) ? urldecode($param['source']) : '';//渠道
-        $plan = isset($param['plan']) ? urldecode($param['plan']) : '';//计划
-        $unit = isset($param['unit']) ? urldecode($param['unit']) : '';//单元
-        $keyword = isset($param['keyword']) ? urldecode($param['keyword']) : '';//关键词
+        $source = !empty($param['source']) ? urldecode($param['source']) : '';//渠道
+        $plan = !empty($param['plan']) ? urldecode($param['plan']) : '';//计划
+        $unit = !empty($param['unit']) ? urldecode($param['unit']) : '';//单元
+        $keyword = !empty($param['keyword']) ? urldecode($param['keyword']) : '';//关键词
 
         $domain_http = $this->request->domain();//获取当前的域名,这里的域名是带http://
 
@@ -145,117 +145,5 @@ class Index extends Base
             //输出相应的模板视图
             return $this->fetch($sh['template_dir_name'] . '/' . $str);
         }
-    }
-
-    /**
-     * note:记录访客的统计信息
-     * @param $referer 'HTTP头信息里的referer值'
-     * @param $source '渠道来源'
-     * @param $keyword
-     * @param $plan
-     * @param $unit
-     * @param $domain '受访站点的域名，不包含http://'
-     * @param $pageName '受访的落地页名'
-     * @param $searchKeyword '搜索词'
-     * @return int '返回成功记录后的ID'
-     */
-    private function tongJi($referer, $source, $keyword, $plan, $unit, $domain, $pageName, $searchKeyword)
-    {
-        if (!empty($referer)) {
-            //$url为HTTP头信息里的referer的值，即从哪个页面链接跳转过来的，
-            //不为空的话，表示referer不为空，有上一跳转Url。而不是直接访问
-            $host = parse_url($referer, PHP_URL_HOST);//获取域名部分
-            $sourceDB = $this->source;
-            $isExist = false;//定义一个为假的变量
-            foreach ($sourceDB as $s){
-                //循环从数据库里读出来的数组。
-                $isExist = strpos($host, $s['source_feature']);//查找数据库定义的特征码是否存在于$host里。如果未找到则返回false
-                if ($isExist !== false) {
-                    //如果返回结果为找到的话。则跳出循环
-                    break;
-                }
-            }
-            if ($isExist === false) {
-                //如果$isTongJi变量还是为false,则未找到，不进行统计。
-                return 0;
-            }
-
-            $data = [
-                'tj_source' => $source,
-                'tj_keyword' => $keyword,
-                'tj_plan' => $plan,
-                'tj_unit' => $unit,
-                'tj_search_keyword' => $searchKeyword,
-                'tj_domain' => $domain,
-                'tj_page_name' => $pageName,
-                'tj_create_time' => date('Y-m-d H:i:s'),
-                'tj_device' => $this->request->isMobile() ? 'YD' : 'PC',
-                'tj_ip' => $this->request->ip(),
-                'tj_referer' => $referer
-            ];
-
-            //先计算今日还余下多少秒
-            $lastSeconds = strtotime(date('Y-m-d 23:59:59'));//获取当天最后一秒时间戳
-            $nowSeconds = time();//获取当前的时间戳
-            $remaining = $lastSeconds - $nowSeconds;//今日还余下的时间戳(秒)
-
-            $token = sha1(md5($nowSeconds) . 'shiroo.cn');//系统自动生成一个token
-
-            if (!Cookie::has('token', 'tongji_')) {
-                //如果Cookie里不存在token，表示新访客
-                Cookie::set('token', $token, ['prefix' => 'tongji_', 'expire' => $remaining]);
-            } else {
-                //存在的话，获取并存到临时变量里。
-                $tokenCookie = Cookie::get('token', 'tongji_');
-                //验证token的合法性
-                if (preg_match('/[a-z0-9]{40}/', $tokenCookie)) {
-                    //合法的话，就覆盖掉系统自动生成的$token变量
-                    $token = $tokenCookie;
-                }
-            }
-            $data['tj_token'] = $token;//data数组新增一个token数据。
-            //先查询当前的token是否存在于表里。
-
-            try {
-                $result = Tongji::where('tj_token', $token)->find();
-                //$db=Tongji::where('tj_token',$token)->select();
-                //$db=Db::name('tongji')->where('tj_token',$token)->find();
-            } catch (\Exception $e) {
-                $result = null;
-            }
-            if (empty($result)) {
-                //如果该token不存在表里的话，就插入新记录。
-                $tjModel = new Tongji();
-                $row = $tjModel->allowField(true)->save($data);//返回的是影响行数
-                if ($row > 0) {
-                    $id = $tjModel->tj_id;
-                } else {
-                    $id = 0;
-                }
-            } else {
-                if (!empty($searchKeyword) && empty($result->tj_search_keyword)) {
-                    $result->tj_search_keyword = $searchKeyword;
-                    $result->save();
-                }
-                //存在的话就直接返回该记录的ID
-                $id = $result->tj_id;
-                //$id=$db['tj_id'];
-            }
-            /*if(is_null($db) && !is_array($db) && empty($db)){
-                //如果该token不存在表里的话，就插入新记录。
-
-                $id=Db::name('tongji')->insertGetId($data);
-            }else{
-                //存在的话就直接返回该记录的ID
-                $id=$db['tj_id'];
-            }*/
-            return (int)$id;
-        } else {
-            //表示为直接访问，不记录统计信息。
-            return 0;
-        }
-    }
-    public function hello(){
-        return iconv('gb2312','UTF-8',urldecode('%D4%F5%C3%B4%BF%B4k%CF%DF'));
     }
 }

@@ -8,6 +8,7 @@ use app\index\model\CustomerInformation as CiModel;
 class CustomerInformation extends Base
 {
     public function add(){
+        //收集电话线索
         $param=$this->request->param();
 
         //进行数据的检验,只允许字母与数字组合。

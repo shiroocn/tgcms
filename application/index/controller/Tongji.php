@@ -14,14 +14,15 @@ use app\admin\model\Tongji as TongjiModel;
 class Tongji extends Base
 {
     public function add(){
+        //当访客复制微信号或点击复制按钮后。即转化
         $postData=$this->request->param();
 
         //return json_shiroo(0,'aaaa',0,$postData);
 
-        $id=$postData['id'];
-        $str=$postData['copy_str'];
-        $type=$postData['type'];
-        $sEvent=$postData['s_event'];
+        $id=$postData['id'];//获取统计记录的ID。访客访问的时候会在t_tongji表里添加一条统计记录。
+        $str=$postData['copy_str'];//访客复制的文本信息
+        $type=$postData['type'];//事件类型：1为载入完成事件，2为转化事件
+        $sEvent=$postData['s_event'];//转化事件行为，是复制还是点击。copy或event
         switch ($type){
             case 1:
                 //落地页载入完成

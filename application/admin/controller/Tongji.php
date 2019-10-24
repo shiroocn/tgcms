@@ -41,16 +41,14 @@ class Tongji extends Base
             ];
 
             //如果传递过来的这几个参数的值为all，表示查询全部就不用添加where条件，否则往where数组末尾压入查询条件
-            if($domainURL!=='all'){
+            if(!empty($domainURL)){
                 array_push($where, ['tj_domain', '=', $domainURL]);
             }
-            if($source!=='all'){
+            if(!empty($source)){
                 array_push($where, ['tj_source', '=', $source]);
-            }else{
-                array_push($where, ['tj_source', 'in', $this->source]);
             }
-            if($device!=='all'){
-                array_push($where, ['tj_device', '=', $device]);
+            if(!empty($device)){
+                array_push($where, ['tj_device', '=', strtoupper($device)]);
             }
 
             switch ($zhuanhua){
@@ -63,18 +61,10 @@ class Tongji extends Base
             }
 
             try {
-                if($export==1){
-                    //导出操作，
-                    $result=TongjiModel::where($where)
-                        ->order('tj_create_time','desc')
-                        ->select();
-                }else{
-                    //正常查询，包含得有$page和$limit
-                    $result = TongjiModel::where($where)
-                        ->limit($page * $limit, $limit)
-                        ->order('tj_create_time', 'desc')
-                        ->select();
-                }
+                $result = TongjiModel::where($where)
+                    ->limit($page * $limit, $limit)
+                    ->order('tj_create_time', 'desc')
+                    ->select();
 
                 $count = TongjiModel::where($where)->count('tj_id');//访客数
                 $zhCount=TongjiModel::where($where)->where('tj_zhuanhua',1)->count();//转化数

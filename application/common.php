@@ -9,6 +9,10 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // 应用公共文件
+
+function shirooJson($code,$msg='',$count=0,$data=array()){
+    return json(array_merge(['code' => $code, 'msg' => $msg, 'count' => $count],$data));
+}
 function json_shiroo($code, $msg = '', $count = 0, $data = array(), $data2 = array())
 {
     if (!is_string($code)) {

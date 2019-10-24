@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="__STATIC__/css/admin.css">
 </head>
 <body>
-<div id="app">
+<div id="appTongJi">
     <div class="layui-layout layui-layout-admin">
         {include file="public/nav-top" /}
         {include file="public/nav-left" /}
@@ -15,13 +15,76 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
-                    <div style="margin-top: 10px;">数据概括</div>
-                    <hr class="layui-bg-green">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form id="form_toolbar_search" lay-filter="form_toolbar_search" class="layui-form" action="">
+                                <div class="layui-form-item layui-form-pane">
+                                    <label class="layui-form-label">站点</label>
+                                    <div class="layui-input-inline">
+                                        <select name="domain" lay-filter="domain">
+                                            <option value="">全部</option>
+                                            {volist name="domains" id="vo"}
+                                            <option value="{$vo.domain_url}">{$vo.domain_url}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-pane">
+                                    <label class="layui-form-label">平台</label>
+                                    <div class="layui-input-inline">
+                                        <select name="source" lay-filter="source">
+                                            <option value="">全部</option>
+                                            {volist name="sources" id="vo"}
+                                            <option value="{$vo.source_alias}">{$vo.source_name}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-pane">
+                                    <label class="layui-form-label">转化</label>
+                                    <div class="layui-input-inline">
+                                        <select name="zhuanhua" lay-filter="zhuanhua">
+                                            <option value="">全部</option>
+                                            <option value="yes">已转化</option>
+                                            <option value="no">未转化</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-pane">
+                                    <label class="layui-form-label">设备</label>
+                                    <div class="layui-input-inline">
+                                        <select name="device" lay-filter="device">
+                                            <option value="">全部</option>
+                                            <option value="pc">计算机</option>
+                                            <option value="yd">移动</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item  layui-form-pane">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">时间</label>
+                                        <div class="layui-input-inline" style="width: 120px;">
+                                            <input type="text" name="start_time" class="layui-input" id="start_time" autocomplete="off">
+                                        </div>
+                                        <div class="layui-form-mid">-</div>
+                                        <div class="layui-input-inline" style="width: 120px;">
+                                            <input type="text" name="end_time" class="layui-input" id="end_time" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button type="submit" class="layui-btn" lay-event="search">立即查询</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="layui-card">
                         <div class="layui-card-body">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-sm4">
-                                    <span>访客数：{{dataCount}}</span>
+                                    <span>访客数：{{visitorCount}}</span>
                                 </div>
                                 <div class="layui-col-sm4">
                                     <span>转化数：{{zhCount}}</span>
@@ -32,8 +95,6 @@
                             </div>
                         </div>
                     </div>
-                    <div>访问明细</div>
-                    <hr class="layui-bg-green">
                     <table id="table_tongji" lay-filter="table_tongji"></table>
                 </div>
             </div>
@@ -41,53 +102,97 @@
         {include file="public/footer" /}
     </div>
 </div>
+
 <script src='__PLUGINS__/jquery/jquery-3.3.1.min.js'></script>
 <script src='__PLUGINS__/jquery/jquery.form.min.js'></script>
-
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src='__PLUGINS__/layui/layui.js'></script>
 
 <script>
-    layui.use(['element', 'layer', 'table', 'laydate', "form"], function () {
-        let layer = layui.layer;
-        let table = layui.table;
-        let layDate = layui.laydate;
-        let form = layui.form;
+    let appTj=new Vue({
+        el:"#appTongJi",
+        data:{
+            visitorCount:0,
+            zhCount:0,
+            zhl:0
+        },
+        created:function () {
+            layui.use(['element', 'table', 'laydate', "form"], function () {
+                let table = layui.table;
+                let layDate = layui.laydate;
+                let form = layui.form;
+                let formToolbarSearchData=form.val("form_toolbar_search");
 
-        let tableIns=table.render({
-            elem:"table_tongji",
-            url:"{:url('admin/tongji/show')}",
-            method:"post",
-            loading:true,
-            page:true,
-            where:{
-                domain_url: "",
-                source: "",
-                zhuanhua:"",
-                device: "",
-                start_time: "",
-                end_time: ""
-            },
-            toolbar:"",
-            cols: [[
-                {field: 'tj_id', title: 'ID', minWidth: 50},
-                {field: 'tj_domain', title: '受访站点', minWidth: 150},
-                {field: 'tj_page_name', title: '受访页面', minWidth: 100},
-                {field: 'tj_create_time', title: '访问时间', minWidth: 180},
-                {field: 'tj_device', title: '设备', minWidth: 50},
-                {field: 'tj_source', title: '渠道', minWidth: 100},
-                {field: 'tj_keyword', title: '关键词', minWidth: 150},
-                {field: 'tj_search_keyword', title: '搜索词', minWidth: 150},
-                {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
-            ]],
-            done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                /*app.dataCount=res.count;
-                app.zhCount=res.zh_count;
-                app.zhl=res.zhl;*/
-            }
-        });
+                let tableIns=table.render({
+                    elem:"#table_tongji",
+                    url:"{:url('admin/tongji/show')}",
+                    method:"post",
+                    loading:true,
+                    page:true,
+                    where:{
+                        domain_url: formToolbarSearchData.domain,
+                        source: formToolbarSearchData.source,
+                        zhuanhua:formToolbarSearchData.zhuanhua,
+                        device: formToolbarSearchData.device,
+                        start_time: formToolbarSearchData.start_time,
+                        end_time: formToolbarSearchData.end_time
+                    },
+                    toolbar:true,
+                    cols: [[
+                        {field: 'tj_domain', title: '受访站点', minWidth: 150},
+                        {field: 'tj_page_name', title: '受访页面', minWidth: 100},
+                        {field: 'tj_create_time', title: '访问时间', minWidth: 180},
+                        {field: 'tj_device', title: '设备', minWidth: 50},
+                        {field: 'tj_source', title: '平台', minWidth: 100},
+                        {field: 'tj_keyword', title: '关键词', minWidth: 150},
+                        {field: 'tj_search_keyword', title: '搜索词', minWidth: 150},
+                        {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
+                    ]],
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        appTj.visitorCount=res.count;
+                        appTj.zhCount=res.zh_count;
+                        appTj.zhl=res.zhl;
+                    }
+                });
+                let startTimeIns = layDate.render({
+                    elem: "#start_time",
+                    done: function (value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 
+
+                    }
+                });
+                let endTimeIns = layDate.render({
+                    elem: "#end_time",
+                    done: function (value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        //console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    }
+                });
+                jQuery("#form_toolbar_search").submit(function () {
+                    formToolbarSearchData=form.val("form_toolbar_search");
+                    tableIns.reload({
+                        where:{
+                            domain_url: formToolbarSearchData.domain,
+                            source: formToolbarSearchData.source,
+                            zhuanhua:formToolbarSearchData.zhuanhua,
+                            device: formToolbarSearchData.device,
+                            start_time: formToolbarSearchData.start_time,
+                            end_time: formToolbarSearchData.end_time
+                        },
+                        page:{
+                            curr:1
+                        }
+                    });
+                    return false;
+                });
+            });
+        }
     });
 </script>
 </body>

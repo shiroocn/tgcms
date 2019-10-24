@@ -4,7 +4,7 @@
         <ul class="layui-nav layui-nav-tree"  lay-filter="test">
             <li class="layui-nav-item {if (CONTROLLER_NAME=='Index')}layui-this{/if}"><a href="{:url('admin/index/index')}">首页</a></li>
             <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Domain','Page','Brand','Template']))} layui-nav-itemed{/if}">
-                <a href="javascript:;">系统</a>
+                <a href="javascript:;">推广</a>
                 <dl class="layui-nav-child">
                     <dd class="{if (in_array(CONTROLLER_NAME,['Domain','Page']))}layui-this{/if}"><a href="{:url('admin/domain/show')}">站点管理</a></dd>
                     <dd class="{if (CONTROLLER_NAME=='Brand')}layui-this{/if}"><a href="{:url('admin/brand/show')}">推广线索</a></dd>
@@ -15,15 +15,17 @@
                 <a href="javascript:;">数据</a>
                 <dl class="layui-nav-child">
                     <dd class="{if (CONTROLLER_NAME=='Tongji' && ACTION_NAME=='show')}layui-this{/if}"><a href="{:url('admin/tongji/show')}">访问报告</a></dd>
-                    <!--<dd><a href="javascript:;">数据走势</a></dd>
-                    <dd><a href="">转化走势</a></dd>-->
+                    <dd><a href="javascript:;">数据走势</a></dd>
+                    <dd><a href="">安装代码</a></dd>
                 </dl>
             </li>
             <!--<li class="layui-nav-item"><a href="">附件</a></li>-->
-            <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Admin']))} layui-nav-itemed{/if}">
-                <a href="javascript:;">设置</a>
+            <li class="layui-nav-item{if (in_array(CONTROLLER_NAME,['Admin','Source']))} layui-nav-itemed{/if}">
+                <a href="javascript:;">网站</a>
                 <dl class="layui-nav-child">
+                    <dd class="{if (CONTROLLER_NAME=='Source' && ACTION_NAME=='show')}layui-this{/if}"><a href="{:url('admin/source/show')}">推广平台</a></dd>
                     <dd class="{if (CONTROLLER_NAME=='Admin' && ACTION_NAME=='editpass')}layui-this{/if}"><a href="{:url('admin/admin/editpass')}">修改密码</a></dd>
+                    <dd class="{if (CONTROLLER_NAME=='Admin' && ACTION_NAME=='help')}layui-this{/if}"><a href="{:url('admin/admin/editpass')}">帮助中心</a></dd>
                 </dl>
             </li>
         </ul>

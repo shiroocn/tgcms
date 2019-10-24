@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>推广平台</title>
+    <link rel="stylesheet" href="__PLUGINS__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PLUGINS__/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__STATIC__/css/admin.css">
+</head>
+<body>
+<div id="appSource">
+    <div class="layui-layout layui-layout-admin">
+        {include file="public/nav-top" /}
+        {include file="public/nav-left" /}
+        <div class="layui-body">
+            <div class="layui-card">
+                <div class="layui-card-header">推广平台</div>
+                <div class="layui-card-body">
+                    <table id="table_source" lay-filter="table_source"></table>
+                </div>
+            </div>
+        </div>
+        {include file="public/footer" /}
+    </div>
+</div>
+
+<script src='__PLUGINS__/jquery/jquery-3.3.1.min.js'></script>
+<script src='__PLUGINS__/jquery/jquery.form.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src='__PLUGINS__/layui/layui.js'></script>
+<script>
+    let appSource=new Vue({
+        el:"#appSource",
+        data:{
+
+        },
+        created:function () {
+            layui.use(['element', 'layer', 'table', 'laydate', "form"], function () {
+                let layer = layui.layer;
+                let table = layui.table;
+                let layDate = layui.laydate;
+                let form = layui.form;
+
+                let tableIns=table.render({
+                    elem:"#table_source",
+                    url:"{:url('admin/source/show')}",
+                    method:"post",
+                    loading:true,
+                    page:true,
+                    /*where:{
+                        domain_url: formToolbarSearchData.domain,
+                        source: formToolbarSearchData.source,
+                        zhuanhua:formToolbarSearchData.zhuanhua,
+                        device: formToolbarSearchData.device,
+                        start_time: formToolbarSearchData.start_time,
+                        end_time: formToolbarSearchData.end_time
+                    },*/
+                    toolbar:true,
+                    cols: [[
+                        {field: 'source_id', title: '编号', minWidth: 80},
+                        {field: 'source_name', title: '平台名称', minWidth: 100},
+                        {field: 'source_feature', title: 'referer特征', minWidth: 180},
+                        {field: 'source_key_name', title: '搜索词参数名', minWidth: 200},
+                        {field: 'source_alias', title: '追踪URL的source', minWidth: 100},
+                        {title: "操作", minWidth: 130,
+                            toolbar:'<div class="layui-btn-container"><button type="button" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="fa fa-eye" aria-hidden="true"></i></button><button type="button" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="fa fa-pencil" aria-hidden="true"></i></button><button type="button" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="fa fa-trash" aria-hidden="true"></i></button></div>'}
+                    ]],
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+
+                    }
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

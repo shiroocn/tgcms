@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>访问统计</title>
-    {include file="public/head" /}
-    {include file="public/css" /}
+    <link rel="stylesheet" href="__PLUGINS__/layui/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/css/admin.css">
 </head>
 <body>
 <div id="app">
@@ -15,87 +15,6 @@
             <div class="layui-card">
                 <div class="layui-card-header">访问统计</div>
                 <div class="layui-card-body">
-                    <div class="layui-row">
-                        <div class="layui-col-md7">
-                            <form id="s-form" class="layui-form" action="">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">站点</label>
-                                    <div class="layui-input-inline">
-                                        <select name="domain" lay-filter="domain">
-                                            <option value="all">全部站点</option>
-                                            {volist name="domains" id="vo"}
-                                            <option value="{$vo.domain_url}">{$vo.domain_url}</option>
-                                            {/volist}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">渠道</label>
-                                    <div class="layui-input-inline">
-                                        <select name="source" lay-filter="source">
-                                            <option value="all">全部渠道</option>
-                                            <option value="baidu">baidu</option>
-                                            <option value="sogou">sogou</option>
-                                            <option value="sm">sm</option>
-                                            <option value="360">360</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">转化</label>
-                                    <div class="layui-input-block">
-                                        <input type="radio" name="zhuanhua" value="all" title="全部" lay-filter="zhuanhua" checked>
-                                        <input type="radio" name="zhuanhua" value="yes" title="是" lay-filter="zhuanhua">
-                                        <input type="radio" name="zhuanhua" value="no" title="否" lay-filter="zhuanhua">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">设备</label>
-                                    <div class="layui-input-block">
-                                        <input type="radio" name="device" value="all" title="全部" lay-filter="device" checked>
-                                        <input type="radio" name="device" value="PC" title="PC" lay-filter="device">
-                                        <input type="radio" name="device" value="YD" title="YD" lay-filter="device">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-inline">
-                                        <label class="layui-form-label">时间</label>
-                                        <div class="layui-input-inline" style="width: 120px;">
-                                            <input type="text" name="start_time" class="layui-input" id="start_time"
-                                                   autocomplete="off">
-                                        </div>
-                                        <div class="layui-form-mid">-</div>
-                                        <div class="layui-input-inline" style="width: 120px;">
-                                            <input type="text" name="end_time" class="layui-input" id="end_time"
-                                                   autocomplete="off">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
-                                        <button type="button" class="layui-btn layui-btn-primary" @click="exportFile">导出数据
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="layui-col-md5">
-                            <blockquote class="layui-elem-quote layui-quote-nm">
-                                <p>统计规则：必须是由百度，搜狗，360，神马搜索结果跳转过来的才统计。</p>
-                                <ul>
-                                    <li>需要设置关键词追踪URL</li>
-                                    <li>示例：http://xxx.xxxx.com/?source=<span style="color: #FF0000">baidu</span>&plan=<span style="color: #FF0000">计划名</span>&unit=<span style="color: #FF0000">单元名</span>&keyword=<span style="color: #FF0000">关键词名</span></li>
-                                    <li>source：目前只支持设置（baidu，sogou，360，sm）</li>
-                                    <li>plan：计划名（如果为中文，建议URL转码）</li>
-                                    <li>unit：单元名（如果是中文，建议URL转码）</li>
-                                    <li>keyword：关键词名（如果是中文，建议URL转码）</li>
-                                </ul>
-                                <p>-</p>
-                                <p>复制事件class="s-wxh"，点击事件class="s-btn-wxh"</p>
-                            </blockquote>
-                        </div>
-                    </div>
                     <div style="margin-top: 10px;">数据概括</div>
                     <hr class="layui-bg-green">
                     <div class="layui-card">
@@ -115,182 +34,60 @@
                     </div>
                     <div>访问明细</div>
                     <hr class="layui-bg-green">
-                    <table id="data_list" lay-filter="data_list"></table>
-
+                    <table id="table_tongji" lay-filter="table_tongji"></table>
                 </div>
             </div>
         </div>
         {include file="public/footer" /}
     </div>
 </div>
-{include file="public/js" /}
+<script src='__PLUGINS__/jquery/jquery-3.3.1.min.js'></script>
+<script src='__PLUGINS__/jquery/jquery.form.min.js'></script>
+
+<script src='__PLUGINS__/layui/layui.js'></script>
 
 <script>
-    //获取当前时间，格式YYYY-MM-DD
-    function getNowFormatDate() {
-        var date = new Date();
-        var seperator1 = "-";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        return year + seperator1 + month + seperator1 + strDate;
-    }
+    layui.use(['element', 'layer', 'table', 'laydate', "form"], function () {
+        let layer = layui.layer;
+        let table = layui.table;
+        let layDate = layui.laydate;
+        let form = layui.form;
 
-    var layer, table, laydate, form, openIndex, tableIns,tableData;
-    var app = new Vue({
-        el: "#app",
-        data: {
-            domainURL: "all",
-            source: "all",
-            zhuanhua:"all",
-            device: "all",
-            startTime: "",
-            endTime: "",
-            dataCount: 0,//访客数
-            zhCount: 0,//转化数
-            zhl: 0//转化率
-        },
-        methods: {
-            exportFile: function () {
-                //数据表导出
-                var loadingIndex=layer.load();
-                jQuery.post('{:url("admin/tongji/show")}',{
-                    domain_url: app.domainURL,
-                    source: app.source,
-                    device: app.device,
-                    zhuanhua:app.zhuanhua,
-                    start_time: app.startTime,
-                    end_time: app.endTime,
-                    export:1
-                },function (data) {
-                    layer.close(loadingIndex);
-                    console.log(data.data);
-                    table.exportFile(["ID","计划","单元","关键词","转化文本","是否转化","转化时间","站点","落地页名","访问时间","访问设备","访客标识","访客IP","渠道","载入完成","搜索词","referer","转化事件"],Object.values(data.data),'csv');
-                },"JSON");
+        let tableIns=table.render({
+            elem:"table_tongji",
+            url:"{:url('admin/tongji/show')}",
+            method:"post",
+            loading:true,
+            page:true,
+            where:{
+                domain_url: "",
+                source: "",
+                zhuanhua:"",
+                device: "",
+                start_time: "",
+                end_time: ""
+            },
+            toolbar:"",
+            cols: [[
+                {field: 'tj_id', title: 'ID', minWidth: 50},
+                {field: 'tj_domain', title: '受访站点', minWidth: 150},
+                {field: 'tj_page_name', title: '受访页面', minWidth: 100},
+                {field: 'tj_create_time', title: '访问时间', minWidth: 180},
+                {field: 'tj_device', title: '设备', minWidth: 50},
+                {field: 'tj_source', title: '渠道', minWidth: 100},
+                {field: 'tj_keyword', title: '关键词', minWidth: 150},
+                {field: 'tj_search_keyword', title: '搜索词', minWidth: 150},
+                {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
+            ]],
+            done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                /*app.dataCount=res.count;
+                app.zhCount=res.zh_count;
+                app.zhl=res.zhl;*/
             }
-        },
-        created: function () {
-            layui.use(['element', 'layer', 'table', 'laydate', "form"], function () {
-                layer = layui.layer;
-                table = layui.table;
-                laydate = layui.laydate;
-                form = layui.form;
+        });
 
-                var startTimeIns = laydate.render({
-                    elem: "#start_time",
-                    done: function (value, date, endDate) {
-                        console.log(value); //得到日期生成的值，如：2017-08-18
-                       // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                        app.startTime = value;
-
-                    }
-                });
-
-                var endTimeIns = laydate.render({
-                    elem: "#end_time",
-                    done: function (value, date, endDate) {
-                        console.log(value); //得到日期生成的值，如：2017-08-18
-                        //console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                        app.endTime = value;
-                    }
-                });
-
-                tableIns = table.render({
-                    elem: '#data_list',
-                    url: '{:url("admin/tongji/show")}',//数据接口
-                    where: {
-                        domain_url: app.domainURL,
-                        source: app.source,
-                        zhuanhua:app.zhuanhua,
-                        device: app.device,
-                        start_time: app.startTime,
-                        end_time: app.endTime
-                    },
-                    method: 'post',
-                    loading: true,
-                    page: true,//开启分页
-                    cols: [[
-                        {field: 'tj_id', title: 'ID', minWidth: 50},
-                        {field: 'tj_domain', title: '受访站点', minWidth: 150},
-                        {field: 'tj_page_name', title: '受访页面', minWidth: 100},
-                        {field: 'tj_create_time', title: '访问时间', minWidth: 180},
-                        {field: 'tj_device', title: '设备', minWidth: 50},
-                        {field: 'tj_source', title: '渠道', minWidth: 100},
-                        {field: 'tj_keyword', title: '关键词', minWidth: 150},
-                        {field: 'tj_search_keyword', title: '搜索词', minWidth: 150},
-                        {field: 'tj_zhuanhua', title: '转化', minWidth: 50}
-                    ]],
-                    done: function (res, curr, count) {
-                        //如果是异步请求数据方式，res即为你接口返回的信息。
-                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                        app.dataCount=res.count;
-                        app.zhCount=res.zh_count;
-                        app.zhl=res.zhl;
-                    }
-                });
-                //站点选择事件
-                form.on("select(domain)", function (data) {
-                    //console.log(data.elem); //得到select原始DOM对象
-                    console.log(data.value); //得到被选中的值
-                    //console.log(data.othis); //得到美化后的DOM对象
-                    app.domainURL = data.value;
-                });
-                //渠道选择事件
-                form.on("select(source)", function (data) {
-                    //console.log(data.elem); //得到select原始DOM对象
-                    console.log(data.value); //得到被选中的值
-                    //console.log(data.othis); //得到美化后的DOM对象
-                    app.source = data.value;
-                });
-                //转化选择事件
-                form.on("radio(zhuanhua)", function (data) {
-                    //console.log(data.elem); //得到select原始DOM对象
-                    console.log(data.value); //得到被选中的值
-                    //console.log(data.othis); //得到美化后的DOM对象
-                    app.zhuanhua = data.value;
-                });
-                //设备选择事件
-                form.on("radio(device)", function (data) {
-                    //console.log(data.elem); //得到select原始DOM对象
-                    console.log(data.value); //得到被选中的值
-                    //console.log(data.othis); //得到美化后的DOM对象
-                    app.device = data.value;
-                });
-                //表单提交事件
-                jQuery("#s-form").submit(function () {
-                    tableIns.reload({
-                        where: {
-                            domain_url: app.domainURL,
-                            source: app.source,
-                            device: app.device,
-                            zhuanhua:app.zhuanhua,
-                            start_time: app.startTime,
-                            end_time: app.endTime
-                        }
-                    });
-                    /*$(this).ajaxSubmit({
-                        success:function (data,status) {
-                            layer.close(loadIndex);
-                            layer.msg(data.msg);
-                            if(data.code===0){
-                                layer.close(openIndex);
-                                active.reload();
-                            }
-                        }
-                    });*/
-                    return false;
-                });
-
-            });
-        }
     });
 </script>
 </body>

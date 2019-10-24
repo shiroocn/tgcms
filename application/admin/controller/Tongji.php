@@ -13,24 +13,22 @@ use app\admin\model\Tongji as TongjiModel;
 
 class Tongji extends Base
 {
-    protected $source = ['360', 'sogou', 'baidu', 'sm', 'localhost'];
-
     public function show()
     {
         if (IS_POST) {
-            $postData = $this->request->param();
+            $params = $this->request->param();
             //此处应有检验安全性代码
 
             //传参赋值
-            $page = isset($postData['page'])?$postData['page'] - 1:0;//页数
-            $limit = isset($postData['limit'])?$postData['limit']:10;//一页显示多少记录
-            $domainURL = $postData['domain_url'];//查询的域名
-            $source = $postData['source'];//查询的平台
-            $device = $postData['device'];//查询的设备（PC，YD）
-            $zhuanhua=$postData['zhuanhua'];//转化
-            $startTime=$postData['start_time'];//开始时间
-            $endTime=$postData['end_time'];//结束时间
-            $export=isset($postData['export'])?(int)$postData['export']:0;//是否为导出。
+            $page = !empty($params['page'])?$params['page'] - 1:0;//页数
+            $limit = !empty($params['limit'])?$params['limit']:10;//一页显示多少记录
+            $domainURL = !empty($params['domain_url'])?$params['domain_url']:'';//查询的域名
+            $source = !empty($params['source'])?$params['source']:'';//查询的平台
+            $device = !empty($params['device'])?$params['device']:'';//查询的设备（PC，YD）
+            $zhuanhua=!empty($params['zhuanhua'])?$params['zhuanhua']:'';//转化
+            $startTime=!empty($params['start_time'])?$params['start_time']:'';//开始时间
+            $endTime=!empty($params['end_time'])?$params['end_time']:'';//结束时间
+            //$export=isset($postData['export'])?(int)$postData['export']:0;//是否为导出。
 
 
             //如果时间是空的话，就默认为今天时间
@@ -93,8 +91,10 @@ class Tongji extends Base
         } else {
             //站点列表
             $domainList = Db::name('domain')->select();
+            $sources=Db::name('source')->select();
 
             $this->assign('domains', $domainList);
+            $this->assign('sources',$sources);
             return $this->fetch();
         }
     }
